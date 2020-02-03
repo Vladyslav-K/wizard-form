@@ -1,7 +1,9 @@
 import React from "react";
 
+import MainPage from "./mainPage";
+
 function App() {
-  return <div>Wizard form</div>;
+  return <MainPage />;
 }
 
 export default App;
