@@ -1,7 +1,7 @@
 import React from "react";
 
-function Capabilities() {
+function CapabilitiesForm() {
   return <div>Capabilities</div>;
 }
 
-export default Capabilities;
+export default CapabilitiesForm;

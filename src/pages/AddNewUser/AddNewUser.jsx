@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 
-import Capabilities from "../../components/Capabilities";
-import Contacts from "../../components/Contacts";
-import Account from "../../components/Account";
-import Profile from "../../components/Profile";
+import CapabilitiesForm from "../common/CapabilitiesForm";
+import ContactsForm from "../common/ContactsForm";
+import AccountForm from "../common/AccountForm";
+import ProfileForm from "../common/ProfileForm";
 
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -105,19 +105,19 @@ export default function AddNewUser() {
       </Tabs>
 
       <TabPanel value={value} index={0}>
-        <Account />
+        <AccountForm />
       </TabPanel>
 
       <TabPanel value={value} index={1}>
-        <Profile />
+        <ProfileForm />
       </TabPanel>
 
       <TabPanel value={value} index={2}>
-        <Contacts />
+        <ContactsForm />
       </TabPanel>
 
       <TabPanel value={value} index={3}>
-        <Capabilities />
+        <CapabilitiesForm />
       </TabPanel>
     </Container>
   );
