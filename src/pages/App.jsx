@@ -8,7 +8,7 @@ import {
 
 import ListOfUsers from "./ListOfUsers";
 import AddNewUser from "./AddNewUser";
-import Header from "./Header";
+import Header from "./common/Header";
 
 function App() {
   return (

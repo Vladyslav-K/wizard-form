@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 
-import CapabilitiesForm from "../common/CapabilitiesForm";
-import ContactsForm from "../common/ContactsForm";
-import AccountForm from "../common/AccountForm";
-import ProfileForm from "../common/ProfileForm";
+import CapabilitiesForm from "./common/CapabilitiesForm";
+import ContactsForm from "./common/ContactsForm";
+import AccountForm from "./common/AccountForm";
+import ProfileForm from "./common/ProfileForm";
 
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -39,6 +39,8 @@ function a11yProps(index) {
 
 const StyledTab = withStyles(theme => ({
   root: {
+    marginBottom: "2rem",
+
     textTransform: "none",
 
     background: "#EAF1FD",

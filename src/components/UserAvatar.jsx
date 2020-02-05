@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-import { ReactComponent as Plus } from "../../images/icons/add.svg";
-import DefaultAvatar from "../../images/icons/avatar.svg";
+import { ReactComponent as Plus } from "../images/icons/add.svg";
+import DefaultAvatar from "../images/icons/avatar.svg";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
@@ -86,7 +86,7 @@ export default function UserAvatar(props) {
         type="file"
         onChange={handleImageChange}
       />
-      <label htmlFor="text-button-file" textTransform="none">
+      <label htmlFor="text-button-file">
         <Button
           className={classes.button}
           startIcon={<Plus />}
