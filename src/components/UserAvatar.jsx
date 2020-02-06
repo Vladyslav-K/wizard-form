@@ -1,7 +1,11 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
+
+import { setAccountData } from "../domain/actions";
 
 import { ReactComponent as Plus } from "../images/icons/add.svg";
-import DefaultAvatar from "../images/icons/avatar.svg";
+import DefaultAvatarImage from "../images/icons/avatar.svg";
+import InputError from "./InputError";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
@@ -46,10 +50,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function UserAvatar(props) {
+function UserAvatar({ accountData: { avatar }, setAccountData }) {
   const classes = useStyles();
-
-  const [avatar, setAvatar] = useState();
+  const [avatarSizeValidation, setAvatarSizeValidation] = useState(true);
 
   const handleImageChange = event => {
     event.preventDefault();
@@ -59,8 +62,13 @@ export default function UserAvatar(props) {
     const file = event.target.files[0];
 
     reader.onload = () => {
-      console.log(reader.result);
-      setAvatar(reader.result);
+      if (file.size < 1000000) {
+        setAvatarSizeValidation(true);
+
+        setAccountData({ avatar: reader.result });
+      } else {
+        setAvatarSizeValidation(false);
+      }
     };
 
     reader.readAsDataURL(file);
@@ -72,11 +80,13 @@ export default function UserAvatar(props) {
         <Avatar src={avatar} alt="User avatar" className={classes.userAvatar} />
       ) : (
         <Avatar
-          src={DefaultAvatar}
-          alt="Default avatar"
+          src={DefaultAvatarImage}
+          alt="Default avatar image"
           className={classes.defaultAvatar}
         />
       )}
+
+      {!avatarSizeValidation && <InputError value="Maximum image size 1 mb" />}
 
       <input
         accept="image/*"
@@ -91,6 +101,7 @@ export default function UserAvatar(props) {
           className={classes.button}
           startIcon={<Plus />}
           component="span"
+          disableRipple
         >
           add avatar
         </Button>
@@ -98,3 +109,11 @@ export default function UserAvatar(props) {
     </div>
   );
 }
+
+const mapStateToProps = ({ accountData }) => {
+  return {
+    accountData
+  };
+};
+
+export default connect(mapStateToProps, { setAccountData })(UserAvatar);
