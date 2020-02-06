@@ -11,8 +11,9 @@ import FormControl from "@material-ui/core/FormControl";
 import IconButton from "@material-ui/core/IconButton";
 
 export default function InputPasswordField({
+  passwordConfirmation,
   toggleVisibility,
-  repeatPassword,
+  onChange,
   visible
 }) {
   const handleButtonMouseDown = event => {
@@ -20,11 +21,16 @@ export default function InputPasswordField({
   };
 
   return (
-    <FormControl margin="normal" variant="outlined" size="small">
-      <span> {repeatPassword ? "Repeat Password" : "Password"} </span>
+    <FormControl
+      onChange={onChange}
+      variant="outlined"
+      margin="normal"
+      size="small"
+    >
+      <span> {passwordConfirmation ? "Repeat Password" : "Password"} </span>
 
       <Field
-        name={repeatPassword ? "repeatPassword" : "password"}
+        name={passwordConfirmation ? "passwordConfirmation" : "password"}
         type={visible ? "text" : "password"}
         id="standard-adornment-password"
         as={OutlinedInput}

@@ -6,12 +6,12 @@ import "./normalize.css";
 import * as serviceWorker from "./serviceWorker";
 
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
-import * as reducers from "./domain/reducers";
+import reducer from "./domain/reducers";
 
 import App from "./pages/App";
 
 const store = configureStore({
-  reducer: { ...reducers },
+  reducer,
 
   ...getDefaultMiddleware({
     thunk: false
