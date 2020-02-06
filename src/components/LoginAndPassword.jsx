@@ -1,12 +1,15 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
+
+import { setAccountData } from "../domain/actions";
 
 import { Formik, Form } from "formik";
-import * as yup from "yup";
 
 import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
 
+import { loginAndPasswordValidationSchema } from "../utils/validations";
 import InputPasswordField from "./InputPasswordField";
+import InputError from "./InputError";
 import InputField from "./InputField";
 
 const useStyles = makeStyles(theme => ({
@@ -32,24 +35,31 @@ const useStyles = makeStyles(theme => ({
   },
 
   button: {
+    fontFamily: "Roboto",
+    fontStyle: "normal",
+    fontWeight: "500",
+    fontSize: "14px",
+    lineHeight: "16px",
+    textTransform: "none",
+
     color: "white",
     background: "#4E86E4",
 
+    padding: "12px 24px",
+
+    border: "none",
+
     "&:hover": {
-      backgroundColor: "#4E86E4",
       opacity: 0.9
     }
+  },
+
+  inputError: {
+    color: "red"
   }
 }));
 
-const validationSchema = yup.object({
-  userName: yup
-    .string()
-    .required()
-    .max(10)
-});
-
-const LoginAndPassword = () => {
+const LoginAndPassword = ({ setAccountData }) => {
   const classes = useStyles();
   const [visible, setVisible] = useState(false);
 
@@ -60,52 +70,72 @@ const LoginAndPassword = () => {
   return (
     <div>
       <Formik
-        validationSchema={validationSchema}
-        validateOnChange={true}
+        validationSchema={loginAndPasswordValidationSchema}
         initialValues={{
-          userName: "",
+          username: "",
           password: "",
-          repeatPassword: ""
+          passwordConfirmation: ""
         }}
-        onSubmit={(data, { setSubmitting }) => {
-          setSubmitting(true);
-          console.log("submit: ", data);
-          setSubmitting(false);
-        }}
+        onSubmit={data => setAccountData(data)}
       >
-        {({ values, errors, isSubmitting }) => (
-          <>
-            <Form className={classes.formContainer}>
-              <InputField label="User name" name="userName" />
+        {({ errors, touched, isSubmitting }) => (
+          <Form className={classes.formContainer}>
+            <InputField
+              setAccountData={setAccountData}
+              label="User name"
+              name="username"
+              onChange={event =>
+                setAccountData({ username: event.target.value })
+              }
+            />
 
-              <InputPasswordField
-                toggleVisibility={toggleVisibility}
-                visible={visible}
-              />
+            {errors.username && touched.username && (
+              <InputError value={errors.username} />
+            )}
 
-              <InputPasswordField
-                toggleVisibility={toggleVisibility}
-                repeatPassword={true}
-                visible={visible}
-              />
-            </Form>
+            <InputPasswordField
+              toggleVisibility={toggleVisibility}
+              visible={visible}
+              onChange={event =>
+                setAccountData({ password: event.target.value })
+              }
+            />
+
+            {errors.password && touched.password && (
+              <InputError value={errors.password} />
+            )}
+
+            <InputPasswordField
+              toggleVisibility={toggleVisibility}
+              passwordConfirmation={true}
+              visible={visible}
+              onChange={event =>
+                setAccountData({ passwordConfirmation: event.target.value })
+              }
+            />
+
+            {errors.passwordConfirmation && touched.passwordConfirmation && (
+              <InputError value={errors.passwordConfirmation} />
+            )}
 
             <div className={classes.buttonContainer}>
-              <Button
+              <button
                 className={classes.button}
                 disabled={isSubmitting}
-                variant="contained"
                 type="submit"
-                size="large"
               >
                 Forward
-              </Button>
+              </button>
             </div>
-          </>
+          </Form>
         )}
       </Formik>
     </div>
   );
 };
 
-export default LoginAndPassword;
+const mapStateToProps = ({ accountData }) => {
+  return { accountData };
+};
+
+export default connect(mapStateToProps, { setAccountData })(LoginAndPassword);
