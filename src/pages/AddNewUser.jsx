@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 
+import { ReactComponent as CloseIcon } from "../images/icons/Close.svg";
 import CapabilitiesForm from "./common/CapabilitiesForm";
 import ContactsForm from "./common/ContactsForm";
 import AccountForm from "./common/AccountForm";
 import ProfileForm from "./common/ProfileForm";
 
 import { makeStyles, withStyles } from "@material-ui/core/styles";
+import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
+import Button from "@material-ui/core/Button";
 import Tabs from "@material-ui/core/Tabs";
 import Grid from "@material-ui/core/Grid";
 import Tab from "@material-ui/core/Tab";
@@ -39,8 +42,6 @@ function a11yProps(index) {
 
 const StyledTab = withStyles(theme => ({
   root: {
-    marginBottom: "2rem",
-
     textTransform: "none",
 
     background: "#EAF1FD",
@@ -68,6 +69,35 @@ const useStyles = makeStyles(theme => ({
     fontWeight: "bold",
     lineHeight: "41px",
     fontSize: "35px"
+  },
+
+  queryContainer: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+
+    padding: "12px 24px",
+
+    background: "#5E97F3",
+
+    "& span": {
+      textTransform: "none",
+      fontFamily: "Roboto",
+      fontStyle: "normal",
+      fontSize: "14px",
+      lineHeight: "16px",
+      color: "white"
+    }
+  },
+
+  queryText: {
+    fontWeight: 500
+  },
+
+  queryButton: {
+    fontWeight: 900,
+
+    padding: "0 10px"
   },
 
   tabIncticator: {
@@ -105,6 +135,19 @@ export default function AddNewUser() {
 
         <StyledTab label="4. Capabilities" {...a11yProps(3)} />
       </Tabs>
+
+      <div className={classes.queryContainer}>
+        <div>
+          <span className={classes.queryText}>
+            You have an unsaved user data. Do you want to complete it?
+          </span>
+          <Button className={classes.queryButton}>Continue</Button>
+        </div>
+
+        <IconButton>
+          <CloseIcon />
+        </IconButton>
+      </div>
 
       <TabPanel value={value} index={0}>
         <AccountForm />
