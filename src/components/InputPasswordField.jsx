@@ -14,26 +14,24 @@ export default function InputPasswordField({
   passwordConfirmation,
   toggleVisibility,
   onChange,
-  visible
+  visible,
+  value
 }) {
   const handleButtonMouseDown = event => {
     event.preventDefault();
   };
 
   return (
-    <FormControl
-      onChange={onChange}
-      variant="outlined"
-      margin="normal"
-      size="small"
-    >
+    <FormControl onChange={onChange} variant="outlined" size="small">
       <span> {passwordConfirmation ? "Repeat Password" : "Password"} </span>
 
       <Field
         name={passwordConfirmation ? "passwordConfirmation" : "password"}
         type={visible ? "text" : "password"}
         id="standard-adornment-password"
+        style={{ marginBottom: "1.5rem" }}
         as={OutlinedInput}
+        value={value}
         endAdornment={
           <InputAdornment position="end">
             <IconButton

@@ -59,7 +59,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const LoginAndPassword = ({ setAccountData }) => {
+const LoginAndPassword = ({ accountData, setAccountData }) => {
   const classes = useStyles();
   const [visible, setVisible] = useState(false);
 
@@ -84,6 +84,7 @@ const LoginAndPassword = ({ setAccountData }) => {
               setAccountData={setAccountData}
               label="User name"
               name="username"
+              value={accountData.username}
               onChange={event =>
                 setAccountData({ username: event.target.value })
               }
@@ -95,6 +96,7 @@ const LoginAndPassword = ({ setAccountData }) => {
 
             <InputPasswordField
               toggleVisibility={toggleVisibility}
+              value={accountData.password}
               visible={visible}
               onChange={event =>
                 setAccountData({ password: event.target.value })
@@ -106,6 +108,7 @@ const LoginAndPassword = ({ setAccountData }) => {
             )}
 
             <InputPasswordField
+              value={accountData.passwordConfirmation}
               toggleVisibility={toggleVisibility}
               passwordConfirmation={true}
               visible={visible}

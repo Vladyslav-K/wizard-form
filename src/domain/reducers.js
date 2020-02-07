@@ -1,6 +1,6 @@
 import { createReducer } from "@reduxjs/toolkit";
 
-import { setAccountData } from "./actions";
+import { setAccountData, syncAccountDataWithDatabase } from "./actions";
 
 const initialState = {
   accountData: {
@@ -16,6 +16,13 @@ const reducers = createReducer(initialState, {
     return {
       ...state,
       accountData: { ...state.accountData, ...action.payload }
+    };
+  },
+
+  [syncAccountDataWithDatabase]: (state, action) => {
+    return {
+      ...state,
+      accountData: { ...action.payload }
     };
   }
 });
