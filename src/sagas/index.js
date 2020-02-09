@@ -1,23 +1,18 @@
-import { all, call, put, select, takeLatest } from "redux-saga/effects";
+import { all, call, select, debounce } from "redux-saga/effects";
 
-import { setAccountData, syncAccountDataWithDatabase } from "../domain/actions";
+import { setAccountData } from "../domain/actions";
 import database from "../utils/database";
 
-function* syncAccountDataFromDatabase() {
-  const accountData = yield call(() => database.table("accountData").toArray());
-
-  yield put(syncAccountDataWithDatabase(...accountData));
-}
-
-function* addAccountDataToDatabase(data) {
+function* addAccountDataToDatabase() {
   const accountData = yield select(state => state.accountData);
 
   database.accountData.put({ ...accountData, id: 1 });
 }
 
+function* debounceAddAccountDataToDatabase() {
+  yield debounce(200, setAccountData.type, addAccountDataToDatabase);
+}
+
 export default function* rootSaga() {
-  yield all([
-    call(() => syncAccountDataFromDatabase()),
-    takeLatest(setAccountData.type, addAccountDataToDatabase)
-  ]);
+  yield all([call(() => debounceAddAccountDataToDatabase())]);
 }
