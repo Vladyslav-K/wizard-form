@@ -22,14 +22,18 @@ export default function InputPasswordField({
   };
 
   return (
-    <FormControl onChange={onChange} variant="outlined" size="small">
+    <FormControl
+      onChange={onChange}
+      variant="outlined"
+      margin="normal"
+      size="small"
+    >
       <span> {passwordConfirmation ? "Repeat Password" : "Password"} </span>
 
       <Field
         name={passwordConfirmation ? "passwordConfirmation" : "password"}
         type={visible ? "text" : "password"}
         id="standard-adornment-password"
-        style={{ marginBottom: "1.5rem" }}
         as={OutlinedInput}
         value={value}
         endAdornment={

@@ -71,19 +71,19 @@ const LoginAndPassword = ({ accountData, setAccountData }) => {
     <div>
       <Formik
         validationSchema={loginAndPasswordValidationSchema}
+        enableReinitialize
         initialValues={{
-          username: "",
-          password: "",
-          passwordConfirmation: ""
+          username: accountData.username,
+          password: accountData.password,
+          passwordConfirmation: accountData.passwordConfirmation
         }}
         onSubmit={data => setAccountData(data)}
       >
         {({ errors, touched, isSubmitting }) => (
           <Form className={classes.formContainer}>
             <InputField
-              setAccountData={setAccountData}
-              label="User name"
               name="username"
+              label="User name"
               value={accountData.username}
               onChange={event =>
                 setAccountData({ username: event.target.value })
@@ -95,9 +95,9 @@ const LoginAndPassword = ({ accountData, setAccountData }) => {
             )}
 
             <InputPasswordField
-              toggleVisibility={toggleVisibility}
-              value={accountData.password}
               visible={visible}
+              value={accountData.password}
+              toggleVisibility={toggleVisibility}
               onChange={event =>
                 setAccountData({ password: event.target.value })
               }
@@ -108,10 +108,10 @@ const LoginAndPassword = ({ accountData, setAccountData }) => {
             )}
 
             <InputPasswordField
-              value={accountData.passwordConfirmation}
-              toggleVisibility={toggleVisibility}
-              passwordConfirmation={true}
               visible={visible}
+              passwordConfirmation={true}
+              toggleVisibility={toggleVisibility}
+              value={accountData.passwordConfirmation}
               onChange={event =>
                 setAccountData({ passwordConfirmation: event.target.value })
               }

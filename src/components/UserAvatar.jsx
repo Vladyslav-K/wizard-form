@@ -16,7 +16,9 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     alignItems: "center",
     flexDirection: "column",
-    justifyContent: "center"
+    justifyContent: "center",
+
+    marginTop: "16px"
   },
 
   defaultAvatar: {
