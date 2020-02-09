@@ -1,4 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+
+import { syncAccountDataWithDatabase } from "../domain/actions";
+import database from "../utils/database";
 
 import { ReactComponent as CloseIcon } from "../images/icons/Close.svg";
 import CapabilitiesForm from "./common/CapabilitiesForm";
@@ -42,6 +46,8 @@ function a11yProps(index) {
 
 const StyledTab = withStyles(theme => ({
   root: {
+    padding: "20px",
+
     textTransform: "none",
 
     background: "#EAF1FD",
@@ -76,7 +82,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "space-between",
     alignItems: "center",
 
-    padding: "12px 24px",
+    padding: "10px 24px",
 
     background: "#5E97F3",
 
@@ -105,13 +111,50 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function AddNewUser() {
+function AddNewUser({ accountData, syncAccountDataWithDatabase }) {
   const classes = useStyles();
 
   const [value, setValue] = useState(0);
+  const [queryVisible, setQueryVisible] = useState(false);
+
+  useEffect(() => {
+    database.accountData.get(1, data => {
+      if (
+        data &&
+        (data.username ||
+          data.password ||
+          data.passwordConfirmation ||
+          data.avatar)
+      ) {
+        setQueryVisible(true);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    for (let key in accountData) {
+      if (accountData[key]) {
+        setQueryVisible(false);
+      }
+    }
+  }, [accountData]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const hideQueryAndClearDatabase = () => {
+    database.accountData.delete(1);
+
+    setQueryVisible(false);
+  };
+
+  const syncDataWithDatabase = () => {
+    database.accountData.get(1, data => {
+      syncAccountDataWithDatabase(data);
+    });
+
+    setQueryVisible(false);
   };
 
   return (
@@ -136,18 +179,25 @@ export default function AddNewUser() {
         <StyledTab label="4. Capabilities" {...a11yProps(3)} />
       </Tabs>
 
-      <div className={classes.queryContainer}>
-        <div>
-          <span className={classes.queryText}>
-            You have an unsaved user data. Do you want to complete it?
-          </span>
-          <Button className={classes.queryButton}>Continue</Button>
-        </div>
+      {queryVisible && (
+        <div className={classes.queryContainer}>
+          <div>
+            <span className={classes.queryText}>
+              You have an unsaved user data. Do you want to complete it?
+            </span>
+            <Button
+              className={classes.queryButton}
+              onClick={syncDataWithDatabase}
+            >
+              Continue
+            </Button>
+          </div>
 
-        <IconButton>
-          <CloseIcon />
-        </IconButton>
-      </div>
+          <IconButton onClick={hideQueryAndClearDatabase}>
+            <CloseIcon />
+          </IconButton>
+        </div>
+      )}
 
       <TabPanel value={value} index={0}>
         <AccountForm />
@@ -167,3 +217,11 @@ export default function AddNewUser() {
     </Container>
   );
 }
+
+const mapStateToProps = ({ accountData }) => {
+  return { accountData };
+};
+
+export default connect(mapStateToProps, { syncAccountDataWithDatabase })(
+  AddNewUser
+);
