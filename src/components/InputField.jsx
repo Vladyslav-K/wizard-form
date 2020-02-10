@@ -3,8 +3,9 @@ import { Field } from "formik";
 
 import OutlinedInput from "@material-ui/core/OutlinedInput";
 import FormControl from "@material-ui/core/FormControl";
+import Grid from "@material-ui/core/Grid";
 
-export default function InputField({ label, name, value, onChange }) {
+export default function InputField({ label, name, value, onChange, required }) {
   return (
     <FormControl
       onChange={onChange}
@@ -12,7 +13,10 @@ export default function InputField({ label, name, value, onChange }) {
       margin="normal"
       size="small"
     >
-      <span> {label} </span>
+      <Grid container justify="space-between">
+        <span> {label} </span>
+        {required && <span> * </span>}
+      </Grid>
 
       <Field as={OutlinedInput} value={value} type="input" name={name} />
     </FormControl>
