@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 
-import { setAccountData } from "../domain/actions";
+import { setAccountData } from "../../domain/actions";
 
-import { ReactComponent as Plus } from "../images/icons/add.svg";
-import DefaultAvatarImage from "../images/icons/avatar.svg";
-import InputError from "./InputError";
+import { ReactComponent as Plus } from "../../images/icons/add.svg";
+import DefaultAvatarImage from "../../images/icons/avatar.svg";
+import InputError from "../InputError";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
@@ -52,7 +52,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function UserAvatar({ accountData: { avatar }, setAccountData }) {
+function AccountLeftContent({ accountData: { avatar }, setAccountData }) {
   const classes = useStyles();
   const [avatarSizeValidation, setAvatarSizeValidation] = useState(true);
 
@@ -118,4 +118,4 @@ const mapStateToProps = ({ accountData }) => {
   };
 };
 
-export default connect(mapStateToProps, { setAccountData })(UserAvatar);
+export default connect(mapStateToProps, { setAccountData })(AccountLeftContent);
