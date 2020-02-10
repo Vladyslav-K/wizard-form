@@ -19,7 +19,7 @@ const initialState = {
     lastName: "",
     birthDate: "",
     email: "",
-    adress: "",
+    address: "",
     gender: ""
   }
 };
