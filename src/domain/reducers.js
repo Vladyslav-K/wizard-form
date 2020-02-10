@@ -1,6 +1,10 @@
 import { createReducer } from "@reduxjs/toolkit";
 
-import { setAccountData, syncAccountDataWithDatabase } from "./actions";
+import {
+  setAccountData,
+  setProfileData,
+  syncAccountDataWithDatabase
+} from "./actions";
 
 const initialState = {
   accountData: {
@@ -8,6 +12,15 @@ const initialState = {
     password: "",
     passwordConfirmation: "",
     avatar: ""
+  },
+
+  profileData: {
+    firstName: "",
+    lastName: "",
+    birthDate: "",
+    email: "",
+    adress: "",
+    gender: ""
   }
 };
 
@@ -16,6 +29,13 @@ const reducers = createReducer(initialState, {
     return {
       ...state,
       accountData: { ...state.accountData, ...action.payload }
+    };
+  },
+
+  [setProfileData]: (state, action) => {
+    return {
+      ...state,
+      profileData: { ...state.profileData, ...action.payload }
     };
   },
 
