@@ -1,16 +1,19 @@
-import React from "react";
+import React, { memo } from "react";
 import { Formik } from "formik";
-import { connect } from "react-redux";
-
-import { setProfileData } from "../../domain/actions";
 
 import DatePicker from "../DatePicker";
 import InputError from "../InputError";
 import InputField from "../InputField";
 import StyledForm from "../StyledForm";
 
-const ProfileLeftContent = ({ profileData, setProfileData }) => {
-  const { firstName, lastName, birthDate } = profileData;
+const ProfileLeftContent = ({
+  firstName,
+  birthDate,
+  lastName,
+  setFirstName,
+  setBirthDate,
+  setLastName
+}) => {
   return (
     <div>
       <Formik
@@ -28,9 +31,7 @@ const ProfileLeftContent = ({ profileData, setProfileData }) => {
               name="firstName"
               label="First name"
               value={firstName}
-              onChange={event =>
-                setProfileData({ firstName: event.target.value })
-              }
+              onChange={event => setFirstName(event.target.value)}
             />
 
             {errors.firstName && touched.firstName && (
@@ -41,10 +42,8 @@ const ProfileLeftContent = ({ profileData, setProfileData }) => {
               required
               name="lastName"
               label="Last name"
-              value={profileData.lastName}
-              onChange={event =>
-                setProfileData({ lastName: event.target.value })
-              }
+              value={lastName}
+              onChange={event => setLastName(event.target.value)}
             />
 
             {errors.lastName && touched.lastName && (
@@ -54,13 +53,9 @@ const ProfileLeftContent = ({ profileData, setProfileData }) => {
         )}
       </Formik>
 
-      <DatePicker birthDate={birthDate} setProfileData={setProfileData} />
+      <DatePicker birthDate={birthDate} setBirthDate={setBirthDate} />
     </div>
   );
 };
 
-const mapStateToProps = ({ profileData }) => {
-  return { profileData };
-};
-
-export default connect(mapStateToProps, { setProfileData })(ProfileLeftContent);
+export default memo(ProfileLeftContent);

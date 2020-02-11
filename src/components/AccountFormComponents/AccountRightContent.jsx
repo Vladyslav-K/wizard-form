@@ -1,8 +1,5 @@
-import React, { useState } from "react";
-import { connect } from "react-redux";
+import React, { memo } from "react";
 import { Formik } from "formik";
-
-import { setAccountData } from "../../domain/actions";
 
 import { loginAndPasswordValidationSchema } from "../../utils/validations";
 import InputPasswordField from "../InputPasswordField";
@@ -11,34 +8,34 @@ import InputError from "../InputError";
 import InputField from "../InputField";
 import StyledForm from "../StyledForm";
 
-const AccountRightContent = ({ accountData, setAccountData }) => {
-  const [visible, setVisible] = useState(false);
-
-  const toggleVisibility = () => {
-    setVisible(!visible);
-  };
-
+const AccountRightContent = ({
+  passwordConfirmation,
+  password,
+  username,
+  setPasswordConfirmation,
+  setPassword,
+  setUserName,
+  visible,
+  toggleVisibility
+}) => {
   return (
     <div>
       <Formik
         validationSchema={loginAndPasswordValidationSchema}
         enableReinitialize
         initialValues={{
-          username: accountData.username,
-          password: accountData.password,
-          passwordConfirmation: accountData.passwordConfirmation
+          passwordConfirmation,
+          password,
+          username
         }}
-        onSubmit={data => setAccountData(data)}
       >
         {({ errors, touched }) => (
           <StyledForm>
             <InputField
               name="username"
               label="User name"
-              value={accountData.username}
-              onChange={event =>
-                setAccountData({ username: event.target.value })
-              }
+              value={username}
+              onChange={event => setUserName(event.target.value)}
             />
 
             {errors.username && touched.username && (
@@ -47,11 +44,9 @@ const AccountRightContent = ({ accountData, setAccountData }) => {
 
             <InputPasswordField
               visible={visible}
-              value={accountData.password}
+              value={password}
               toggleVisibility={toggleVisibility}
-              onChange={event =>
-                setAccountData({ password: event.target.value })
-              }
+              onChange={event => setPassword(event.target.value)}
             />
 
             {errors.password && touched.password && (
@@ -62,10 +57,8 @@ const AccountRightContent = ({ accountData, setAccountData }) => {
               visible={visible}
               passwordConfirmation
               toggleVisibility={toggleVisibility}
-              value={accountData.passwordConfirmation}
-              onChange={event =>
-                setAccountData({ passwordConfirmation: event.target.value })
-              }
+              value={passwordConfirmation}
+              onChange={event => setPasswordConfirmation(event.target.value)}
             />
 
             {errors.passwordConfirmation && touched.passwordConfirmation && (
@@ -80,8 +73,4 @@ const AccountRightContent = ({ accountData, setAccountData }) => {
   );
 };
 
-const mapStateToProps = ({ accountData }) => {
-  return { accountData };
-};
-
-export default connect(mapStateToProps, { setAccountData })(AccountRightContent);
+export default memo(AccountRightContent);

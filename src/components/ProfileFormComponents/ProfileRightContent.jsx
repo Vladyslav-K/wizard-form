@@ -1,8 +1,5 @@
-import React from "react";
+import React, { memo } from "react";
 import { Formik } from "formik";
-import { connect } from "react-redux";
-
-import { setProfileData } from "../../domain/actions";
 
 import SubmitButton from "../SubmitButton";
 import InputError from "../InputError";
@@ -15,9 +12,14 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import Radio from "@material-ui/core/Radio";
 import Grid from "@material-ui/core/Grid";
 
-const ProfileRightContent = ({ profileData, setProfileData }) => {
-  const { email, address, gender } = profileData;
-
+const ProfileRightContent = ({
+  address,
+  gender,
+  email,
+  setAddress,
+  setGender,
+  setEmail
+}) => {
   return (
     <div>
       <Formik
@@ -35,7 +37,7 @@ const ProfileRightContent = ({ profileData, setProfileData }) => {
               name="email"
               label="Email"
               value={email}
-              onChange={event => setProfileData({ email: event.target.value })}
+              onChange={event => setEmail(event.target.value)}
             />
 
             {errors.email && touched.email && (
@@ -47,9 +49,7 @@ const ProfileRightContent = ({ profileData, setProfileData }) => {
               name="address"
               label="Address"
               value={address}
-              onChange={event =>
-                setProfileData({ address: event.target.value })
-              }
+              onChange={event => setAddress(event.target.value)}
             />
 
             {errors.address && touched.adddress && (
@@ -62,9 +62,7 @@ const ProfileRightContent = ({ profileData, setProfileData }) => {
                 aria-label="position"
                 name="position"
                 value={gender}
-                onChange={event =>
-                  setProfileData({ gender: event.target.value })
-                }
+                onChange={event => setGender(event.target.value)}
                 row
               >
                 <Grid
@@ -97,10 +95,4 @@ const ProfileRightContent = ({ profileData, setProfileData }) => {
   );
 };
 
-const mapStateToProps = ({ profileData }) => {
-  return { profileData };
-};
-
-export default connect(mapStateToProps, { setProfileData })(
-  ProfileRightContent
-);
+export default memo(ProfileRightContent);

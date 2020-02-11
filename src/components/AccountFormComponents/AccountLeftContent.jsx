@@ -1,7 +1,4 @@
-import React, { useState } from "react";
-import { connect } from "react-redux";
-
-import { setAccountData } from "../../domain/actions";
+import React, { memo } from "react";
 
 import { ReactComponent as Plus } from "../../images/icons/add.svg";
 import DefaultAvatarImage from "../../images/icons/avatar.svg";
@@ -52,29 +49,12 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function AccountLeftContent({ accountData: { avatar }, setAccountData }) {
+function AccountLeftContent({
+  avatar,
+  handleImageChange,
+  avatarSizeValidation
+}) {
   const classes = useStyles();
-  const [avatarSizeValidation, setAvatarSizeValidation] = useState(true);
-
-  const handleImageChange = event => {
-    event.preventDefault();
-
-    const reader = new FileReader();
-
-    const file = event.target.files[0];
-
-    reader.onload = () => {
-      if (file.size < 1000000) {
-        setAvatarSizeValidation(true);
-
-        setAccountData({ avatar: reader.result });
-      } else {
-        setAvatarSizeValidation(false);
-      }
-    };
-
-    reader.readAsDataURL(file);
-  };
 
   return (
     <div className={classes.container}>
@@ -112,10 +92,4 @@ function AccountLeftContent({ accountData: { avatar }, setAccountData }) {
   );
 }
 
-const mapStateToProps = ({ accountData }) => {
-  return {
-    accountData
-  };
-};
-
-export default connect(mapStateToProps, { setAccountData })(AccountLeftContent);
+export default memo(AccountLeftContent);
