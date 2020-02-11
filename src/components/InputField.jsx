@@ -1,11 +1,31 @@
 import React, { memo } from "react";
 import { Field } from "formik";
 
+import { makeStyles } from "@material-ui/core/styles";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
 import FormControl from "@material-ui/core/FormControl";
 import Grid from "@material-ui/core/Grid";
 
-const InputField = ({ label, name, value, onChange, required }) => {
+const useStyles = makeStyles(theme => ({
+  fieldStyles: {
+    fontFamily: "Roboto",
+    fontStyle: "normal",
+    fontWeight: "500",
+    fontSize: "14px",
+    lineHeight: "16px"
+  }
+}));
+
+const InputField = ({
+  name,
+  label,
+  value,
+  onChange,
+  required,
+  placeholder
+}) => {
+  const classes = useStyles();
+
   return (
     <FormControl
       onChange={onChange}
@@ -18,7 +38,14 @@ const InputField = ({ label, name, value, onChange, required }) => {
         {required && <span> * </span>}
       </Grid>
 
-      <Field as={OutlinedInput} value={value} type="input" name={name} />
+      <Field
+        className={classes.fieldStyles}
+        placeholder={placeholder}
+        as={OutlinedInput}
+        value={value}
+        type="input"
+        name={name}
+      />
     </FormControl>
   );
 };
