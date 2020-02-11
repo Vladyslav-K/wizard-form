@@ -1,11 +1,11 @@
-import React from "react";
+import React, { memo } from "react";
 import { Field } from "formik";
 
 import OutlinedInput from "@material-ui/core/OutlinedInput";
 import FormControl from "@material-ui/core/FormControl";
 import Grid from "@material-ui/core/Grid";
 
-export default function InputField({ label, name, value, onChange, required }) {
+function InputField({ label, name, value, onChange, required }) {
   return (
     <FormControl
       onChange={onChange}
@@ -22,3 +22,5 @@ export default function InputField({ label, name, value, onChange, required }) {
     </FormControl>
   );
 }
+
+export default memo(InputField);

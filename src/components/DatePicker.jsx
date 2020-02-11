@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const DatePicker = ({ birthDate, setProfileData }) => {
+const DatePicker = ({ birthDate, setBirthDate }) => {
   const classes = useStyles();
 
   const handleButtonMouseDown = event => {
@@ -64,13 +64,11 @@ const DatePicker = ({ birthDate, setProfileData }) => {
   return (
     <ReactDatePicker
       onChange={date =>
-        setProfileData({
-          birthDate: date.toLocaleDateString().replace(/\./g, "/")
-        })
+        setBirthDate(date.toLocaleDateString().replace(/\./g, "/"))
       }
       customInput={<CustomInputRef />}
     />
   );
 };
 
-export default DatePicker;
+export default memo(DatePicker);

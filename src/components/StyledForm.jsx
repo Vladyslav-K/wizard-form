@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 import { Form } from "formik";
 import { makeStyles } from "@material-ui/core/styles";
@@ -25,4 +25,4 @@ const StyledForm = ({ children }) => {
   return <Form className={classes.formContainer}>{children}</Form>;
 };
 
-export default StyledForm;
+export default memo(StyledForm);

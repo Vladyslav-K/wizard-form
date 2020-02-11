@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 import { Field } from "formik";
 
@@ -10,7 +10,7 @@ import OutlinedInput from "@material-ui/core/OutlinedInput";
 import FormControl from "@material-ui/core/FormControl";
 import IconButton from "@material-ui/core/IconButton";
 
-export default function InputPasswordField({
+function InputPasswordField({
   passwordConfirmation,
   toggleVisibility,
   onChange,
@@ -51,3 +51,5 @@ export default function InputPasswordField({
     </FormControl>
   );
 }
+
+export default memo(InputPasswordField);

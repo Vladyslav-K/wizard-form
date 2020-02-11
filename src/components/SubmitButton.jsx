@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
@@ -42,4 +42,4 @@ const SubmitButton = () => {
   );
 };
 
-export default SubmitButton;
+export default memo(SubmitButton);
