@@ -29,7 +29,7 @@ const AccountRightContent = ({
           username
         }}
       >
-        {({ errors, touched }) => (
+        {({ errors }) => (
           <StyledForm>
             <InputField
               name="username"
@@ -38,9 +38,7 @@ const AccountRightContent = ({
               onChange={event => setUserName(event.target.value)}
             />
 
-            {errors.username && touched.username && (
-              <InputError value={errors.username} />
-            )}
+            {errors.username && <InputError value={errors.username} />}
 
             <InputPasswordField
               visible={visible}
@@ -49,9 +47,7 @@ const AccountRightContent = ({
               onChange={event => setPassword(event.target.value)}
             />
 
-            {errors.password && touched.password && (
-              <InputError value={errors.password} />
-            )}
+            {errors.password && <InputError value={errors.password} />}
 
             <InputPasswordField
               visible={visible}
@@ -61,7 +57,7 @@ const AccountRightContent = ({
               onChange={event => setPasswordConfirmation(event.target.value)}
             />
 
-            {errors.passwordConfirmation && touched.passwordConfirmation && (
+            {errors.passwordConfirmation && (
               <InputError value={errors.passwordConfirmation} />
             )}
 
