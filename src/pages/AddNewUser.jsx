@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
-import { syncAccountDataWithDatabase } from "../domain/actions";
+import { syncAccountDataWithDatabase } from "../domain/accountFormDomain/accountFormActions";
+import { syncProfileDataWithDatabase } from "../domain/profileFormDomain/profileFormActions";
 import database from "../utils/database";
 
 import { ReactComponent as CloseIcon } from "../images/icons/Close.svg";
@@ -111,7 +112,11 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function AddNewUser({ accountData, syncAccountDataWithDatabase }) {
+function AddNewUser({
+  account,
+  syncAccountDataWithDatabase,
+  syncProfileDataWithDatabase
+}) {
   const classes = useStyles();
 
   const [value, setValue] = useState(0);
@@ -121,9 +126,9 @@ function AddNewUser({ accountData, syncAccountDataWithDatabase }) {
     database.accountData.get(1, data => {
       if (
         data &&
-        (data.username ||
+        (data.passwordConfirmation ||
           data.password ||
-          data.passwordConfirmation ||
+          data.username ||
           data.avatar)
       ) {
         setQueryVisible(true);
@@ -132,12 +137,12 @@ function AddNewUser({ accountData, syncAccountDataWithDatabase }) {
   }, []);
 
   useEffect(() => {
-    for (let key in accountData) {
-      if (accountData[key]) {
+    for (let key in account) {
+      if (account[key]) {
         setQueryVisible(false);
       }
     }
-  }, [accountData]);
+  }, [account]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -152,6 +157,10 @@ function AddNewUser({ accountData, syncAccountDataWithDatabase }) {
   const syncDataWithDatabase = () => {
     database.accountData.get(1, data => {
       syncAccountDataWithDatabase(data);
+    });
+
+    database.profileData.get(1, data => {
+      syncProfileDataWithDatabase(data);
     });
 
     setQueryVisible(false);
@@ -218,10 +227,11 @@ function AddNewUser({ accountData, syncAccountDataWithDatabase }) {
   );
 }
 
-const mapStateToProps = ({ accountData }) => {
-  return { accountData };
+const mapStateToProps = ({ account }) => {
+  return { account };
 };
 
-export default connect(mapStateToProps, { syncAccountDataWithDatabase })(
-  AddNewUser
-);
+export default connect(mapStateToProps, {
+  syncAccountDataWithDatabase,
+  syncProfileDataWithDatabase
+})(AddNewUser);
