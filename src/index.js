@@ -7,11 +7,18 @@ import * as serviceWorker from "./serviceWorker";
 
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import createSagaMiddleware from "redux-saga";
-import reducer from "./domain/reducers";
+
+import { accountFormReducers } from "./domain/accountFormDomain/accountFormReducers";
+import { profileFormReducers } from "./domain/profileFormDomain/profileFormReducers";
 
 import rootSaga from "./sagas";
 
 import App from "./pages/App";
+
+const reducer = {
+  account: accountFormReducers,
+  profile: profileFormReducers
+};
 
 const sagaMiddleware = createSagaMiddleware();
 
