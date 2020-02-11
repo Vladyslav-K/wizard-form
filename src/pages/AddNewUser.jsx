@@ -150,6 +150,7 @@ function AddNewUser({
 
   const hideQueryAndClearDatabase = () => {
     database.accountData.delete(1);
+    database.profileData.delete(1);
 
     setQueryVisible(false);
   };
