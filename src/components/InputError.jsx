@@ -8,9 +8,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function InputError({ value }) {
+const InputError = ({ value }) => {
   const classes = useStyles();
   return <div className={classes.inputError}>{value}</div>;
-}
+};
 
 export default memo(InputError);

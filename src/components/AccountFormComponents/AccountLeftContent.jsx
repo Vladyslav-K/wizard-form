@@ -49,11 +49,11 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function AccountLeftContent({
+const AccountLeftContent = ({
   avatar,
   handleImageChange,
   avatarSizeValidation
-}) {
+}) => {
   const classes = useStyles();
 
   return (
@@ -90,6 +90,6 @@ function AccountLeftContent({
       </label>
     </div>
   );
-}
+};
 
 export default memo(AccountLeftContent);

@@ -10,13 +10,13 @@ import OutlinedInput from "@material-ui/core/OutlinedInput";
 import FormControl from "@material-ui/core/FormControl";
 import IconButton from "@material-ui/core/IconButton";
 
-function InputPasswordField({
+const InputPasswordField = ({
   passwordConfirmation,
   toggleVisibility,
   onChange,
   visible,
   value
-}) {
+}) => {
   const handleButtonMouseDown = event => {
     event.preventDefault();
   };
@@ -50,6 +50,6 @@ function InputPasswordField({
       />
     </FormControl>
   );
-}
+};
 
 export default memo(InputPasswordField);

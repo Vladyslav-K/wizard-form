@@ -5,7 +5,7 @@ import OutlinedInput from "@material-ui/core/OutlinedInput";
 import FormControl from "@material-ui/core/FormControl";
 import Grid from "@material-ui/core/Grid";
 
-function InputField({ label, name, value, onChange, required }) {
+const InputField = ({ label, name, value, onChange, required }) => {
   return (
     <FormControl
       onChange={onChange}
@@ -21,6 +21,6 @@ function InputField({ label, name, value, onChange, required }) {
       <Field as={OutlinedInput} value={value} type="input" name={name} />
     </FormControl>
   );
-}
+};
 
 export default memo(InputField);
