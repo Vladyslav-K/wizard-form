@@ -4,7 +4,7 @@ export const syncDatabaseWithContactsData = createAction(
   "SYNC_DATABASE_WITH_CONTACTS_DATA"
 );
 
-export const syncContactDataWithDatabase = createAction(
+export const syncContactsDataWithDatabase = createAction(
   "SYNC_CONTACTS_DATA_WITH_DATABASE"
 );
 

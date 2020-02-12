@@ -1,7 +1,7 @@
 import { createReducer } from "@reduxjs/toolkit";
 
 import {
-  syncContactDataWithDatabase,
+  syncContactsDataWithDatabase,
   setMainLanguage,
   setFacebookLink,
   setGitHubLink,
@@ -11,21 +11,21 @@ import {
 } from "./contactsFormActions";
 
 const initialState = {
+  phone: ["", "", ""],
   mainLanguage: "",
   facebookLink: "",
   gitHubLink: "",
   company: "",
-  phone: "",
   fax: ""
 };
 
 export const contactsFormReducers = createReducer(initialState, {
-  [syncContactDataWithDatabase]: (state, action) => {
+  [syncContactsDataWithDatabase]: (state, action) => {
     state.mainLanguage = action.payload.mainLanguage;
     state.facebookLink = action.payload.facebookLink;
     state.gitHubLink = action.payload.gitHubLink;
     state.company = action.payload.company;
-    state.phone = action.payload.phone;
+    state.phone = [...action.payload.phone];
     state.fax = action.payload.fax;
   },
 
@@ -46,7 +46,8 @@ export const contactsFormReducers = createReducer(initialState, {
   },
 
   [setPhone]: (state, action) => {
-    state.phone = action.payload;
+    const { id, value } = action.payload;
+    state.phone[id] = value;
   },
 
   [setFax]: (state, action) => {
