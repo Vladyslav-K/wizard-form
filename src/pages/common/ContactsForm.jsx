@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
 import {
-  syncContactDataWithDatabase,
+  syncDatabaseWithContactsData,
   setMainLanguage,
   setFacebookLink,
   setGitHubLink,
@@ -24,7 +24,7 @@ function ContactsForm({
   phone,
   fax,
 
-  syncContactDataWithDatabase,
+  syncDatabaseWithContactsData,
   setMainLanguage,
   setFacebookLink,
   setGitHubLink,
@@ -32,6 +32,12 @@ function ContactsForm({
   setPhone,
   setFax
 }) {
+  const [numberOfPhones, setNumberOfPhones] = useState(1);
+
+  useEffect(() => {
+    return () => syncDatabaseWithContactsData();
+  });
+
   return (
     <Grid container justify="space-around" style={{ marginTop: "2rem" }}>
       <Grid item xs={4}>
@@ -49,6 +55,8 @@ function ContactsForm({
 
       <Grid item xs={4}>
         <ContactsRightContent
+          numberOfPhones={numberOfPhones}
+          setNumberOfPhones={setNumberOfPhones}
           phone={phone}
           fax={fax}
           setPhone={setPhone}
@@ -66,7 +74,7 @@ const mapStateToProps = ({
 };
 
 export default connect(mapStateToProps, {
-  syncContactDataWithDatabase,
+  syncDatabaseWithContactsData,
   setMainLanguage,
   setFacebookLink,
   setGitHubLink,
