@@ -22,6 +22,7 @@ const AccountRightContent = ({
     <div>
       <Formik
         validationSchema={loginAndPasswordValidationSchema}
+        validateOnBlur={false}
         enableReinitialize
         initialValues={{
           passwordConfirmation,

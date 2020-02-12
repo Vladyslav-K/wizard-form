@@ -13,7 +13,7 @@ import Grid from "@material-ui/core/Grid";
 const useStyles = makeStyles(theme => ({
   fieldContainer: {
     marginTop: "16px",
-    marginBottom: "8px"
+    marginBottom: "3rem"
   },
 
   fieldStyles: {
@@ -114,23 +114,21 @@ const ContactsLeftContent = ({
               size="small"
               freeSolo
               renderInput={params => (
-                <>
-                  <Grid container className={classes.fieldContainer}>
-                    <Grid container justify="space-between">
-                      <span> Main language </span>
-                      <span> * </span>
-                    </Grid>
-
-                    <TextField
-                      className={classes.fieldStyles}
-                      value={mainLanguage}
-                      variant="outlined"
-                      {...params}
-                      fullWidth
-                      InputProps={{ ...params.InputProps, type: "search" }}
-                    />
+                <Grid container className={classes.fieldContainer}>
+                  <Grid container justify="space-between">
+                    <span> Main language </span>
+                    <span> * </span>
                   </Grid>
-                </>
+
+                  <TextField
+                    className={classes.fieldStyles}
+                    value={mainLanguage}
+                    variant="outlined"
+                    {...params}
+                    fullWidth
+                    InputProps={{ ...params.InputProps, type: "search" }}
+                  />
+                </Grid>
               )}
             />
           </StyledForm>

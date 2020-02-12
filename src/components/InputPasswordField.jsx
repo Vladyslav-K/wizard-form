@@ -46,7 +46,6 @@ const InputPasswordField = ({
       <Field
         name={passwordConfirmation ? "passwordConfirmation" : "password"}
         type={visible ? "text" : "password"}
-        id="standard-adornment-password"
         className={classes.fieldStyles}
         as={OutlinedInput}
         value={value}
