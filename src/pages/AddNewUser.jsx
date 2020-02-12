@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 
 import { syncAccountDataWithDatabase } from "../domain/accountFormDomain/accountFormActions";
 import { syncProfileDataWithDatabase } from "../domain/profileFormDomain/profileFormActions";
+import { syncContactsDataWithDatabase } from "../domain/contactsFormDomain/contactsFormActions";
 import database from "../utils/database";
 
 import { ReactComponent as CloseIcon } from "../images/icons/Close.svg";
@@ -115,7 +116,8 @@ const useStyles = makeStyles(theme => ({
 function AddNewUser({
   account,
   syncAccountDataWithDatabase,
-  syncProfileDataWithDatabase
+  syncProfileDataWithDatabase,
+  syncContactsDataWithDatabase
 }) {
   const classes = useStyles();
 
@@ -151,6 +153,7 @@ function AddNewUser({
   const hideQueryAndClearDatabase = () => {
     database.accountData.delete(1);
     database.profileData.delete(1);
+    database.contactsData.delete(1);
 
     setQueryVisible(false);
   };
@@ -162,6 +165,10 @@ function AddNewUser({
 
     database.profileData.get(1, data => {
       syncProfileDataWithDatabase(data);
+    });
+
+    database.contactsData.get(1, data => {
+      syncContactsDataWithDatabase(data);
     });
 
     setQueryVisible(false);
@@ -234,5 +241,6 @@ const mapStateToProps = ({ account }) => {
 
 export default connect(mapStateToProps, {
   syncAccountDataWithDatabase,
-  syncProfileDataWithDatabase
+  syncProfileDataWithDatabase,
+  syncContactsDataWithDatabase
 })(AddNewUser);
