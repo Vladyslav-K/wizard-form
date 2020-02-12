@@ -111,17 +111,20 @@ const ContactsLeftContent = ({
               onInputChange={(event, value) => setMainLanguage(value)}
               options={language}
               disableClearable
+              size="small"
               freeSolo
               renderInput={params => (
                 <>
                   <Grid container className={classes.fieldContainer}>
-                    <span> Main language </span>
+                    <Grid container justify="space-between">
+                      <span> Main language </span>
+                      <span> * </span>
+                    </Grid>
 
                     <TextField
                       className={classes.fieldStyles}
                       value={mainLanguage}
                       variant="outlined"
-                      size="small"
                       {...params}
                       fullWidth
                       InputProps={{ ...params.InputProps, type: "search" }}
