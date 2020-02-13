@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { useEffect, memo } from "react";
 import { Formik } from "formik";
 
 import { ReactComponent as MinusIcon } from "../../images/icons/minus.svg";
@@ -33,24 +33,45 @@ const ContactsRightContent = ({
   setNumberOfPhones,
   phone,
   fax,
+  removePhone,
   setPhone,
   setFax
 }) => {
   const classes = useStyles();
 
+  useEffect(() => {
+    if (phone[1] && phone[2]) {
+      setNumberOfPhones(2);
+    }
+
+    if (phone[1]) {
+      setNumberOfPhones(1);
+    }
+
+    if ((phone[1] === "+7 (XXX) XXX-XX-XX" || !phone[1]) && phone[2]) {
+      setPhone({ id: 1, value: phone[2] });
+      removePhone({ id: 2 });
+      setNumberOfPhones(1);
+    }
+    //eslint-disable-next-line
+  }, []);
+
   const addPhoneNumber = event => {
     event.preventDefault();
+
     setNumberOfPhones(numberOfPhones + 1);
   };
 
   const removePhoneNumber = event => {
     event.preventDefault();
-    setNumberOfPhones(numberOfPhones - 1);
 
     if (phone[2]) {
       setPhone({ id: 1, value: phone[2] });
-      setPhone({ id: 2, value: "" });
+      removePhone({ id: 2 });
     }
+
+    setNumberOfPhones(numberOfPhones - 1);
+    removePhone({ id: numberOfPhones });
   };
 
   return (
@@ -83,7 +104,7 @@ const ContactsRightContent = ({
               id="0"
             />
 
-            {(phone[1] || numberOfPhones >= 2) && (
+            {(phone[1] || numberOfPhones >= 1) && (
               <div className={classes.phoneContainer}>
                 <InputPhone
                   labelName="Phone #2"
@@ -102,7 +123,7 @@ const ContactsRightContent = ({
               </div>
             )}
 
-            {(phone[2] || numberOfPhones === 3) && (
+            {(phone[2] || numberOfPhones === 2) && (
               <div className={classes.phoneContainer}>
                 <InputPhone
                   labelName="Phone #3"
@@ -121,7 +142,7 @@ const ContactsRightContent = ({
               </div>
             )}
 
-            {numberOfPhones !== 3 && (
+            {!phone[2] && numberOfPhones !== 2 && (
               <Button
                 className={classes.plusButtonStyles}
                 startIcon={<PlusIcon />}

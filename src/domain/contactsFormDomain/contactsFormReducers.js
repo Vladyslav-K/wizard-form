@@ -6,6 +6,7 @@ import {
   setFacebookLink,
   setGitHubLink,
   setCompany,
+  removePhone,
   setPhone,
   setFax
 } from "./contactsFormActions";
@@ -43,6 +44,11 @@ export const contactsFormReducers = createReducer(initialState, {
 
   [setCompany]: (state, action) => {
     state.company = action.payload;
+  },
+
+  [removePhone]: (state, action) => {
+    const { id } = action.payload;
+    state.phone[id] = "";
   },
 
   [setPhone]: (state, action) => {

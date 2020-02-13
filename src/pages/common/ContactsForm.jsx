@@ -7,6 +7,7 @@ import {
   setFacebookLink,
   setGitHubLink,
   setCompany,
+  removePhone,
   setPhone,
   setFax
 } from "../../domain/contactsFormDomain/contactsFormActions";
@@ -29,10 +30,11 @@ function ContactsForm({
   setFacebookLink,
   setGitHubLink,
   setCompany,
+  removePhone,
   setPhone,
   setFax
 }) {
-  const [numberOfPhones, setNumberOfPhones] = useState(1);
+  const [numberOfPhones, setNumberOfPhones] = useState(0);
 
   useEffect(() => {
     return () => syncDatabaseWithContactsData();
@@ -59,6 +61,7 @@ function ContactsForm({
           setNumberOfPhones={setNumberOfPhones}
           phone={phone}
           fax={fax}
+          removePhone={removePhone}
           setPhone={setPhone}
           setFax={setFax}
         />
@@ -79,6 +82,7 @@ export default connect(mapStateToProps, {
   setFacebookLink,
   setGitHubLink,
   setCompany,
+  removePhone,
   setPhone,
   setFax
 })(ContactsForm);

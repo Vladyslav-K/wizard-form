@@ -16,6 +16,8 @@ export const setGitHubLink = createAction("SET_GITHUB_LINK");
 
 export const setCompany = createAction("SET_COMPANY");
 
+export const removePhone = createAction("REMOVE_PHONE")
+
 export const setPhone = createAction("SET_PHONE");
 
 export const setFax = createAction("SET_FAX");
