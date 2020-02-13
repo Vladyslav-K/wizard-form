@@ -8,7 +8,6 @@ import database from "../utils/database";
 
 import { ReactComponent as CloseIcon } from "../images/icons/Close.svg";
 import CapabilitiesForm from "./common/CapabilitiesForm";
-import SubmitButton from "../components/SubmitButton";
 import ContactsForm from "./common/ContactsForm";
 import AccountForm from "./common/AccountForm";
 import ProfileForm from "./common/ProfileForm";
@@ -218,39 +217,19 @@ function AddNewUser({
       )}
 
       <TabPanel value={value} index={0}>
-        <Grid container direction="column">
-          <AccountForm />
-          <Grid item xs={11}>
-            <SubmitButton />
-          </Grid>
-        </Grid>
+        <AccountForm />
       </TabPanel>
 
       <TabPanel value={value} index={1}>
-        <Grid container direction="column">
-          <ProfileForm />
-          <Grid item xs={11}>
-            <SubmitButton />
-          </Grid>
-        </Grid>
+        <ProfileForm />
       </TabPanel>
 
       <TabPanel value={value} index={2}>
-        <Grid container direction="column">
-          <ContactsForm />
-          <Grid item xs={11}>
-            <SubmitButton />
-          </Grid>
-        </Grid>
+        <ContactsForm />
       </TabPanel>
 
       <TabPanel value={value} index={3}>
-        <Grid container direction="column">
-          <CapabilitiesForm />
-          <Grid item xs={11}>
-            <SubmitButton />
-          </Grid>
-        </Grid>
+        <CapabilitiesForm />
       </TabPanel>
     </Container>
   );

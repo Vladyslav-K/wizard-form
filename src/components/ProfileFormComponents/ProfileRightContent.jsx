@@ -1,6 +1,8 @@
 import React, { memo } from "react";
 import { Formik } from "formik";
 
+import SubmitButton from "../SubmitButton";
+import BackButton from "../BackButton";
 import InputError from "../InputError";
 import InputField from "../InputField";
 import StyledForm from "../StyledForm";
@@ -88,6 +90,10 @@ const ProfileRightContent = ({
           </StyledForm>
         )}
       </Formik>
+      <Grid container justify="space-between">
+        <BackButton />
+        <SubmitButton />
+      </Grid>
     </div>
   );
 };

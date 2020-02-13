@@ -18,8 +18,9 @@ const useStyles = makeStyles(theme => ({
     textTransform: "none",
 
     color: "white",
-    background: "#4E86E4",
+    background: "#C1CFE0",
 
+    minWidth: "104px",
     padding: "12px 24px",
 
     border: "none",
@@ -30,16 +31,16 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const SubmitButton = () => {
+const BackButton = () => {
   const classes = useStyles();
 
   return (
     <div className={classes.buttonContainer}>
       <button className={classes.button} type="submit">
-        Forward
+        Back
       </button>
     </div>
   );
 };
 
-export default memo(SubmitButton);
+export default memo(BackButton);

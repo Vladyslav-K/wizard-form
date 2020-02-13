@@ -3,6 +3,8 @@ import { Formik } from "formik";
 
 import { ReactComponent as MinusIcon } from "../../images/icons/minus.svg";
 import { ReactComponent as PlusIcon } from "../../images/icons/add.svg";
+import SubmitButton from "../SubmitButton";
+import BackButton from "../BackButton";
 import InputError from "../InputError";
 import InputField from "../InputField";
 import InputPhone from "../InputPhone";
@@ -10,6 +12,7 @@ import StyledForm from "../StyledForm";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles(theme => ({
   plusButtonStyles: {
@@ -155,6 +158,10 @@ const ContactsRightContent = ({
           </StyledForm>
         )}
       </Formik>
+      <Grid container justify="space-between">
+        <BackButton />
+        <SubmitButton />
+      </Grid>
     </div>
   );
 };
