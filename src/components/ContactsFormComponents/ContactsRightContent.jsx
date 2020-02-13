@@ -155,13 +155,13 @@ const ContactsRightContent = ({
                 add phone number
               </Button>
             )}
+            <Grid container justify="space-between">
+              <BackButton />
+              <SubmitButton />
+            </Grid>
           </StyledForm>
         )}
       </Formik>
-      <Grid container justify="space-between">
-        <BackButton />
-        <SubmitButton />
-      </Grid>
     </div>
   );
 };

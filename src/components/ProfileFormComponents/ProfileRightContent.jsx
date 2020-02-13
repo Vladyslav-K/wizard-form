@@ -87,13 +87,13 @@ const ProfileRightContent = ({
                 </Grid>
               </RadioGroup>
             </FormControl>
+            <Grid container justify="space-between">
+              <BackButton />
+              <SubmitButton />
+            </Grid>
           </StyledForm>
         )}
       </Formik>
-      <Grid container justify="space-between">
-        <BackButton />
-        <SubmitButton />
-      </Grid>
     </div>
   );
 };
