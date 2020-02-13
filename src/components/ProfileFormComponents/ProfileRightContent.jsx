@@ -1,7 +1,6 @@
 import React, { memo } from "react";
 import { Formik } from "formik";
 
-import SubmitButton from "../SubmitButton";
 import InputError from "../InputError";
 import InputField from "../InputField";
 import StyledForm from "../StyledForm";
@@ -86,8 +85,6 @@ const ProfileRightContent = ({
                 </Grid>
               </RadioGroup>
             </FormControl>
-
-            <SubmitButton />
           </StyledForm>
         )}
       </Formik>

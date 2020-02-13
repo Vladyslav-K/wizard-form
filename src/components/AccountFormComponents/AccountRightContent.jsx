@@ -3,7 +3,6 @@ import { Formik } from "formik";
 
 import { loginAndPasswordValidationSchema } from "../../utils/validations";
 import InputPasswordField from "../InputPasswordField";
-import SubmitButton from "../SubmitButton";
 import InputError from "../InputError";
 import InputField from "../InputField";
 import StyledForm from "../StyledForm";
@@ -61,8 +60,6 @@ const AccountRightContent = ({
             {errors.passwordConfirmation && (
               <InputError value={errors.passwordConfirmation} />
             )}
-
-            <SubmitButton />
           </StyledForm>
         )}
       </Formik>
