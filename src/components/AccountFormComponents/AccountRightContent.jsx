@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { Formik } from "formik";
+import { Formik, Field } from "formik";
 
 import { loginAndPasswordValidationSchema } from "../../utils/validations";
 import InputPasswordField from "../InputPasswordField";
@@ -12,10 +12,8 @@ const AccountRightContent = ({
   passwordConfirmation,
   password,
   username,
-  setPasswordConfirmation,
-  setPassword,
-  setUserName,
   visible,
+  saveChangeToRedux,
   toggleVisibility
 }) => {
   return (
@@ -30,38 +28,39 @@ const AccountRightContent = ({
           username
         }}
       >
-        {({ errors }) => (
+        {({ values, errors, touched }) => (
           <StyledForm>
-            <InputField
-              name="username"
-              label="User name"
-              value={username}
-              onChange={event => setUserName(event.target.value)}
-            />
+            {saveChangeToRedux(values)}
 
-            {errors.username && <InputError value={errors.username} />}
+            <Field component={InputField} label="User name" name="username" />
 
-            <InputPasswordField
-              visible={visible}
-              value={password}
+            {errors.username && touched.username && (
+              <InputError value={errors.username} />
+            )}
+
+            <Field
               toggleVisibility={toggleVisibility}
-              onChange={event => setPassword(event.target.value)}
+              component={InputPasswordField}
+              visible={visible}
+              name="password"
             />
 
-            {errors.password && <InputError value={errors.password} />}
+            {errors.password && touched.password && (
+              <InputError value={errors.password} />
+            )}
 
-            <InputPasswordField
-              visible={visible}
+            <Field
+              toggleVisibility={toggleVisibility}
+              component={InputPasswordField}
+              name="passwordConfirmation"
               passwordConfirmation
-              toggleVisibility={toggleVisibility}
-              value={passwordConfirmation}
-              onChange={event => setPasswordConfirmation(event.target.value)}
+              visible={visible}
             />
 
-            {errors.passwordConfirmation && (
+            {errors.passwordConfirmation && touched.passwordConfirmation && (
               <InputError value={errors.passwordConfirmation} />
             )}
-            
+
             <SubmitButton />
           </StyledForm>
         )}

@@ -62,20 +62,20 @@ const AccountLeftContent = ({
         <Avatar src={avatar} alt="User avatar" className={classes.userAvatar} />
       ) : (
         <Avatar
-          src={DefaultAvatarImage}
-          alt="Default avatar image"
           className={classes.defaultAvatar}
+          alt="Default avatar image"
+          src={DefaultAvatarImage}
         />
       )}
 
       {!avatarSizeValidation && <InputError value="Maximum image size 1 mb" />}
 
       <input
-        accept="image/*"
         className={classes.input}
         id="text-button-file"
-        multiple
+        accept="image/*"
         type="file"
+        multiple
         onChange={handleImageChange}
       />
       <label htmlFor="text-button-file">
