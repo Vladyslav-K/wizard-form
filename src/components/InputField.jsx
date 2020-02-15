@@ -1,5 +1,4 @@
 import React, { memo } from "react";
-import { Field } from "formik";
 
 import { makeStyles } from "@material-ui/core/styles";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
@@ -16,35 +15,22 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const InputField = ({
-  name,
-  label,
-  value,
-  onChange,
-  required,
-  placeholder
-}) => {
+const InputField = ({ placeholder, required, label, field, form }) => {
   const classes = useStyles();
 
   return (
-    <FormControl
-      onChange={onChange}
-      variant="outlined"
-      margin="normal"
-      size="small"
-    >
+    <FormControl variant="outlined" margin="normal" size="small">
       <Grid container justify="space-between">
         <span> {label} </span>
         {required && <span> * </span>}
       </Grid>
 
-      <Field
+      <OutlinedInput
+        onChange={event => form.setFieldValue(field.name, event.target.value)}
         className={classes.fieldStyles}
         placeholder={placeholder}
-        as={OutlinedInput}
-        value={value}
+        value={field.value}
         type="input"
-        name={name}
       />
     </FormControl>
   );
