@@ -1,22 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
+import React, { useState } from "react";
 
-import { syncAccountDataWithDatabase } from "../domain/accountFormDomain/accountFormActions";
-import { syncProfileDataWithDatabase } from "../domain/profileFormDomain/profileFormActions";
-import { syncContactsDataWithDatabase } from "../domain/contactsFormDomain/contactsFormActions";
-import database from "../utils/database";
-
-import { ReactComponent as CloseIcon } from "../images/icons/Close.svg";
 import CapabilitiesForm from "./common/CapabilitiesForm";
 import ContactsForm from "./common/ContactsForm";
 import AccountForm from "./common/AccountForm";
 import ProfileForm from "./common/ProfileForm";
 
 import { makeStyles, withStyles } from "@material-ui/core/styles";
-import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
-import Button from "@material-ui/core/Button";
 import Tabs from "@material-ui/core/Tabs";
 import Grid from "@material-ui/core/Grid";
 import Tab from "@material-ui/core/Tab";
@@ -27,11 +18,11 @@ function TabPanel(props) {
 
   return (
     <Typography
+      aria-labelledby={`nav-tab-${index}`}
+      id={`nav-tabpanel-${index}`}
+      hidden={value !== index}
       component="div"
       role="tabpanel"
-      hidden={value !== index}
-      id={`nav-tabpanel-${index}`}
-      aria-labelledby={`nav-tab-${index}`}
       {...other}
     >
       {value === index && <Box p={3}>{children}</Box>}
@@ -41,8 +32,8 @@ function TabPanel(props) {
 
 function a11yProps(index) {
   return {
-    id: `nav-tab-${index}`,
-    "aria-controls": `nav-tabpanel-${index}`
+    "aria-controls": `nav-tabpanel-${index}`,
+    id: `nav-tab-${index}`
   };
 }
 
@@ -113,65 +104,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function AddNewUser({
-  account,
-  syncAccountDataWithDatabase,
-  syncProfileDataWithDatabase,
-  syncContactsDataWithDatabase
-}) {
+const AddNewUser = () => {
   const classes = useStyles();
 
   const [value, setValue] = useState(0);
-  const [queryVisible, setQueryVisible] = useState(false);
-
-  useEffect(() => {
-    database.accountData.get(1, data => {
-      if (
-        data &&
-        (data.passwordConfirmation ||
-          data.password ||
-          data.username ||
-          data.avatar)
-      ) {
-        setQueryVisible(true);
-      }
-    });
-  }, []);
-
-  useEffect(() => {
-    for (let key in account) {
-      if (account[key]) {
-        setQueryVisible(false);
-      }
-    }
-  }, [account]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-  };
-
-  const hideQueryAndClearDatabase = () => {
-    database.accountData.delete(1);
-    database.profileData.delete(1);
-    database.contactsData.delete(1);
-
-    setQueryVisible(false);
-  };
-
-  const syncDataWithDatabase = () => {
-    database.accountData.get(1, data => {
-      syncAccountDataWithDatabase(data);
-    });
-
-    database.profileData.get(1, data => {
-      syncProfileDataWithDatabase(data);
-    });
-
-    database.contactsData.get(1, data => {
-      syncContactsDataWithDatabase(data);
-    });
-
-    setQueryVisible(false);
   };
 
   return (
@@ -179,7 +118,6 @@ function AddNewUser({
       <Grid className={classes.heading} container justify="center">
         Adding new user
       </Grid>
-
       <Tabs
         classes={{ indicator: classes.tabIncticator }}
         aria-label="Registration"
@@ -195,26 +133,6 @@ function AddNewUser({
 
         <StyledTab label="4. Capabilities" {...a11yProps(3)} />
       </Tabs>
-
-      {queryVisible && (
-        <div className={classes.queryContainer}>
-          <div>
-            <span className={classes.queryText}>
-              You have an unsaved user data. Do you want to complete it?
-            </span>
-            <Button
-              className={classes.queryButton}
-              onClick={syncDataWithDatabase}
-            >
-              Continue
-            </Button>
-          </div>
-
-          <IconButton onClick={hideQueryAndClearDatabase}>
-            <CloseIcon />
-          </IconButton>
-        </div>
-      )}
 
       <TabPanel value={value} index={0}>
         <AccountForm />
@@ -233,14 +151,6 @@ function AddNewUser({
       </TabPanel>
     </Container>
   );
-}
-
-const mapStateToProps = ({ account }) => {
-  return { account };
 };
 
-export default connect(mapStateToProps, {
-  syncAccountDataWithDatabase,
-  syncProfileDataWithDatabase,
-  syncContactsDataWithDatabase
-})(AddNewUser);
+export default AddNewUser;
