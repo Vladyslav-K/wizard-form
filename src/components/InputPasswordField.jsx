@@ -1,7 +1,5 @@
 import React, { memo } from "react";
 
-import { Field } from "formik";
-
 import { ReactComponent as VisibilityOff } from "../images/icons/icon-visibility-off.svg";
 import { ReactComponent as Visibility } from "../images/icons/icon-visibility.svg";
 
@@ -24,9 +22,9 @@ const useStyles = makeStyles(theme => ({
 const InputPasswordField = ({
   passwordConfirmation,
   toggleVisibility,
-  onChange,
   visible,
-  value
+  field,
+  form
 }) => {
   const classes = useStyles();
 
@@ -36,19 +34,18 @@ const InputPasswordField = ({
 
   return (
     <FormControl
-      onChange={onChange}
+      onChange={event => form.setFieldValue(field.name, event.target.value)}
       variant="outlined"
       margin="normal"
       size="small"
     >
       <span> {passwordConfirmation ? "Repeat Password" : "Password"} </span>
 
-      <Field
+      <OutlinedInput
         name={passwordConfirmation ? "passwordConfirmation" : "password"}
         type={visible ? "text" : "password"}
         className={classes.fieldStyles}
-        as={OutlinedInput}
-        value={value}
+        value={field.value}
         endAdornment={
           <InputAdornment position="end">
             <IconButton
