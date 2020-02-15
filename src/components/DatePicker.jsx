@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const DatePicker = ({ birthDate, setBirthDate }) => {
+const DatePicker = ({ field, form }) => {
   const classes = useStyles();
 
   const handleButtonMouseDown = event => {
@@ -45,7 +45,10 @@ const DatePicker = ({ birthDate, setBirthDate }) => {
 
       <OutlinedInput
         placeholder="DD/MM/YYYY"
-        value={birthDate}
+        value={
+          field.value &&
+          new Date(field.value).toLocaleDateString().replace(/\./g, "/")
+        }
         endAdornment={
           <InputAdornment position="end">
             <IconButton onMouseDown={handleButtonMouseDown} onClick={onClick}>
@@ -63,9 +66,7 @@ const DatePicker = ({ birthDate, setBirthDate }) => {
 
   return (
     <ReactDatePicker
-      onChange={date =>
-        setBirthDate(date.toLocaleDateString().replace(/\./g, "/"))
-      }
+      onChange={value => form.setFieldValue(field.name, value)}
       customInput={<CustomInputRef />}
     />
   );

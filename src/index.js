@@ -24,7 +24,10 @@ const reducer = {
 
 const sagaMiddleware = createSagaMiddleware();
 
-const middleware = [...getDefaultMiddleware({ thunk: false }), sagaMiddleware];
+const middleware = [
+  ...getDefaultMiddleware({ serializableCheck: false, thunk: false }),
+  sagaMiddleware
+];
 
 const store = configureStore({
   reducer,

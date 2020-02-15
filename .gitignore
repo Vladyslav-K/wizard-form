@@ -4,6 +4,8 @@
 /node_modules
 /.pnp
 .pnp.js
+webpack.config.js
+.gitignore
 
 # testing
 /coverage
