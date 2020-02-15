@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { Formik } from "formik";
+import { Formik, Field } from "formik";
 
 import DatePicker from "../DatePicker";
 import InputError from "../InputError";
@@ -7,53 +7,51 @@ import InputField from "../InputField";
 import StyledForm from "../StyledForm";
 
 const ProfileLeftContent = ({
+  saveChangeToRedux,
   firstName,
   birthDate,
-  lastName,
-  setFirstName,
-  setBirthDate,
-  setLastName
+  lastName
 }) => {
   return (
     <div>
       <Formik
         enableReinitialize
         initialValues={{
+          birthDate,
           firstName,
-          lastName,
-          birthDate
+          lastName
         }}
       >
-        {({ errors, touched }) => (
+        {({ values, errors, touched }) => (
           <StyledForm>
-            <InputField
-              required
-              name="firstName"
+            {saveChangeToRedux(values)}
+
+            <Field
+              component={InputField}
               label="First name"
-              value={firstName}
-              onChange={event => setFirstName(event.target.value)}
+              name="firstName"
+              required
             />
 
             {errors.firstName && touched.firstName && (
               <InputError value={errors.firstName} />
             )}
 
-            <InputField
-              required
-              name="lastName"
+            <Field
+              component={InputField}
               label="Last name"
-              value={lastName}
-              onChange={event => setLastName(event.target.value)}
+              name="lastName"
+              required
             />
 
             {errors.lastName && touched.lastName && (
               <InputError value={errors.lastName} />
             )}
+
+            <Field component={DatePicker} name="birthDate" />
           </StyledForm>
         )}
       </Formik>
-
-      <DatePicker birthDate={birthDate} setBirthDate={setBirthDate} />
     </div>
   );
 };
