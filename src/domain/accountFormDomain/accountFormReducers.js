@@ -2,10 +2,7 @@ import { createReducer } from "@reduxjs/toolkit";
 
 import {
   syncAccountDataWithDatabase,
-  setPasswordConfirmation,
-  setPassword,
-  setUserName,
-  setAvatar
+  setAccountData
 } from "./accountFormActions";
 
 const initialState = {
@@ -23,19 +20,10 @@ export const accountFormReducers = createReducer(initialState, {
     state.avatar = action.payload.avatar;
   },
 
-  [setPasswordConfirmation]: (state, action) => {
-    state.passwordConfirmation = action.payload;
-  },
-
-  [setPassword]: (state, action) => {
-    state.password = action.payload;
-  },
-
-  [setUserName]: (state, action) => {
-    state.username = action.payload;
-  },
-
-  [setAvatar]: (state, action) => {
-    state.avatar = action.payload;
+  [setAccountData]: (state, action) => {
+    return {
+      ...state,
+      ...action.payload
+    };
   }
 });

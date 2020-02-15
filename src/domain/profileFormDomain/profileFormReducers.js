@@ -2,12 +2,7 @@ import { createReducer } from "@reduxjs/toolkit";
 
 import {
   syncProfileDataWithDatabase,
-  setFirstName,
-  setBirthDate,
-  setLastName,
-  setAddress,
-  setGender,
-  setEmail
+  setProfileData
 } from "./profileFormActions";
 
 const initialState = {
@@ -29,27 +24,10 @@ export const profileFormReducers = createReducer(initialState, {
     state.email = action.payload.email;
   },
 
-  [setFirstName]: (state, action) => {
-    state.firstName = action.payload;
-  },
-
-  [setBirthDate]: (state, action) => {
-    state.birthDate = action.payload;
-  },
-
-  [setLastName]: (state, action) => {
-    state.lastName = action.payload;
-  },
-
-  [setAddress]: (state, action) => {
-    state.address = action.payload;
-  },
-
-  [setGender]: (state, action) => {
-    state.gender = action.payload;
-  },
-
-  [setEmail]: (state, action) => {
-    state.email = action.payload;
+  [setProfileData]: (state, action) => {
+    return {
+      ...state,
+      ...action.payload
+    };
   }
 });
