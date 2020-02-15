@@ -1,5 +1,7 @@
 import React, { memo } from "react";
 
+import InputError from "./InputError";
+
 import { makeStyles } from "@material-ui/core/styles";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
 import FormControl from "@material-ui/core/FormControl";
@@ -15,24 +17,28 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const InputField = ({ placeholder, required, label, field, form }) => {
+const InputField = ({ placeholder, required, label, field, form, errors }) => {
   const classes = useStyles();
 
   return (
-    <FormControl variant="outlined" margin="normal" size="small">
-      <Grid container justify="space-between">
-        <span> {label} </span>
-        {required && <span> * </span>}
-      </Grid>
+    <>
+      <FormControl variant="outlined" margin="normal" size="small">
+        <Grid container justify="space-between">
+          <span> {label} </span>
+          {required && <span> * </span>}
+        </Grid>
 
-      <OutlinedInput
-        onChange={event => form.setFieldValue(field.name, event.target.value)}
-        className={classes.fieldStyles}
-        placeholder={placeholder}
-        value={field.value}
-        type="input"
-      />
-    </FormControl>
+        <OutlinedInput
+          onChange={event => form.setFieldValue(field.name, event.target.value)}
+          className={classes.fieldStyles}
+          placeholder={placeholder}
+          value={field.value}
+          type="input"
+        />
+      </FormControl>
+
+      {errors && <InputError value={errors} />}
+    </>
   );
 };
 

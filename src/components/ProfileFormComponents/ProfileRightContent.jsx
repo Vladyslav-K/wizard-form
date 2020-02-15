@@ -4,7 +4,6 @@ import { Formik, Field } from "formik";
 import SubmitButton from "../SubmitButton";
 import GenderRadio from "../GenderRadio.jsx";
 import BackButton from "../BackButton";
-import InputError from "../InputError";
 import InputField from "../InputField";
 import StyledForm from "../StyledForm";
 
@@ -14,6 +13,8 @@ const ProfileRightContent = ({ saveChangeToRedux, address, gender, email }) => {
   return (
     <div>
       <Formik
+        validateOnChange={false}
+        validateOnBlur={false}
         enableReinitialize
         initialValues={{
           address,
@@ -24,20 +25,24 @@ const ProfileRightContent = ({ saveChangeToRedux, address, gender, email }) => {
         {({ values, errors, touched }) => (
           <StyledForm>
             {saveChangeToRedux(values)}
-            <Field component={InputField} required name="email" label="Email" />
-            {errors.email && touched.email && (
-              <InputError value={errors.email} />
-            )}
             <Field
               component={InputField}
+              errors={errors.email}
+              label="Email"
+              name="email"
+              required
+            />
+
+            <Field
+              component={InputField}
+              errors={errors.address}
               required
               name="address"
               label="Address"
             />
-            {errors.address && touched.adddress && (
-              <InputError value={errors.address} />
-            )}
+
             <Field component={GenderRadio} name="gender" />
+
             <Grid container justify="space-between">
               <BackButton />
               <SubmitButton />

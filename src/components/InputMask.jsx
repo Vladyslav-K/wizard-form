@@ -1,6 +1,8 @@
 import React, { memo } from "react";
 import ReactInputMask from "react-input-mask";
 
+import InputError from "./InputError";
+
 import { makeStyles } from "@material-ui/core/styles";
 import FormControl from "@material-ui/core/FormControl";
 import Grid from "@material-ui/core/Grid";
@@ -23,26 +25,30 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const InputMask = ({ field, form, label, required }) => {
+const InputMask = ({ field, form, label, required, errors }) => {
   const classes = useStyles();
 
   return (
-    <FormControl variant="outlined" margin="normal" size="small" fullWidth>
-      <Grid container justify="space-between">
-        <span> {label} </span>
-        {required && <span> * </span>}
-      </Grid>
+    <>
+      <FormControl variant="outlined" margin="normal" size="small" fullWidth>
+        <Grid container justify="space-between">
+          <span> {label} </span>
+          {required && <span> * </span>}
+        </Grid>
 
-      <ReactInputMask
-        onChange={event => form.setFieldValue(field.name, event.target.value)}
-        className={classes.fieldStyles}
-        mask="+7 (999) 999-99-99"
-        alwaysShowMask={false}
-        value={field.value}
-        maskChar="X"
-        type="input"
-      />
-    </FormControl>
+        <ReactInputMask
+          onChange={event => form.setFieldValue(field.name, event.target.value)}
+          className={classes.fieldStyles}
+          mask="+7 (999) 999-99-99"
+          alwaysShowMask={false}
+          value={field.value}
+          maskChar="X"
+          type="input"
+        />
+      </FormControl>
+
+      {errors && <InputError value={errors} />}
+    </>
   );
 };
 

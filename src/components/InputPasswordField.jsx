@@ -2,6 +2,7 @@ import React, { memo } from "react";
 
 import { ReactComponent as VisibilityOff } from "../images/icons/icon-visibility-off.svg";
 import { ReactComponent as Visibility } from "../images/icons/icon-visibility.svg";
+import InputError from "./InputError";
 
 import { makeStyles } from "@material-ui/core/styles";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -23,6 +24,7 @@ const InputPasswordField = ({
   passwordConfirmation,
   toggleVisibility,
   visible,
+  errors,
   field,
   form
 }) => {
@@ -33,32 +35,36 @@ const InputPasswordField = ({
   };
 
   return (
-    <FormControl
-      onChange={event => form.setFieldValue(field.name, event.target.value)}
-      variant="outlined"
-      margin="normal"
-      size="small"
-    >
-      <span> {passwordConfirmation ? "Repeat Password" : "Password"} </span>
+    <>
+      <FormControl
+        onChange={event => form.setFieldValue(field.name, event.target.value)}
+        variant="outlined"
+        margin="normal"
+        size="small"
+      >
+        <span> {passwordConfirmation ? "Repeat Password" : "Password"} </span>
 
-      <OutlinedInput
-        name={passwordConfirmation ? "passwordConfirmation" : "password"}
-        type={visible ? "text" : "password"}
-        className={classes.fieldStyles}
-        value={field.value}
-        endAdornment={
-          <InputAdornment position="end">
-            <IconButton
-              aria-label="toggle password visibility"
-              onMouseDown={handleButtonMouseDown}
-              onClick={toggleVisibility}
-            >
-              {visible ? <Visibility /> : <VisibilityOff />}
-            </IconButton>
-          </InputAdornment>
-        }
-      />
-    </FormControl>
+        <OutlinedInput
+          name={passwordConfirmation ? "passwordConfirmation" : "password"}
+          type={visible ? "text" : "password"}
+          className={classes.fieldStyles}
+          value={field.value}
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="toggle password visibility"
+                onMouseDown={handleButtonMouseDown}
+                onClick={toggleVisibility}
+              >
+                {visible ? <Visibility /> : <VisibilityOff />}
+              </IconButton>
+            </InputAdornment>
+          }
+        />
+      </FormControl>
+
+      {errors && <InputError value={errors} />}
+    </>
   );
 };
 

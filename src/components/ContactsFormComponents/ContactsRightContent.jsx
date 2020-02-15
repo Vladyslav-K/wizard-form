@@ -6,7 +6,6 @@ import { ReactComponent as PlusIcon } from "../../images/icons/add.svg";
 import SubmitButton from "../SubmitButton";
 import BackButton from "../BackButton";
 import StyledForm from "../StyledForm";
-import InputError from "../InputError";
 import InputMask from "../InputMask";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -36,6 +35,8 @@ const ContactsRightContent = ({ saveChangeToRedux, phones, fax }) => {
   return (
     <div>
       <Formik
+        validateOnChange={false}
+        validateOnBlur={false}
         enableReinitialize
         initialValues={{
           fax,
@@ -46,9 +47,13 @@ const ContactsRightContent = ({ saveChangeToRedux, phones, fax }) => {
           <StyledForm>
             {saveChangeToRedux(values)}
 
-            <Field component={InputMask} label="Fax" name="fax" required />
-
-            {errors.fax && <InputError value={errors.fax} />}
+            <Field
+              component={InputMask}
+              errors={errors.fax}
+              label="Fax"
+              name="fax"
+              required
+            />
 
             <FieldArray
               name="phones"
@@ -58,6 +63,7 @@ const ContactsRightContent = ({ saveChangeToRedux, phones, fax }) => {
                     <div key={index} className={classes.phoneContainer}>
                       <Field
                         label={`Phone #${index + 1}`}
+                        errors={errors.phone}
                         name={`phones.${index}`}
                         required={index === 0}
                         component={InputMask}
