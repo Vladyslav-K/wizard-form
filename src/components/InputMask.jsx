@@ -1,5 +1,4 @@
 import React, { memo } from "react";
-import { Field } from "formik";
 import ReactInputMask from "react-input-mask";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -15,47 +14,36 @@ const useStyles = makeStyles(theme => ({
     lineHeight: "16px",
 
     cursor: "text",
-    display: "inline-flex",
-    font: "inherit",
-    color: "currentColor",
-    width: "100%",
-    borderRadius: "4px",
     height: "1.1875em",
+
     margin: 0,
     padding: "9px 0px",
-    boxSizing: "content-box",
+    borderRadius: "4px",
     border: "1px solid lightgrey"
   }
 }));
 
-const InputPhone = ({ phone, setPhone, name, id, labelName, required }) => {
+const InputMask = ({ field, form, label, required }) => {
   const classes = useStyles();
 
   return (
-    <FormControl
-      variant="outlined"
-      margin="normal"
-      size="small"
-      fullWidth
-      value={phone[id]}
-    >
+    <FormControl variant="outlined" margin="normal" size="small" fullWidth>
       <Grid container justify="space-between">
-        <span> {labelName} </span>
+        <span> {label} </span>
         {required && <span> * </span>}
       </Grid>
 
-      <Field
+      <ReactInputMask
+        onChange={event => form.setFieldValue(field.name, event.target.value)}
         className={classes.fieldStyles}
         mask="+7 (999) 999-99-99"
         alwaysShowMask={false}
-        as={ReactInputMask}
+        value={field.value}
         maskChar="X"
-        name={name}
         type="input"
-        onChange={event => setPhone({ id, value: event.target.value })}
       />
     </FormControl>
   );
 };
 
-export default memo(InputPhone);
+export default memo(InputMask);
