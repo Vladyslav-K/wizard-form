@@ -1,16 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 
-import {
-  syncDatabaseWithContactsData,
-  setMainLanguage,
-  setFacebookLink,
-  setGitHubLink,
-  setCompany,
-  removePhone,
-  setPhone,
-  setFax
-} from "../../domain/contactsFormDomain/contactsFormActions";
+import { setContactsData } from "../../domain/contactsFormDomain/contactsFormActions";
 
 import ContactsLeftContent from "../../components/ContactsFormComponents/ContactsLeftContent";
 import ContactsRightContent from "../../components/ContactsFormComponents/ContactsRightContent";
@@ -18,52 +9,35 @@ import ContactsRightContent from "../../components/ContactsFormComponents/Contac
 import Grid from "@material-ui/core/Grid";
 
 function ContactsForm({
+  setContactsData,
   mainLanguage,
   facebookLink,
   gitHubLink,
   company,
-  phone,
-  fax,
-
-  syncDatabaseWithContactsData,
-  setMainLanguage,
-  setFacebookLink,
-  setGitHubLink,
-  setCompany,
-  removePhone,
-  setPhone,
-  setFax
+  phones,
+  fax
 }) {
-  const [numberOfPhones, setNumberOfPhones] = useState(0);
-
-  useEffect(() => {
-    return () => syncDatabaseWithContactsData();
-  });
+  const saveChangeToRedux = value => {
+    setContactsData({ ...value });
+  };
 
   return (
     <Grid container justify="space-around" style={{ marginTop: "2rem" }}>
       <Grid item xs={4}>
         <ContactsLeftContent
+          saveChangeToRedux={saveChangeToRedux}
           mainLanguage={mainLanguage}
           facebookLink={facebookLink}
           gitHubLink={gitHubLink}
           company={company}
-          setMainLanguage={setMainLanguage}
-          setFacebookLink={setFacebookLink}
-          setGitHubLink={setGitHubLink}
-          setCompany={setCompany}
         />
       </Grid>
 
       <Grid item xs={4}>
         <ContactsRightContent
-          numberOfPhones={numberOfPhones}
-          setNumberOfPhones={setNumberOfPhones}
-          phone={phone}
+          saveChangeToRedux={saveChangeToRedux}
+          phones={phones}
           fax={fax}
-          removePhone={removePhone}
-          setPhone={setPhone}
-          setFax={setFax}
         />
       </Grid>
     </Grid>
@@ -71,18 +45,9 @@ function ContactsForm({
 }
 
 const mapStateToProps = ({
-  contacts: { mainLanguage, facebookLink, gitHubLink, company, phone, fax }
+  contacts: { mainLanguage, facebookLink, gitHubLink, company, phones, fax }
 }) => {
-  return { mainLanguage, facebookLink, gitHubLink, company, phone, fax };
+  return { mainLanguage, facebookLink, gitHubLink, company, phones, fax };
 };
 
-export default connect(mapStateToProps, {
-  syncDatabaseWithContactsData,
-  setMainLanguage,
-  setFacebookLink,
-  setGitHubLink,
-  setCompany,
-  removePhone,
-  setPhone,
-  setFax
-})(ContactsForm);
+export default connect(mapStateToProps, { setContactsData })(ContactsForm);

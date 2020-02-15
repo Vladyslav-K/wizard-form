@@ -1,69 +1,18 @@
 import React, { memo } from "react";
-import { Formik } from "formik";
+import { Formik, Field } from "formik";
 
+import InputAutocomplete from "../InputAutocomplete";
 import InputError from "../InputError";
 import InputField from "../InputField";
 import StyledForm from "../StyledForm";
 
-import { makeStyles } from "@material-ui/core/styles";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import TextField from "@material-ui/core/TextField";
-import Grid from "@material-ui/core/Grid";
-
-const useStyles = makeStyles(theme => ({
-  fieldContainer: {
-    marginTop: "16px",
-    marginBottom: "3rem"
-  },
-
-  fieldStyles: {
-    fontFamily: "Roboto",
-    fontStyle: "normal",
-    fontWeight: "500",
-    fontSize: "14px",
-    lineHeight: "16px"
-  }
-}));
-
-const language = [
-  "English",
-  "French",
-  "Spanish",
-  "Arabic",
-  "Mandarin",
-  "Russian",
-  "Portuguese",
-  "German",
-  "Japanese",
-  "Hindi",
-  "Malay",
-  "Persian",
-  "Swahili",
-  "Tamil",
-  "Italian",
-  "Dutch",
-  "Bengali",
-  "Turkish",
-  "Vietnamese",
-  "Polish",
-  "Javanese",
-  "Punjabi",
-  "Thai",
-  "Korean"
-];
-
 const ContactsLeftContent = ({
-  company,
-  gitHubLink,
-  facebookLink,
+  saveChangeToRedux,
   mainLanguage,
-  setCompany,
-  setGitHubLink,
-  setFacebookLink,
-  setMainLanguage
+  facebookLink,
+  gitHubLink,
+  company
 }) => {
-  const classes = useStyles();
-
   return (
     <div>
       <Formik
@@ -75,62 +24,34 @@ const ContactsLeftContent = ({
           mainLanguage
         }}
       >
-        {({ errors }) => (
+        {({ values, errors }) => (
           <StyledForm>
-            <InputField
-              name="company"
-              label="Company"
-              value={company}
-              onChange={event => setCompany(event.target.value)}
-            />
+            {saveChangeToRedux(values)}
+
+            <Field component={InputField} name="company" label="Company" />
 
             {errors.company && <InputError value={errors.company} />}
 
-            <InputField
-              required
-              name="gitHubLink"
+            <Field
+              component={InputField}
               label="GitHub link"
-              value={gitHubLink}
-              onChange={event => setGitHubLink(event.target.value)}
+              name="gitHubLink"
+              required
             />
 
             {errors.gitHubLink && <InputError value={errors.gitHubLink} />}
 
-            <InputField
-              required
-              name="facebookLink"
-              label="Facebook link"
-              value={facebookLink}
+            <Field
               placeholder="www.facebook.com/hdfk_142_23lelf/"
-              onChange={event => setFacebookLink(event.target.value)}
+              component={InputField}
+              label="Facebook link"
+              name="facebookLink"
+              required
             />
 
             {errors.facebookLink && <InputError value={errors.facebookLink} />}
 
-            <Autocomplete
-              onInputChange={(event, value) => setMainLanguage(value)}
-              options={language}
-              disableClearable
-              size="small"
-              freeSolo
-              renderInput={params => (
-                <Grid container className={classes.fieldContainer}>
-                  <Grid container justify="space-between">
-                    <span> Main language </span>
-                    <span> * </span>
-                  </Grid>
-
-                  <TextField
-                    className={classes.fieldStyles}
-                    value={mainLanguage}
-                    variant="outlined"
-                    {...params}
-                    fullWidth
-                    InputProps={{ ...params.InputProps, type: "search" }}
-                  />
-                </Grid>
-              )}
-            />
+            <Field component={InputAutocomplete} name="mainLanguage" />
           </StyledForm>
         )}
       </Formik>
