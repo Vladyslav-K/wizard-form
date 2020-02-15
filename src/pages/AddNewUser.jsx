@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import CapabilitiesForm from "./common/CapabilitiesForm";
 import ContactsForm from "./common/ContactsForm";
-import AccountForm from "./common/AccountForm";
+import AccountFormContainer from "./common/AccountForm/AccountFormContainer";
 import ProfileForm from "./common/ProfileForm";
 
 import { makeStyles, withStyles } from "@material-ui/core/styles";
@@ -135,7 +135,7 @@ const AddNewUser = () => {
       </Tabs>
 
       <TabPanel value={value} index={0}>
-        <AccountForm />
+        <AccountFormContainer />
       </TabPanel>
 
       <TabPanel value={value} index={1}>
