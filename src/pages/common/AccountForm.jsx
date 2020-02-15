@@ -1,16 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 
 import AccountLeftContent from "../../components/AccountFormComponents/AccountLeftContent";
 import AccountRightContent from "../../components/AccountFormComponents/AccountRightContent";
 
-import {
-  syncDatabaseWithAccountData,
-  setPasswordConfirmation,
-  setPassword,
-  setUserName,
-  setAvatar
-} from "../../domain/accountFormDomain/accountFormActions";
+import { setAccountData } from "../../domain/accountFormDomain/accountFormActions";
 
 import Grid from "@material-ui/core/Grid";
 
@@ -20,22 +14,18 @@ function AccountForm({
   username,
   avatar,
 
-  syncDatabaseWithAccountData,
-  setPasswordConfirmation,
-  setPassword,
-  setUserName,
-  setAvatar
+  setAccountData
 }) {
-  useEffect(() => {
-    return () => syncDatabaseWithAccountData();
-  });
-
   const [visible, setVisible] = useState(false);
 
   const [avatarSizeValidation, setAvatarSizeValidation] = useState(true);
 
   const toggleVisibility = () => {
     setVisible(!visible);
+  };
+
+  const saveChangeToRedux = value => {
+    setAccountData({ ...value });
   };
 
   const handleImageChange = event => {
@@ -49,7 +39,7 @@ function AccountForm({
       if (file.size < 1000000) {
         setAvatarSizeValidation(true);
 
-        setAvatar(reader.result);
+        setAccountData({ avatar: reader.result });
       } else {
         setAvatarSizeValidation(false);
       }
@@ -63,7 +53,6 @@ function AccountForm({
       <Grid item xs={3}>
         <AccountLeftContent
           avatar={avatar}
-          setAvatar={setAvatar}
           handleImageChange={handleImageChange}
           avatarSizeValidation={avatarSizeValidation}
         />
@@ -73,10 +62,8 @@ function AccountForm({
           passwordConfirmation={passwordConfirmation}
           password={password}
           username={username}
-          setPasswordConfirmation={setPasswordConfirmation}
-          setPassword={setPassword}
-          setUserName={setUserName}
           visible={visible}
+          saveChangeToRedux={saveChangeToRedux}
           toggleVisibility={toggleVisibility}
         />
       </Grid>
@@ -90,10 +77,4 @@ const mapStateToProps = ({
   return { passwordConfirmation, password, username, avatar };
 };
 
-export default connect(mapStateToProps, {
-  syncDatabaseWithAccountData,
-  setPasswordConfirmation,
-  setPassword,
-  setUserName,
-  setAvatar
-})(AccountForm);
+export default connect(mapStateToProps, { setAccountData })(AccountForm);
