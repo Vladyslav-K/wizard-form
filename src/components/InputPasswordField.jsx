@@ -9,6 +9,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
 import FormControl from "@material-ui/core/FormControl";
 import IconButton from "@material-ui/core/IconButton";
+import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles(theme => ({
   fieldStyles: {
@@ -23,6 +24,7 @@ const useStyles = makeStyles(theme => ({
 const InputPasswordField = ({
   passwordConfirmation,
   toggleVisibility,
+  required,
   visible,
   errors,
   field,
@@ -42,7 +44,10 @@ const InputPasswordField = ({
         margin="normal"
         size="small"
       >
-        <span> {passwordConfirmation ? "Repeat Password" : "Password"} </span>
+        <Grid container justify="space-between">
+          <span> {passwordConfirmation ? "Repeat Password" : "Password"} </span>
+          {required && <span> * </span>}
+        </Grid>
 
         <OutlinedInput
           name={passwordConfirmation ? "passwordConfirmation" : "password"}

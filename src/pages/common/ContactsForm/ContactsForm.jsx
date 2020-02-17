@@ -32,6 +32,33 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const language = [
+  "English",
+  "French",
+  "Spanish",
+  "Arabic",
+  "Mandarin",
+  "Russian",
+  "Portuguese",
+  "German",
+  "Japanese",
+  "Hindi",
+  "Malay",
+  "Persian",
+  "Swahili",
+  "Tamil",
+  "Italian",
+  "Dutch",
+  "Bengali",
+  "Turkish",
+  "Vietnamese",
+  "Polish",
+  "Javanese",
+  "Punjabi",
+  "Thai",
+  "Korean"
+];
+
 const ContactsForm = ({
   saveChangeToRedux,
   mainLanguage,
@@ -87,7 +114,13 @@ const ContactsForm = ({
                 required
               />
 
-              <Field component={InputAutocomplete} name="mainLanguage" />
+              <Field
+                component={InputAutocomplete}
+                label="Main language"
+                name="mainLanguage"
+                options={language}
+                required
+              />
             </StyledForm>
           </Grid>
 

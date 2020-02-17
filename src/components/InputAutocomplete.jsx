@@ -19,48 +19,30 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const language = [
-  "English",
-  "French",
-  "Spanish",
-  "Arabic",
-  "Mandarin",
-  "Russian",
-  "Portuguese",
-  "German",
-  "Japanese",
-  "Hindi",
-  "Malay",
-  "Persian",
-  "Swahili",
-  "Tamil",
-  "Italian",
-  "Dutch",
-  "Bengali",
-  "Turkish",
-  "Vietnamese",
-  "Polish",
-  "Javanese",
-  "Punjabi",
-  "Thai",
-  "Korean"
-];
-
-const InputAutocomplete = ({ field, form }) => {
+const InputAutocomplete = ({
+  required,
+  multiple,
+  options,
+  field,
+  label,
+  form
+}) => {
   const classes = useStyles();
 
   return (
     <Autocomplete
-      onInputChange={(e, value) => form.setFieldValue(field.name, value)}
-      options={language}
+      onInputChange={(event, value) => form.setFieldValue(field.name, value)}
+      onChange={(event, value) => form.setFieldValue(field.name, value)}
+      multiple={multiple}
+      options={options}
       disableClearable
       size="small"
       freeSolo
       renderInput={params => (
         <Grid container className={classes.fieldContainer}>
           <Grid container justify="space-between">
-            <span> Main language </span>
-            <span> * </span>
+            <span> {label} </span>
+            {required && <span> * </span>}
           </Grid>
 
           <TextField

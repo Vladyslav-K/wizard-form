@@ -17,7 +17,16 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const InputField = ({ placeholder, required, label, field, form, errors }) => {
+const InputField = ({
+  placeholder,
+  multiline,
+  required,
+  errors,
+  label,
+  field,
+  form,
+  rows
+}) => {
   const classes = useStyles();
 
   return (
@@ -32,8 +41,10 @@ const InputField = ({ placeholder, required, label, field, form, errors }) => {
           onChange={event => form.setFieldValue(field.name, event.target.value)}
           className={classes.fieldStyles}
           placeholder={placeholder}
+          multiline={multiline}
           value={field.value}
           type="input"
+          rows={rows}
         />
       </FormControl>
 

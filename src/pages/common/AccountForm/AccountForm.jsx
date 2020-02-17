@@ -52,6 +52,7 @@ const AccountForm = ({
                 component={InputField}
                 label="User name"
                 name="username"
+                required
               />
 
               <Field
@@ -60,6 +61,7 @@ const AccountForm = ({
                 errors={errors.password}
                 visible={visible}
                 name="password"
+                required
               />
 
               <Field
@@ -69,6 +71,7 @@ const AccountForm = ({
                 name="passwordConfirmation"
                 passwordConfirmation
                 visible={visible}
+                required
               />
 
               <SubmitButton />
