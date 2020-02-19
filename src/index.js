@@ -11,6 +11,7 @@ import createSagaMiddleware from "redux-saga";
 import { accountFormReducers } from "./domain/accountFormDomain/accountFormReducers";
 import { profileFormReducers } from "./domain/profileFormDomain/profileFormReducers";
 import { contactsFormReducers } from "./domain/contactsFormDomain/contactsFormReducers";
+import { submittedFormsReducers } from "./domain/submittedFormsDomain/submittedFormsReducers.js";
 import { capabilitiesFormReducers } from "./domain/capabilitiesFormDomain/capabilitiesFormReducers";
 
 import rootSaga from "./sagas";
@@ -21,7 +22,9 @@ const reducer = {
   account: accountFormReducers,
   profile: profileFormReducers,
   contacts: contactsFormReducers,
-  capabilities: capabilitiesFormReducers
+  capabilities: capabilitiesFormReducers,
+
+  submitted: submittedFormsReducers
 };
 
 const sagaMiddleware = createSagaMiddleware();
