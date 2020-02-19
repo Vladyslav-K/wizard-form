@@ -1,8 +1,8 @@
 import { createHashHistory } from "history";
 
-const history = createHashHistory();
-
 export const setQueryStringIndex = (query, newIndex) => {
+  const history = createHashHistory();
+
   history.push({ search: `?${query}=${newIndex}` });
 };
 
