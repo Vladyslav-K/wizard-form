@@ -7,15 +7,6 @@ import OutlinedInput from "@material-ui/core/OutlinedInput";
 import FormControl from "@material-ui/core/FormControl";
 import Grid from "@material-ui/core/Grid";
 
-const useStyles = makeStyles(theme => ({
-  fieldStyles: {
-    fontFamily: "Roboto",
-    fontStyle: "normal",
-    fontWeight: "500",
-    fontSize: "14px",
-    lineHeight: "16px"
-  }
-}));
 
 const InputField = ({
   placeholder,
@@ -54,3 +45,13 @@ const InputField = ({
 };
 
 export default memo(InputField);
+
+const useStyles = makeStyles(theme => ({
+  fieldStyles: {
+    fontFamily: "Roboto",
+    fontStyle: "normal",
+    fontWeight: "500",
+    fontSize: "14px",
+    lineHeight: "16px"
+  }
+}));

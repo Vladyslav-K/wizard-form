@@ -11,16 +11,6 @@ import FormControl from "@material-ui/core/FormControl";
 import IconButton from "@material-ui/core/IconButton";
 import Grid from "@material-ui/core/Grid";
 
-const useStyles = makeStyles(theme => ({
-  fieldStyles: {
-    fontFamily: "Roboto",
-    fontStyle: "normal",
-    fontWeight: "500",
-    fontSize: "14px",
-    lineHeight: "16px"
-  }
-}));
-
 const InputPasswordField = ({
   passwordConfirmation,
   toggleVisibility,
@@ -74,3 +64,13 @@ const InputPasswordField = ({
 };
 
 export default memo(InputPasswordField);
+
+const useStyles = makeStyles(theme => ({
+  fieldStyles: {
+    fontFamily: "Roboto",
+    fontStyle: "normal",
+    fontWeight: "500",
+    fontSize: "14px",
+    lineHeight: "16px"
+  }
+}));

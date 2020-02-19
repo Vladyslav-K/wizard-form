@@ -1,6 +1,20 @@
 import React, { memo } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
+const BackButton = () => {
+  const classes = useStyles();
+
+  return (
+    <div className={classes.buttonContainer}>
+      <button className={classes.button} type="submit">
+        Back
+      </button>
+    </div>
+  );
+};
+
+export default memo(BackButton);
+
 const useStyles = makeStyles(theme => ({
   buttonContainer: {
     display: "flex",
@@ -30,17 +44,3 @@ const useStyles = makeStyles(theme => ({
     }
   }
 }));
-
-const BackButton = () => {
-  const classes = useStyles();
-
-  return (
-    <div className={classes.buttonContainer}>
-      <button className={classes.button} type="submit">
-        Back
-      </button>
-    </div>
-  );
-};
-
-export default memo(BackButton);

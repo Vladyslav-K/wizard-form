@@ -1,6 +1,20 @@
 import React, { memo } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
+const SubmitButton = () => {
+  const classes = useStyles();
+
+  return (
+    <div className={classes.buttonContainer}>
+      <button className={classes.button} type="submit">
+        Forward
+      </button>
+    </div>
+  );
+};
+
+export default memo(SubmitButton);
+
 const useStyles = makeStyles(theme => ({
   buttonContainer: {
     display: "flex",
@@ -29,17 +43,3 @@ const useStyles = makeStyles(theme => ({
     }
   }
 }));
-
-const SubmitButton = () => {
-  const classes = useStyles();
-
-  return (
-    <div className={classes.buttonContainer}>
-      <button className={classes.button} type="submit">
-        Forward
-      </button>
-    </div>
-  );
-};
-
-export default memo(SubmitButton);

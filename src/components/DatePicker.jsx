@@ -11,19 +11,6 @@ import FormControl from "@material-ui/core/FormControl";
 import IconButton from "@material-ui/core/IconButton";
 import Grid from "@material-ui/core/Grid";
 
-const useStyles = makeStyles(theme => ({
-  container: {
-    "& span": {
-      fontFamily: "Roboto",
-      fontStyle: "normal",
-      fontWeight: "normal",
-      fontSize: "14px",
-      lineHeight: "16px",
-      color: "#657C9A"
-    }
-  }
-}));
-
 const DatePicker = ({ field, form }) => {
   const classes = useStyles();
 
@@ -73,3 +60,16 @@ const DatePicker = ({ field, form }) => {
 };
 
 export default memo(DatePicker);
+
+const useStyles = makeStyles(theme => ({
+  container: {
+    "& span": {
+      fontFamily: "Roboto",
+      fontStyle: "normal",
+      fontWeight: "normal",
+      fontSize: "14px",
+      lineHeight: "16px",
+      color: "#657C9A"
+    }
+  }
+}));

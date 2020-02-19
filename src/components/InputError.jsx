@@ -2,11 +2,6 @@ import React, { memo } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles(theme => ({
-  inputError: {
-    color: "red"
-  }
-}));
 
 const InputError = ({ value }) => {
   const classes = useStyles();
@@ -14,3 +9,9 @@ const InputError = ({ value }) => {
 };
 
 export default memo(InputError);
+
+const useStyles = makeStyles(theme => ({
+  inputError: {
+    color: "red"
+  }
+}));
