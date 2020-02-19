@@ -12,12 +12,19 @@ export const AccountFormValidationSchema = Yup.object().shape({
     .required("Password confirmation is required!"),
 
   avatar: Yup.mixed()
-    .test(
-      "fileSize",
-      "Image must be 1 MB or less!",
-      image => image.size <= 1000000
-    )
-    .test("fileType", "Unsupported File Format", image =>
-      SUPPORTED_FORMATS.includes(image.type)
-    )
+    .notRequired()
+    .when("fileSize", {
+      is: true,
+      then: Yup.mixed().test(
+        "fileSize",
+        "Image must be 1 MB or less!",
+        image => image.size <= 1000000
+      )
+    })
+    .when("fileType", {
+      is: true,
+      then: Yup.mixed().test("fileType", "Unsupported File Format", image =>
+        SUPPORTED_FORMATS.includes(image.type)
+      )
+    })
 });
