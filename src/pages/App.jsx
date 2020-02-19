@@ -15,7 +15,11 @@ function App() {
     <Router>
       <Header />
       <Switch>
-        <Route path="/" exact render={() => <Redirect to="/registration" />} />
+        <Route
+          path="/"
+          exact
+          render={() => <Redirect to="/registration?step=0" />}
+        />
         <Route path="/registration" exact component={AddNewUser} />
         <Route path="/users" exact component={ListOfUsers} />
       </Switch>

@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+
+import { getQueryStringIndex, setQueryStringIndex } from "../utils/helpers.js";
 
 import CapabilitiesFormContainer from "./common/CapabilitiesForm/CapabilitiesFormContainer";
 import ContactsFormContainer from "./common/ContactsForm/ContactsFormContainer";
@@ -13,21 +16,32 @@ import Grid from "@material-ui/core/Grid";
 import Tab from "@material-ui/core/Tab";
 import Box from "@material-ui/core/Box";
 
-const AddNewUser = ({ history, location }) => {
+const AddNewUser = ({
+  history,
+  location,
+
+  capabilitiesIsSubmitted,
+  contactsIsSubmitted,
+  accountIsSubmitted,
+  profileIsSubmitted
+}) => {
   const classes = useStyles();
 
-  const [value, setValue] = useState(0);
+  const [tabIndex, setTabIndex] = useState(0);
 
   useEffect(() => {
-    const search = location.search;
-    const params = new URLSearchParams(search);
-    const queryIndex = params.get("step");
+    const queryIndex = getQueryStringIndex("step", location.search);
 
-    setValue(Number(queryIndex) || 0);
+    setTabIndex(queryIndex);
   }, [location.search]);
 
+  useEffect(() => {
+    history.push({ search: "?step=0" });
+    // eslint-disable-next-line
+  }, []);
+
   const handleChange = (event, value) => {
-    history.push({ search: `?step=${value}` });
+    setQueryStringIndex("step", value);
   };
 
   return (
@@ -40,35 +54,65 @@ const AddNewUser = ({ history, location }) => {
         aria-label="Registration"
         onChange={handleChange}
         variant="fullWidth"
-        value={value}
+        value={tabIndex}
       >
         <StyledTab label="1. Account" {...a11yProps(0)} />
 
-        <StyledTab label="2. Profile" {...a11yProps(1)} />
+        <StyledTab
+          disabled={!accountIsSubmitted}
+          label="2. Profile"
+          {...a11yProps(1)}
+        />
 
-        <StyledTab label="3. Contacts" {...a11yProps(2)} />
+        <StyledTab
+          disabled={!profileIsSubmitted}
+          label="3. Contacts"
+          {...a11yProps(2)}
+        />
 
-        <StyledTab label="4. Capabilities" {...a11yProps(3)} />
+        <StyledTab
+          disabled={!contactsIsSubmitted}
+          label="4. Capabilities"
+          {...a11yProps(3)}
+        />
       </Tabs>
 
-      <TabPanel value={value} index={0}>
+      <TabPanel value={tabIndex} index={0}>
         <AccountFormContainer />
       </TabPanel>
 
-      <TabPanel value={value} index={1}>
+      <TabPanel value={tabIndex} index={1}>
         <ProfileFormContainer />
       </TabPanel>
 
-      <TabPanel value={value} index={2}>
+      <TabPanel value={tabIndex} index={2}>
         <ContactsFormContainer />
       </TabPanel>
 
-      <TabPanel value={value} index={3}>
+      <TabPanel value={tabIndex} index={3}>
         <CapabilitiesFormContainer />
       </TabPanel>
     </Container>
   );
 };
+
+const mapStateToProps = ({
+  submitted: {
+    capabilitiesIsSubmitted,
+    contactsIsSubmitted,
+    accountIsSubmitted,
+    profileIsSubmitted
+  }
+}) => {
+  return {
+    capabilitiesIsSubmitted,
+    contactsIsSubmitted,
+    accountIsSubmitted,
+    profileIsSubmitted
+  };
+};
+
+export default connect(mapStateToProps, {})(AddNewUser);
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -164,5 +208,3 @@ const useStyles = makeStyles(theme => ({
     display: "none"
   }
 }));
-
-export default AddNewUser;
