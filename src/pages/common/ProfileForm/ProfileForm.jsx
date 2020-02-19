@@ -12,8 +12,17 @@ import StyledForm from "../../../components/StyledForm";
 
 import Grid from "@material-ui/core/Grid";
 
-const ProfileForm = ({ saveChangeToRedux, handleSubmit, profile }) => {
-  const { firstName, birthDate, lastName, address, gender, email } = profile;
+const ProfileForm = ({ saveChangeToRedux, handleSubmit, temporaryUserData }) => {
+  const { firstName, birthDate, lastName, address, gender, email } = temporaryUserData;
+
+  const profileData = {
+    firstName,
+    birthDate,
+    lastName,
+    address,
+    gender,
+    email
+  };
 
   return (
     <div>
@@ -33,7 +42,7 @@ const ProfileForm = ({ saveChangeToRedux, handleSubmit, profile }) => {
       >
         {({ values, errors }) => (
           <Grid container justify="space-around" style={{ marginTop: "2rem" }}>
-            {compareValuesAndCheckForEmptiness(values, profile) &&
+            {compareValuesAndCheckForEmptiness(values, profileData) &&
               saveChangeToRedux(values)}
 
             <Grid item xs={4}>

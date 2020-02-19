@@ -18,7 +18,11 @@ import InputMask from "../../../components/InputMask";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 
-const ContactsForm = ({ saveChangeToRedux, handleSubmit, contacts }) => {
+const ContactsForm = ({
+  temporaryUserData,
+  saveChangeToRedux,
+  handleSubmit
+}) => {
   const classes = useStyles();
 
   const {
@@ -28,7 +32,16 @@ const ContactsForm = ({ saveChangeToRedux, handleSubmit, contacts }) => {
     company,
     phones,
     fax
-  } = contacts;
+  } = temporaryUserData;
+
+  const contactsData = {
+    mainLanguage,
+    facebookLink,
+    gitHubLink,
+    company,
+    phones,
+    fax
+  };
 
   return (
     <Formik
@@ -47,7 +60,7 @@ const ContactsForm = ({ saveChangeToRedux, handleSubmit, contacts }) => {
     >
       {({ values, errors }) => (
         <Grid container justify="space-around" style={{ marginTop: "2rem" }}>
-          {compareValuesAndCheckForEmptiness(values, contacts) &&
+          {compareValuesAndCheckForEmptiness(values, contactsData) &&
             saveChangeToRedux(values)}
 
           <Grid item xs={4}>

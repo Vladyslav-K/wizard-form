@@ -10,8 +10,7 @@ import { setAccountAsSubmitted } from "../../../domain/submittedFormsDomain/subm
 import { setTemporaryUserData } from "../../../domain/temporaryUserDomain/temporaryUserActions.js";
 
 function AccountFormContainer({
-  userData,
-
+  temporaryUserData,
   setAccountAsSubmitted,
   setTemporaryUserData
 }) {
@@ -36,16 +35,12 @@ function AccountFormContainer({
       toggleVisibility={toggleVisibility}
       handleSubmit={handleSubmit}
       visible={visible}
-      userData={userData}
+      temporaryUserData={temporaryUserData}
     />
   );
 }
 
-const mapStateToProps = ({ temporaryUserData: { userData } }) => {
-  return { userData };
-};
-
-export default connect(mapStateToProps, {
+export default connect(({ temporaryUserData }) => ({ temporaryUserData }), {
   setAccountAsSubmitted,
   setTemporaryUserData
 })(AccountFormContainer);

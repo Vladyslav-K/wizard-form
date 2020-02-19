@@ -19,9 +19,16 @@ const AccountForm = ({
   handleSubmit,
   visible,
 
-  userData
+  temporaryUserData
 }) => {
-  const { passwordConfirmation, password, username, avatar } = userData;
+  const {
+    passwordConfirmation,
+    password,
+    username,
+    avatar
+  } = temporaryUserData;
+
+  const accountData = { passwordConfirmation, password, username, avatar };
 
   return (
     <Formik
@@ -39,7 +46,8 @@ const AccountForm = ({
     >
       {({ values, errors }) => (
         <Grid container justify="space-around" style={{ marginTop: "2rem" }}>
-          {saveChangeToRedux(values)}
+          {compareValuesAndCheckForEmptiness(values, accountData) &&
+            saveChangeToRedux(values)}
 
           <Grid item xs={3}>
             <Field

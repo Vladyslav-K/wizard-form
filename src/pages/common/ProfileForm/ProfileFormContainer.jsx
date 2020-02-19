@@ -5,17 +5,17 @@ import { useDebouncedCallback } from "use-debounce";
 import { setQueryStringIndex } from "../../../utils/helpers.js";
 
 import { setProfileAsSubmitted } from "../../../domain/submittedFormsDomain/submittedFormsActions.js";
-import { setProfileData } from "../../../domain/profileFormDomain/profileFormActions";
+import { setTemporaryUserData } from "../../../domain/temporaryUserDomain/temporaryUserActions.js";
 
 import ProfileForm from "./ProfileForm";
 
 function ProfileFormContainer({
   setProfileAsSubmitted,
-  setProfileData,
-  profile
+  setTemporaryUserData,
+  temporaryUserData
 }) {
   const [saveChangeToRedux] = useDebouncedCallback(formikValues => {
-    setProfileData({ ...formikValues });
+    setTemporaryUserData(formikValues);
   }, 250);
 
   const handleSubmit = () => {
@@ -26,17 +26,13 @@ function ProfileFormContainer({
   return (
     <ProfileForm
       saveChangeToRedux={saveChangeToRedux}
+      temporaryUserData={temporaryUserData}
       handleSubmit={handleSubmit}
-      profile={profile}
     />
   );
 }
 
-const mapStateToProps = ({ profile }) => {
-  return { profile };
-};
-
-export default connect(mapStateToProps, {
+export default connect(({ temporaryUserData }) => ({ temporaryUserData }), {
   setProfileAsSubmitted,
-  setProfileData
+  setTemporaryUserData
 })(ProfileFormContainer);

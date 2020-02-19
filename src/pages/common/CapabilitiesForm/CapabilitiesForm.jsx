@@ -13,8 +13,10 @@ import BackButton from "../../../components/BackButton";
 import InputField from "../../../components/InputField";
 import CheckBox from "../../../components/CheckBox";
 
-const CapabilitiesForm = ({ saveChangeToRedux, capabilities }) => {
-  const { additionalInformation, hobbies, skills } = capabilities;
+const CapabilitiesForm = ({ saveChangeToRedux, temporaryUserData }) => {
+  const { additionalInformation, hobbies, skills } = temporaryUserData;
+
+  const capabilitiesData = { additionalInformation, hobbies, skills };
 
   return (
     <Formik
@@ -29,7 +31,7 @@ const CapabilitiesForm = ({ saveChangeToRedux, capabilities }) => {
     >
       {({ values, errors }) => (
         <Grid container justify="space-around" style={{ marginTop: "2rem" }}>
-          {compareValuesAndCheckForEmptiness(values, capabilities) &&
+          {compareValuesAndCheckForEmptiness(values, capabilitiesData) &&
             saveChangeToRedux(values)}
 
           <Grid item xs={4}>

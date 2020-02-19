@@ -5,17 +5,17 @@ import { useDebouncedCallback } from "use-debounce";
 import { setQueryStringIndex } from "../../../utils/helpers.js";
 
 import { setContactsAsSubmitted } from "../../../domain/submittedFormsDomain/submittedFormsActions.js";
-import { setContactsData } from "../../../domain/contactsFormDomain/contactsFormActions";
+import { setTemporaryUserData } from "../../../domain/temporaryUserDomain/temporaryUserActions.js";
 
 import ContactsForm from "./ContactsForm";
 
 function ContactsFormContainer({
   setContactsAsSubmitted,
-  setContactsData,
-  contacts
+  setTemporaryUserData,
+  temporaryUserData
 }) {
   const [saveChangeToRedux] = useDebouncedCallback(formikValues => {
-    setContactsData({ ...formikValues });
+    setTemporaryUserData(formikValues);
   }, 250);
 
   const handleSubmit = () => {
@@ -25,18 +25,14 @@ function ContactsFormContainer({
 
   return (
     <ContactsForm
+      temporaryUserData={temporaryUserData}
       saveChangeToRedux={saveChangeToRedux}
       handleSubmit={handleSubmit}
-      contacts={contacts}
     />
   );
 }
 
-const mapStateToProps = ({ contacts }) => {
-  return { contacts };
-};
-
-export default connect(mapStateToProps, {
+export default connect(({ temporaryUserData }) => ({ temporaryUserData }), {
   setContactsAsSubmitted,
-  setContactsData
+  setTemporaryUserData
 })(ContactsFormContainer);

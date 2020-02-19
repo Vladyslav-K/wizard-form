@@ -6,49 +6,36 @@ import {
 } from "./temporaryUserActions.js";
 
 const initialState = {
-  userData: {
-    passwordConfirmation: "",
-    password: "",
-    username: "",
-    avatar: "",
+  passwordConfirmation: "",
+  password: "",
+  username: "",
+  avatar: "",
 
-    firstName: "",
-    birthDate: "",
-    lastName: "",
-    address: "",
-    gender: "",
-    email: "",
+  firstName: "",
+  birthDate: "",
+  lastName: "",
+  address: "",
+  gender: "",
+  email: "",
 
-    mainLanguage: "",
-    facebookLink: "",
-    gitHubLink: "",
-    company: "",
-    phones: [""],
-    fax: "",
+  mainLanguage: "",
+  facebookLink: "",
+  gitHubLink: "",
+  company: "",
+  phones: [""],
+  fax: "",
 
-    additionalInformation: "",
-    hobbies: [],
-    skills: []
-  }
+  additionalInformation: "",
+  hobbies: [],
+  skills: []
 };
 
 export const temporaryUserReducers = createReducer(initialState, {
   [syncTemporaryUserDataWithDatabase]: (state, action) => {
-    return {
-      ...state,
-      userData: {
-        ...state.userData,
-        ...action.payload
-      }
-    };
+    return { ...state, ...action.payload };
   },
 
   [setTemporaryUserData]: (state, action) => {
-    return {
-      userData: {
-        ...state.userData,
-        ...action.payload
-      }
-    };
+    return { ...state, ...action.payload };
   }
 });
