@@ -1,35 +1,31 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "ba322d9ca992cb9d08bd43232b6bb186",
+    "revision": "24a7218b2ec2831bdd5f27006b17cb1b",
     "url": "/wizard-form/index.html"
   },
   {
-    "revision": "32810f1f36787fad97e3",
+    "revision": "51371f91614c24e41d41",
     "url": "/wizard-form/static/css/2.b90ce945.chunk.css"
   },
   {
-    "revision": "029b4b0bd7e841f94b95",
+    "revision": "c735e24682cba9cf5451",
     "url": "/wizard-form/static/css/main.cf96ccdd.chunk.css"
   },
   {
-    "revision": "32810f1f36787fad97e3",
-    "url": "/wizard-form/static/js/2.eb05c7b2.chunk.js"
+    "revision": "51371f91614c24e41d41",
+    "url": "/wizard-form/static/js/2.acb5ed04.chunk.js"
   },
   {
     "revision": "1fedcf5c84e2f9b04a7e15ecdecddbbe",
-    "url": "/wizard-form/static/js/2.eb05c7b2.chunk.js.LICENSE.txt"
+    "url": "/wizard-form/static/js/2.acb5ed04.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "029b4b0bd7e841f94b95",
-    "url": "/wizard-form/static/js/main.1890be21.chunk.js"
+    "revision": "c735e24682cba9cf5451",
+    "url": "/wizard-form/static/js/main.79724a3e.chunk.js"
   },
   {
     "revision": "269186651428275abd2c",
     "url": "/wizard-form/static/js/runtime-main.a8d095fe.js"
-  },
-  {
-    "revision": "4f65201f28649dcba5656ccbbff7f866",
-    "url": "/wizard-form/static/media/Close.4f65201f.svg"
   },
   {
     "revision": "2551f83e1b7e1d156dd8d5392c89e697",
@@ -50,6 +46,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "225e44e23b65ea78dcd2a706124b534f",
     "url": "/wizard-form/static/media/calendar.225e44e2.svg"
+  },
+  {
+    "revision": "5c898a49c653f6c4b3297acbf2b63da3",
+    "url": "/wizard-form/static/media/checkbox_rectangle.5c898a49.svg"
   },
   {
     "revision": "9033858740102d27855a2e695b42293a",
