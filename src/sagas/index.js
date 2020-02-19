@@ -23,9 +23,12 @@ function* getUserDataFromDatabase() {
 
 export function* syncReduxStoreWithDatabase() {
   const dataWithDatabase = yield call(() => getUserDataFromDatabase());
-  const dataWithRedux = yield select();
+
+  const dataWithRedux = yield select(state => state.temporaryUserData);
 
   if (dataWithDatabase) {
+    delete dataWithDatabase.keyPath;
+
     yield put(
       syncTemporaryUserDataWithDatabase({
         ...dataWithRedux,
