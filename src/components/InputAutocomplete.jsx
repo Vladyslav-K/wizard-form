@@ -16,7 +16,9 @@ const InputAutocomplete = ({
 
   return (
     <Autocomplete
-      onInputChange={(event, value) => form.setFieldValue(field.name, value)}
+      onInputChange={(event, value) =>
+        !multiple && form.setFieldValue(field.name, value)
+      }
       onChange={(event, value) => form.setFieldValue(field.name, value)}
       value={field.value}
       multiple={multiple}
