@@ -1,5 +1,6 @@
 import React, { memo } from "react";
 import ReactDatePicker from "react-datepicker";
+import InputMask from "react-text-mask";
 import "react-datepicker/dist/react-datepicker.css";
 
 import { ReactComponent as CalendarIcon } from "../images/icons/calendar.svg";
@@ -18,7 +19,7 @@ const DatePicker = ({ field, form }) => {
     event.preventDefault();
   };
 
-  const CustomInput = ({ onClick }) => (
+  const CustomInput = ({ onClick, onChange, value }) => (
     <FormControl
       className={classes.container}
       variant="outlined"
@@ -31,11 +32,9 @@ const DatePicker = ({ field, form }) => {
       </Grid>
 
       <OutlinedInput
+        value={value}
         placeholder="DD/MM/YYYY"
-        value={
-          field.value &&
-          new Date(field.value).toLocaleDateString().replace(/\./g, "/")
-        }
+        onChange={onChange}
         endAdornment={
           <InputAdornment position="end">
             <IconButton onMouseDown={handleButtonMouseDown} onClick={onClick}>
@@ -43,6 +42,7 @@ const DatePicker = ({ field, form }) => {
             </IconButton>
           </InputAdornment>
         }
+        inputComponent={TextMaskCustom}
       />
     </FormControl>
   );
@@ -53,6 +53,10 @@ const DatePicker = ({ field, form }) => {
 
   return (
     <ReactDatePicker
+      maxDate={new Date().setFullYear(new Date().getFullYear() - 18)}
+      dateFormat="dd/MM/y"
+      selected={field.value}
+      value={field.value}
       onChange={value => form.setFieldValue(field.name, value)}
       customInput={<CustomInputRef />}
     />
@@ -60,6 +64,31 @@ const DatePicker = ({ field, form }) => {
 };
 
 export default memo(DatePicker);
+
+function TextMaskCustom(props) {
+  const { inputRef, ...other } = props;
+
+  return (
+    <InputMask
+      {...other}
+      ref={ref => {
+        inputRef(ref ? ref.inputElement : null);
+      }}
+      mask={[
+        /[0-9]/,
+        /[0-9]/,
+        "/",
+        /[0-9]/,
+        /[0-9]/,
+        "/",
+        /[0-9]/,
+        /[0-9]/,
+        /[0-9]/,
+        /[0-9]/
+      ]}
+    />
+  );
+}
 
 const useStyles = makeStyles(theme => ({
   container: {
