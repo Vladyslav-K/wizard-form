@@ -2,6 +2,7 @@ import React, { memo } from "react";
 import { Formik, Field, FieldArray } from "formik";
 
 import { compareValuesAndCheckForEmptiness } from "../../../utils/helpers.js";
+import { skillsList, hobbiesList } from "../../../utils/dictionaries.js";
 
 import Grid from "@material-ui/core/Grid";
 
@@ -11,7 +12,6 @@ import StyledForm from "../../../components/StyledForm";
 import BackButton from "../../../components/BackButton";
 import InputField from "../../../components/InputField";
 import CheckBox from "../../../components/CheckBox";
-
 
 const CapabilitiesForm = ({ saveChangeToRedux, capabilities }) => {
   const { additionalInformation, hobbies, skills } = capabilities;
@@ -81,33 +81,3 @@ const CapabilitiesForm = ({ saveChangeToRedux, capabilities }) => {
 };
 
 export default memo(CapabilitiesForm);
-
-const skillsList = [
-  "HTML",
-  "CSS",
-  "Javascript",
-  "React",
-  "Angular",
-  "jQuery",
-  "NodeJS",
-  "Python",
-  "PHP",
-  "Ruby On Rails",
-  "SQL",
-  "BackboneJS",
-  "Web Design",
-  "Project management",
-  "Git",
-  "Docker",
-  "AWS Lambda",
-  "Firebase"
-];
-
-const hobbiesList = [
-  "Art",
-  "Sport, fitness, aerobica and staff like that",
-  "I just want to play games, I’m not living in this life",
-  "I’m a female... I’m doing nothing. Every day.",
-  "Guitar, guitar and guitar again. I’m fall in love with it.",
-  "WTF is “hobbies”???"
-];

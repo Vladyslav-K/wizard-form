@@ -2,6 +2,7 @@ import React, { memo } from "react";
 import { Formik, Field, FieldArray } from "formik";
 
 import { compareValuesAndCheckForEmptiness } from "../../../utils/helpers.js";
+import { language } from "../../../utils/dictionaries.js";
 
 import Grid from "@material-ui/core/Grid";
 
@@ -163,30 +164,3 @@ const useStyles = makeStyles(theme => ({
     width: "100%"
   }
 }));
-
-const language = [
-  "English",
-  "French",
-  "Spanish",
-  "Arabic",
-  "Mandarin",
-  "Russian",
-  "Portuguese",
-  "German",
-  "Japanese",
-  "Hindi",
-  "Malay",
-  "Persian",
-  "Swahili",
-  "Tamil",
-  "Italian",
-  "Dutch",
-  "Bengali",
-  "Turkish",
-  "Vietnamese",
-  "Polish",
-  "Javanese",
-  "Punjabi",
-  "Thai",
-  "Korean"
-];
