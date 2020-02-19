@@ -10,29 +10,6 @@ import Toolbar from "@material-ui/core/Toolbar";
 import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1
-  },
-
-  grow: {
-    flexGrow: 1
-  },
-
-  appBarContainer: {
-    padding: "0 18%",
-
-    background:
-      "radial-gradient(50% 28800% at 50% 68.33%, #4E86E4 0%, #2F68C8 100%)",
-    boxShadow: " 0px 1px 5px #C1CEDE"
-  },
-
-  button: {
-    padding: "0 30px",
-    textTransform: "none"
-  }
-}));
-
 function Header() {
   const classes = useStyles();
 
@@ -68,3 +45,26 @@ function Header() {
 }
 
 export default Header;
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1
+  },
+
+  grow: {
+    flexGrow: 1
+  },
+
+  appBarContainer: {
+    padding: "0 18%",
+
+    background:
+      "radial-gradient(50% 28800% at 50% 68.33%, #4E86E4 0%, #2F68C8 100%)",
+    boxShadow: " 0px 1px 5px #C1CEDE"
+  },
+
+  button: {
+    padding: "0 30px",
+    textTransform: "none"
+  }
+}));
