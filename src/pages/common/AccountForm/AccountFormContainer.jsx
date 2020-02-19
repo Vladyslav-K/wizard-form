@@ -7,13 +7,13 @@ import { setQueryStringIndex } from "../../../utils/helpers.js";
 import AccountForm from "./AccountForm";
 
 import { setAccountAsSubmitted } from "../../../domain/submittedFormsDomain/submittedFormsActions.js";
-import { setAccountData } from "../../../domain/accountFormDomain/accountFormActions";
+import { setTemporaryUserData } from "../../../domain/temporaryUserDomain/temporaryUserActions.js";
 
 function AccountFormContainer({
-  account,
+  userData,
 
   setAccountAsSubmitted,
-  setAccountData
+  setTemporaryUserData
 }) {
   const [visible, setVisible] = useState(false);
 
@@ -22,7 +22,7 @@ function AccountFormContainer({
   };
 
   const [saveChangeToRedux] = useDebouncedCallback(formikValues => {
-    setAccountData({ ...formikValues });
+    setTemporaryUserData(formikValues);
   }, 250);
 
   const handleSubmit = () => {
@@ -36,16 +36,16 @@ function AccountFormContainer({
       toggleVisibility={toggleVisibility}
       handleSubmit={handleSubmit}
       visible={visible}
-      account={account}
+      userData={userData}
     />
   );
 }
 
-const mapStateToProps = ({ account }) => {
-  return { account };
+const mapStateToProps = ({ temporaryUserData: { userData } }) => {
+  return { userData };
 };
 
 export default connect(mapStateToProps, {
   setAccountAsSubmitted,
-  setAccountData
+  setTemporaryUserData
 })(AccountFormContainer);

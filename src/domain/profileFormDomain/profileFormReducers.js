@@ -16,14 +16,10 @@ const initialState = {
 
 export const profileFormReducers = createReducer(initialState, {
   [syncProfileDataWithDatabase]: (state, action) => {
-    if (action.payload) {
-      state.firstName = action.payload.firstName;
-      state.birthDate = action.payload.birthDate;
-      state.lastName = action.payload.lastName;
-      state.address = action.payload.address;
-      state.gender = action.payload.gender;
-      state.email = action.payload.email;
-    }
+    return {
+      ...state,
+      ...action.payload
+    };
   },
 
   [setProfileData]: (state, action) => {

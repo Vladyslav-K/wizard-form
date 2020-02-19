@@ -8,22 +8,15 @@ import * as serviceWorker from "./serviceWorker";
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import createSagaMiddleware from "redux-saga";
 
-import { accountFormReducers } from "./domain/accountFormDomain/accountFormReducers";
-import { profileFormReducers } from "./domain/profileFormDomain/profileFormReducers";
-import { contactsFormReducers } from "./domain/contactsFormDomain/contactsFormReducers";
+import { temporaryUserReducers } from "./domain/temporaryUserDomain/temporaryUserReducers.js";
 import { submittedFormsReducers } from "./domain/submittedFormsDomain/submittedFormsReducers.js";
-import { capabilitiesFormReducers } from "./domain/capabilitiesFormDomain/capabilitiesFormReducers";
 
 import rootSaga from "./sagas";
 
 import App from "./pages/App";
 
 const reducer = {
-  account: accountFormReducers,
-  profile: profileFormReducers,
-  contacts: contactsFormReducers,
-  capabilities: capabilitiesFormReducers,
-
+  temporaryUserData: temporaryUserReducers,
   submitted: submittedFormsReducers
 };
 
