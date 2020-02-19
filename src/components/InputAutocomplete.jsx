@@ -4,21 +4,6 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 
-const useStyles = makeStyles(theme => ({
-  fieldContainer: {
-    marginTop: "16px",
-    marginBottom: "3rem"
-  },
-
-  fieldStyles: {
-    fontFamily: "Roboto",
-    fontStyle: "normal",
-    fontWeight: "500",
-    fontSize: "14px",
-    lineHeight: "16px"
-  }
-}));
-
 const InputAutocomplete = ({
   required,
   multiple,
@@ -33,6 +18,7 @@ const InputAutocomplete = ({
     <Autocomplete
       onInputChange={(event, value) => form.setFieldValue(field.name, value)}
       onChange={(event, value) => form.setFieldValue(field.name, value)}
+      value={field.value}
       multiple={multiple}
       options={options}
       disableClearable
@@ -47,7 +33,6 @@ const InputAutocomplete = ({
 
           <TextField
             className={classes.fieldStyles}
-            value={field.value}
             variant="outlined"
             {...params}
             fullWidth
@@ -59,3 +44,18 @@ const InputAutocomplete = ({
 };
 
 export default memo(InputAutocomplete);
+
+const useStyles = makeStyles(theme => ({
+  fieldContainer: {
+    marginTop: "16px",
+    marginBottom: "3rem"
+  },
+
+  fieldStyles: {
+    fontFamily: "Roboto",
+    fontStyle: "normal",
+    fontWeight: "500",
+    fontSize: "14px",
+    lineHeight: "16px"
+  }
+}));

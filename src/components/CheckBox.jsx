@@ -19,7 +19,7 @@ const CheckBox = ({ field, form, fieldName, label, options }) => {
             }
             control={
               <MuiCheckbox
-                checked={field.value.includes(item)}
+                checked={field.value && field.value.includes(item)}
                 icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
                 checkedIcon={<CheckboxRectangle fontSize="small" />}
               />
