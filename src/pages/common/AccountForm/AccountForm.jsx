@@ -1,6 +1,8 @@
 import React, { memo } from "react";
 import { Formik, Field } from "formik";
 
+import { compareValuesAndCheckForEmptiness } from "../../../utils/helpers.js";
+
 import { AccountFormValidationSchema } from "../../../utils/validations";
 import InputPasswordField from "../../../components/InputPasswordField";
 import SubmitButton from "../../../components/SubmitButton";
@@ -12,14 +14,14 @@ import StyledForm from "../../../components/StyledForm";
 import Grid from "@material-ui/core/Grid";
 
 const AccountForm = ({
-  passwordConfirmation,
   saveChangeToRedux,
   toggleVisibility,
-  password,
-  username,
+  handleSubmit,
   visible,
-  avatar
+  account
 }) => {
+  const { passwordConfirmation, password, username, avatar } = account;
+
   return (
     <Formik
       validationSchema={AccountFormValidationSchema}
@@ -32,10 +34,12 @@ const AccountForm = ({
         username,
         avatar
       }}
+      onSubmit={handleSubmit}
     >
       {({ values, errors }) => (
         <Grid container justify="space-around" style={{ marginTop: "2rem" }}>
-          {saveChangeToRedux(values)}
+          {compareValuesAndCheckForEmptiness(values, account) &&
+            saveChangeToRedux(values)}
 
           <Grid item xs={3}>
             <Field

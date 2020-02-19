@@ -1,43 +1,42 @@
 import React from "react";
 import { connect } from "react-redux";
+import { useDebouncedCallback } from "use-debounce";
 
+import { setQueryStringIndex } from "../../../utils/helpers.js";
+
+import { setProfileAsSubmitted } from "../../../domain/submittedFormsDomain/submittedFormsActions.js";
 import { setProfileData } from "../../../domain/profileFormDomain/profileFormActions";
 
 import ProfileForm from "./ProfileForm";
 
 function ProfileFormContainer({
-  firstName,
-  birthDate,
-  lastName,
-  address,
-  gender,
-  email,
-
-  setProfileData
+  setProfileAsSubmitted,
+  setProfileData,
+  profile
 }) {
-  const saveChangeToRedux = value => {
-    setProfileData({ ...value });
+  const [saveChangeToRedux] = useDebouncedCallback(formikValues => {
+    setProfileData({ ...formikValues });
+  }, 250);
+
+  const handleSubmit = () => {
+    setProfileAsSubmitted();
+    setQueryStringIndex("step", 2);
   };
 
   return (
     <ProfileForm
       saveChangeToRedux={saveChangeToRedux}
-      firstName={firstName}
-      birthDate={birthDate}
-      lastName={lastName}
-      address={address}
-      gender={gender}
-      email={email}
+      handleSubmit={handleSubmit}
+      profile={profile}
     />
   );
 }
 
-const mapStateToProps = ({
-  profile: { firstName, birthDate, lastName, address, gender, email }
-}) => {
-  return { firstName, birthDate, lastName, address, gender, email };
+const mapStateToProps = ({ profile }) => {
+  return { profile };
 };
 
-export default connect(mapStateToProps, { setProfileData })(
-  ProfileFormContainer
-);
+export default connect(mapStateToProps, {
+  setProfileAsSubmitted,
+  setProfileData
+})(ProfileFormContainer);

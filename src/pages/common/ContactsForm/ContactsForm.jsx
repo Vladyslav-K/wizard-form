@@ -1,6 +1,8 @@
 import React, { memo } from "react";
 import { Formik, Field, FieldArray } from "formik";
 
+import { compareValuesAndCheckForEmptiness } from "../../../utils/helpers.js";
+
 import Grid from "@material-ui/core/Grid";
 
 import { ReactComponent as MinusIcon } from "../../../images/icons/minus.svg";
@@ -15,60 +17,17 @@ import InputMask from "../../../components/InputMask";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 
-const useStyles = makeStyles(theme => ({
-  plusButtonStyles: {
-    justifyContent: "flex-start",
-    textTransform: "none"
-  },
-
-  minusButtonStyles: {
-    marginTop: "20px",
-    minWidth: 0
-  },
-
-  phoneContainer: {
-    display: "flex",
-    width: "100%"
-  }
-}));
-
-const language = [
-  "English",
-  "French",
-  "Spanish",
-  "Arabic",
-  "Mandarin",
-  "Russian",
-  "Portuguese",
-  "German",
-  "Japanese",
-  "Hindi",
-  "Malay",
-  "Persian",
-  "Swahili",
-  "Tamil",
-  "Italian",
-  "Dutch",
-  "Bengali",
-  "Turkish",
-  "Vietnamese",
-  "Polish",
-  "Javanese",
-  "Punjabi",
-  "Thai",
-  "Korean"
-];
-
-const ContactsForm = ({
-  saveChangeToRedux,
-  mainLanguage,
-  facebookLink,
-  gitHubLink,
-  company,
-  phones,
-  fax
-}) => {
+const ContactsForm = ({ saveChangeToRedux, handleSubmit, contacts }) => {
   const classes = useStyles();
+
+  const {
+    mainLanguage,
+    facebookLink,
+    gitHubLink,
+    company,
+    phones,
+    fax
+  } = contacts;
 
   return (
     <Formik
@@ -83,10 +42,12 @@ const ContactsForm = ({
         phones,
         fax
       }}
+      onSubmit={handleSubmit}
     >
       {({ values, errors }) => (
         <Grid container justify="space-around" style={{ marginTop: "2rem" }}>
-          {saveChangeToRedux(values)}
+          {compareValuesAndCheckForEmptiness(values, contacts) &&
+            saveChangeToRedux(values)}
 
           <Grid item xs={4}>
             <StyledForm>
@@ -185,3 +146,47 @@ const ContactsForm = ({
 };
 
 export default memo(ContactsForm);
+
+const useStyles = makeStyles(theme => ({
+  plusButtonStyles: {
+    justifyContent: "flex-start",
+    textTransform: "none"
+  },
+
+  minusButtonStyles: {
+    marginTop: "20px",
+    minWidth: 0
+  },
+
+  phoneContainer: {
+    display: "flex",
+    width: "100%"
+  }
+}));
+
+const language = [
+  "English",
+  "French",
+  "Spanish",
+  "Arabic",
+  "Mandarin",
+  "Russian",
+  "Portuguese",
+  "German",
+  "Japanese",
+  "Hindi",
+  "Malay",
+  "Persian",
+  "Swahili",
+  "Tamil",
+  "Italian",
+  "Dutch",
+  "Bengali",
+  "Turkish",
+  "Vietnamese",
+  "Polish",
+  "Javanese",
+  "Punjabi",
+  "Thai",
+  "Korean"
+];

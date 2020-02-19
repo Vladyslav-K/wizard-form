@@ -1,6 +1,8 @@
 import React, { memo } from "react";
 import { Formik, Field, FieldArray } from "formik";
 
+import { compareValuesAndCheckForEmptiness } from "../../../utils/helpers.js";
+
 import Grid from "@material-ui/core/Grid";
 
 import InputAutocomplete from "../../../components/InputAutocomplete";
@@ -10,42 +12,10 @@ import BackButton from "../../../components/BackButton";
 import InputField from "../../../components/InputField";
 import CheckBox from "../../../components/CheckBox";
 
-const skillsList = [
-  "HTML",
-  "CSS",
-  "Javascript",
-  "React",
-  "Angular",
-  "jQuery",
-  "NodeJS",
-  "Python",
-  "PHP",
-  "Ruby On Rails",
-  "SQL",
-  "BackboneJS",
-  "Web Design",
-  "Project management",
-  "Git",
-  "Docker",
-  "AWS Lambda",
-  "Firebase"
-];
 
-const hobbiesList = [
-  "Art",
-  "Sport, fitness, aerobica and staff like that",
-  "I just want to play games, I’m not living in this life",
-  "I’m a female... I’m doing nothing. Every day.",
-  "Guitar, guitar and guitar again. I’m fall in love with it.",
-  "WTF is “hobbies”???"
-];
+const CapabilitiesForm = ({ saveChangeToRedux, capabilities }) => {
+  const { additionalInformation, hobbies, skills } = capabilities;
 
-const CapabilitiesForm = ({
-  saveChangeToRedux,
-  additionalInformation,
-  hobbies,
-  skills
-}) => {
   return (
     <Formik
       validateOnChange={false}
@@ -59,7 +29,8 @@ const CapabilitiesForm = ({
     >
       {({ values, errors }) => (
         <Grid container justify="space-around" style={{ marginTop: "2rem" }}>
-          {saveChangeToRedux(values)}
+          {compareValuesAndCheckForEmptiness(values, capabilities) &&
+            saveChangeToRedux(values)}
 
           <Grid item xs={4}>
             <StyledForm>
@@ -77,7 +48,7 @@ const CapabilitiesForm = ({
                 name="additionalInformation"
                 component={InputField}
                 multiline
-                rows={4}
+                rows={5}
               />
             </StyledForm>
           </Grid>
@@ -110,3 +81,33 @@ const CapabilitiesForm = ({
 };
 
 export default memo(CapabilitiesForm);
+
+const skillsList = [
+  "HTML",
+  "CSS",
+  "Javascript",
+  "React",
+  "Angular",
+  "jQuery",
+  "NodeJS",
+  "Python",
+  "PHP",
+  "Ruby On Rails",
+  "SQL",
+  "BackboneJS",
+  "Web Design",
+  "Project management",
+  "Git",
+  "Docker",
+  "AWS Lambda",
+  "Firebase"
+];
+
+const hobbiesList = [
+  "Art",
+  "Sport, fitness, aerobica and staff like that",
+  "I just want to play games, I’m not living in this life",
+  "I’m a female... I’m doing nothing. Every day.",
+  "Guitar, guitar and guitar again. I’m fall in love with it.",
+  "WTF is “hobbies”???"
+];

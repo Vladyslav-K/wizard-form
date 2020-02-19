@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
+import { useDebouncedCallback } from "use-debounce";
+
+import { setQueryStringIndex } from "../../../utils/helpers.js";
 
 import AccountForm from "./AccountForm";
 
+import { setAccountAsSubmitted } from "../../../domain/submittedFormsDomain/submittedFormsActions.js";
 import { setAccountData } from "../../../domain/accountFormDomain/accountFormActions";
 
 function AccountFormContainer({
-  passwordConfirmation,
-  password,
-  username,
-  avatar,
+  account,
 
+  setAccountAsSubmitted,
   setAccountData
 }) {
   const [visible, setVisible] = useState(false);
@@ -19,29 +21,31 @@ function AccountFormContainer({
     setVisible(!visible);
   };
 
-  const saveChangeToRedux = value => {
-    setAccountData({ ...value });
+  const [saveChangeToRedux] = useDebouncedCallback(formikValues => {
+    setAccountData({ ...formikValues });
+  }, 250);
+
+  const handleSubmit = () => {
+    setAccountAsSubmitted();
+    setQueryStringIndex("step", 1);
   };
 
   return (
     <AccountForm
-      passwordConfirmation={passwordConfirmation}
       saveChangeToRedux={saveChangeToRedux}
       toggleVisibility={toggleVisibility}
-      password={password}
-      username={username}
+      handleSubmit={handleSubmit}
       visible={visible}
-      avatar={avatar}
+      account={account}
     />
   );
 }
 
-const mapStateToProps = ({
-  account: { passwordConfirmation, password, username, avatar }
-}) => {
-  return { passwordConfirmation, password, username, avatar };
+const mapStateToProps = ({ account }) => {
+  return { account };
 };
 
-export default connect(mapStateToProps, { setAccountData })(
-  AccountFormContainer
-);
+export default connect(mapStateToProps, {
+  setAccountAsSubmitted,
+  setAccountData
+})(AccountFormContainer);

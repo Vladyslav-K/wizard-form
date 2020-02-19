@@ -1,42 +1,42 @@
 import React from "react";
 import { connect } from "react-redux";
+import { useDebouncedCallback } from "use-debounce";
 
+import { setQueryStringIndex } from "../../../utils/helpers.js";
+
+import { setContactsAsSubmitted } from "../../../domain/submittedFormsDomain/submittedFormsActions.js";
 import { setContactsData } from "../../../domain/contactsFormDomain/contactsFormActions";
 
 import ContactsForm from "./ContactsForm";
 
 function ContactsFormContainer({
+  setContactsAsSubmitted,
   setContactsData,
-  mainLanguage,
-  facebookLink,
-  gitHubLink,
-  company,
-  phones,
-  fax
+  contacts
 }) {
-  const saveChangeToRedux = value => {
-    setContactsData({ ...value });
+  const [saveChangeToRedux] = useDebouncedCallback(formikValues => {
+    setContactsData({ ...formikValues });
+  }, 250);
+
+  const handleSubmit = () => {
+    setContactsAsSubmitted();
+    setQueryStringIndex("step", 3);
   };
 
   return (
     <ContactsForm
       saveChangeToRedux={saveChangeToRedux}
-      mainLanguage={mainLanguage}
-      facebookLink={facebookLink}
-      gitHubLink={gitHubLink}
-      company={company}
-      phones={phones}
-      fax={fax}
+      handleSubmit={handleSubmit}
+      contacts={contacts}
     />
   );
 }
 
-const mapStateToProps = ({
-  contacts: { mainLanguage, facebookLink, gitHubLink, company, phones, fax }
-}) => {
-  return { mainLanguage, facebookLink, gitHubLink, company, phones, fax };
+const mapStateToProps = ({ contacts }) => {
+  return { contacts };
 };
 
-export default connect(mapStateToProps, { setContactsData })(
-  ContactsFormContainer
-);
+export default connect(mapStateToProps, {
+  setContactsAsSubmitted,
+  setContactsData
+})(ContactsFormContainer);

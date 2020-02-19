@@ -1,6 +1,8 @@
 import React, { memo } from "react";
 import { Formik, Field } from "formik";
 
+import { compareValuesAndCheckForEmptiness } from "../../../utils/helpers.js";
+
 import GenderRadio from "../../../components/GenderRadio.jsx";
 import SubmitButton from "../../../components/SubmitButton";
 import BackButton from "../../../components/BackButton";
@@ -10,15 +12,9 @@ import StyledForm from "../../../components/StyledForm";
 
 import Grid from "@material-ui/core/Grid";
 
-const ProfileForm = ({
-  saveChangeToRedux,
-  firstName,
-  birthDate,
-  lastName,
-  address,
-  gender,
-  email
-}) => {
+const ProfileForm = ({ saveChangeToRedux, handleSubmit, profile }) => {
+  const { firstName, birthDate, lastName, address, gender, email } = profile;
+
   return (
     <div>
       <Formik
@@ -33,10 +29,12 @@ const ProfileForm = ({
           gender,
           email
         }}
+        onSubmit={handleSubmit}
       >
         {({ values, errors }) => (
           <Grid container justify="space-around" style={{ marginTop: "2rem" }}>
-            {saveChangeToRedux(values)}
+            {compareValuesAndCheckForEmptiness(values, profile) &&
+              saveChangeToRedux(values)}
 
             <Grid item xs={4}>
               <StyledForm>
