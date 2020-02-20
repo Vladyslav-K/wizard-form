@@ -118,7 +118,6 @@ const ContactsForm = ({
                         <Field
                           label={`Phone #${index + 1}`}
                           name={`phones.${index}`}
-                          required={index === 0}
                           errors={errors.phone}
                           component={InputMask}
                         />

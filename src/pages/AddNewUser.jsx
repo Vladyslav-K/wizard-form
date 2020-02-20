@@ -168,6 +168,7 @@ const useStyles = makeStyles(theme => ({
   heading: {
     padding: "3rem 0",
 
+    color: "#475666",
     fontFamily: "Roboto",
     fontStyle: "normal",
     fontWeight: "bold",
