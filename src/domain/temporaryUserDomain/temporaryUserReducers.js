@@ -2,6 +2,7 @@ import { createReducer } from "@reduxjs/toolkit";
 
 import {
   syncTemporaryUserDataWithDatabase,
+  removeTemporaryUserData,
   setTemporaryUserData
 } from "./temporaryUserActions.js";
 
@@ -33,6 +34,10 @@ const initialState = {
 export const temporaryUserReducers = createReducer(initialState, {
   [syncTemporaryUserDataWithDatabase]: (state, action) => {
     return { ...state, ...action.payload };
+  },
+
+  [removeTemporaryUserData]: (state, action) => {
+    return initialState;
   },
 
   [setTemporaryUserData]: (state, action) => {
