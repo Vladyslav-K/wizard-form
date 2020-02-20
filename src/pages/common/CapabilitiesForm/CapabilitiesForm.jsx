@@ -13,7 +13,11 @@ import BackButton from "../../../components/BackButton";
 import InputField from "../../../components/InputField";
 import CheckBox from "../../../components/CheckBox";
 
-const CapabilitiesForm = ({ saveChangeToRedux, temporaryUserData }) => {
+const CapabilitiesForm = ({
+  saveChangeToRedux,
+  temporaryUserData,
+  handleSubmit
+}) => {
   const { additionalInformation, hobbies, skills } = temporaryUserData;
 
   const capabilitiesData = { additionalInformation, hobbies, skills };
@@ -24,10 +28,11 @@ const CapabilitiesForm = ({ saveChangeToRedux, temporaryUserData }) => {
       validateOnBlur={false}
       enableReinitialize
       initialValues={{
-        additionalInformation,
-        hobbies,
-        skills
+        additionalInformation: temporaryUserData.additionalInformation,
+        hobbies: temporaryUserData.hobbies,
+        skills: temporaryUserData.skills
       }}
+      onSubmit={handleSubmit}
     >
       {({ values, errors }) => (
         <Grid container justify="space-around" style={{ marginTop: "2rem" }}>
