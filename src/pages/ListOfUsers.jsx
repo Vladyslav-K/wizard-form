@@ -1,7 +1,142 @@
 import React from "react";
+import { DateTime } from "luxon";
+import { connect } from "react-redux";
 
-function ListOfUsers() {
-  return <div>List of users</div>;
-}
+import { removeUserFromList } from "../domain/userListDomain/userListActions.js";
+import AvatarForUserList from "../components/AvatarForUserList.jsx";
 
-export default ListOfUsers;
+import { ReactComponent as DeleteIcon } from "../images/icons/Close.svg";
+import { ReactComponent as EditIcon } from "../images/icons/Edit.svg";
+
+import { makeStyles, withStyles } from "@material-ui/core/styles";
+import IconButton from "@material-ui/core/IconButton";
+import Container from "@material-ui/core/Container";
+import Grid from "@material-ui/core/Grid";
+
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableRow from "@material-ui/core/TableRow";
+import Table from "@material-ui/core/Table";
+import Paper from "@material-ui/core/Paper";
+
+const ListOfUsers = ({ userList, removeUserFromList }) => {
+  const classes = useStyles();
+
+  return (
+    <Container maxWidth="md">
+      <Grid className={classes.heading} container justify="center">
+        List of Users
+      </Grid>
+
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <StyledTableCell align="left">name </StyledTableCell>
+              <StyledTableCell align="left">company</StyledTableCell>
+              <StyledTableCell align="left">contacts</StyledTableCell>
+              <StyledTableCell align="left">last update</StyledTableCell>
+              <StyledTableCell align="left"> </StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {userList.map(user => (
+              <StyledTableRow key={user.username}>
+                <StyledTableCell align="left">
+                  <AvatarForUserList
+                    firstName={user.firstName}
+                    lastName={user.lastName}
+                    username={user.username}
+                    avatar={user.avatar}
+                  />
+                </StyledTableCell>
+
+                <StyledTableCell align="left">{user.company}</StyledTableCell>
+
+                <StyledTableCell align="left">
+                  {user.phones[0] || user.email}
+                </StyledTableCell>
+
+                <StyledTableCell align="left">
+                  {DateTime.fromJSDate(user.updatedAt).toRelative()}
+                </StyledTableCell>
+
+                <StyledTableCell align="left">
+                  <IconButton>
+                    <EditIcon />
+                  </IconButton>
+
+                  <IconButton
+                    onClick={() => removeUserFromList({ id: user.id })}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Container>
+  );
+};
+
+export default connect(({ listOfUsers: { userList } }) => ({ userList }), {
+  removeUserFromList
+})(ListOfUsers);
+
+const useStyles = makeStyles(theme => ({
+  heading: {
+    padding: "3rem 0",
+
+    color: "#475666",
+    fontFamily: "Roboto",
+    fontStyle: "normal",
+    fontWeight: "bold",
+    lineHeight: "41px",
+    fontSize: "35px"
+  }
+}));
+
+const StyledTableCell = withStyles(theme => ({
+  head: {
+    fontFamily: "Roboto",
+    fontStyle: "normal",
+    fontWeight: "500",
+    fontSize: "14px",
+    lineHeight: "16px",
+
+    backgroundColor: "#4E86E4",
+    color: "#FFFFFF",
+
+    height: "45px",
+    minWidth: "150px",
+
+    borderBottom: "30px solid white",
+
+    "&:last-of-type": {
+      minWidth: 0
+    }
+  },
+  body: {
+    fontFamily: "Roboto",
+    fontStyle: "normal",
+    fontWeight: "500",
+    fontSize: "14px",
+    lineHeight: "16px",
+
+    color: "#475666",
+
+    height: "93px"
+  }
+}))(TableCell);
+
+const StyledTableRow = withStyles(theme => ({
+  root: {
+    "&:nth-of-type(odd)": {
+      backgroundColor: "#E7F0FF"
+    }
+  }
+}))(TableRow);
