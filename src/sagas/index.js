@@ -1,6 +1,7 @@
 import { all, call, put, select, takeLatest } from "redux-saga/effects";
 import { DateTime } from "luxon";
 
+import { checkObjectPropsIsEmpty } from "../utils/helpers.js";
 import database from "../utils/database.js";
 
 import { databaseHasTemporaryUserData } from "../domain/submittedFormsDomain/submittedFormsActions.js";
@@ -20,7 +21,7 @@ import {
   addUserToList
 } from "../domain/userListDomain/userListActions.js";
 
-const TEMPORARY_USER_KEYPATH = 1;
+const TEMPORARY_USER_ID = 1;
 
 function* getUserListFromDatabase() {
   const userList = yield call(() => database.userList.toArray());
@@ -34,7 +35,7 @@ function* getTemporaryUserDataFromDatabase() {
       context: database.temporaryUserData,
       fn: database.temporaryUserData.get
     },
-    TEMPORARY_USER_KEYPATH
+    TEMPORARY_USER_ID
   );
 
   return temporaryUserData;
@@ -46,6 +47,10 @@ function* checkTemporaryUserDataInDatabase() {
   );
 
   if (temporaryUserData) {
+    delete temporaryUserData.id;
+  }
+
+  if (!checkObjectPropsIsEmpty(temporaryUserData)) {
     yield put(databaseHasTemporaryUserData(true));
   }
 }
@@ -56,7 +61,7 @@ function* removeTemporaryUser() {
       context: database.temporaryUserData,
       fn: database.temporaryUserData.delete
     },
-    TEMPORARY_USER_KEYPATH
+    TEMPORARY_USER_ID
   );
 
   yield put(databaseHasTemporaryUserData(false));
@@ -65,8 +70,10 @@ function* removeTemporaryUser() {
 export function* syncReduxTemporaryUserDataWithDatabase() {
   const dataWithDatabase = yield call(() => getTemporaryUserDataFromDatabase());
 
+  yield put(databaseHasTemporaryUserData(false));
+
   if (dataWithDatabase) {
-    delete dataWithDatabase.keyPath;
+    delete dataWithDatabase.id;
 
     yield put(syncTemporaryUserDataWithDatabase(dataWithDatabase));
   }
@@ -74,6 +81,8 @@ export function* syncReduxTemporaryUserDataWithDatabase() {
 
 export function* syncDatabaseTemporaryUserDataWithRedux(action) {
   const dataWithDatabase = yield call(() => getTemporaryUserDataFromDatabase());
+
+  yield put(databaseHasTemporaryUserData(false));
 
   yield call(
     {
@@ -83,7 +92,7 @@ export function* syncDatabaseTemporaryUserDataWithRedux(action) {
     {
       ...dataWithDatabase,
       ...action.payload,
-      keyPath: TEMPORARY_USER_KEYPATH
+      id: TEMPORARY_USER_ID
     }
   );
 }
