@@ -1,12 +1,16 @@
 import React, { memo } from "react";
+import { createHashHistory } from "history";
+
 import { makeStyles } from "@material-ui/core/styles";
+
+const history = createHashHistory();
 
 const BackButton = () => {
   const classes = useStyles();
 
   return (
     <div className={classes.buttonContainer}>
-      <button className={classes.button} type="submit">
+      <button className={classes.button} type="button" onClick={history.goBack}>
         Back
       </button>
     </div>
