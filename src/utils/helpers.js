@@ -13,8 +13,6 @@ export const getQueryStringIndex = (query, location) => {
   return +queryIndex;
 };
 
-const isEqual = require("lodash.isequal");
-
 export const checkObjectPropsIsEmpty = checkedObject => {
   for (let key in checkedObject) {
     if (checkedObject[key].length !== 0 && checkedObject[key][0] !== "") {
@@ -23,10 +21,4 @@ export const checkObjectPropsIsEmpty = checkedObject => {
   }
 
   return true;
-};
-
-export const compareValuesAndCheckForEmptiness = (formikValues, reduxData) => {
-  return (
-    !checkObjectPropsIsEmpty(formikValues) && !isEqual(formikValues, reduxData)
-  );
 };
