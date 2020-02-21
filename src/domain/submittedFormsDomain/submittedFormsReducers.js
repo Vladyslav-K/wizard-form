@@ -1,33 +1,33 @@
 import { createReducer } from "@reduxjs/toolkit";
 
 import {
-  setCababilitiesAsSubmitted,
+  setAccountAsSubmitted,
   setContactsAsSubmitted,
   setProfileAsSubmitted,
-  setAccountAsSubmitted
+  databaseHasTemporaryUserData
 } from "./submittedFormsActions";
 
 const initialState = {
-  capabilitiesIsSubmitted: false,
+  accountIsSubmitted: false,
   contactsIsSubmitted: false,
   profileIsSubmitted: false,
-  accountIsSubmitted: false
+  databaseHasUserData: false
 };
 
 export const submittedFormsReducers = createReducer(initialState, {
-  [setCababilitiesAsSubmitted]: (state, actions) => {
-    state.capabilitiesIsSubmitted = true;
+  [setAccountAsSubmitted]: (state, action) => {
+    state.accountIsSubmitted = true;
   },
 
-  [setContactsAsSubmitted]: (state, actions) => {
+  [setContactsAsSubmitted]: (state, action) => {
     state.contactsIsSubmitted = true;
   },
 
-  [setProfileAsSubmitted]: (state, actions) => {
+  [setProfileAsSubmitted]: (state, action) => {
     state.profileIsSubmitted = true;
   },
 
-  [setAccountAsSubmitted]: (state, actions) => {
-    state.accountIsSubmitted = true;
+  [databaseHasTemporaryUserData]: (state, action) => {
+    state.databaseHasUserData = action.payload;
   }
 });

@@ -3,8 +3,11 @@ import { DateTime } from "luxon";
 
 import database from "../utils/database.js";
 
+import { databaseHasTemporaryUserData } from "../domain/submittedFormsDomain/submittedFormsActions.js";
+
 import {
   syncTemporaryUserDataWithDatabase,
+  getTemporaryUserDataWithDatabase,
   removeTemporaryUserData,
   setTemporaryUserData
 } from "../domain/temporaryUserDomain/temporaryUserActions.js";
@@ -37,6 +40,16 @@ function* getTemporaryUserDataFromDatabase() {
   return temporaryUserData;
 }
 
+function* checkTemporaryUserDataInDatabase() {
+  const temporaryUserData = yield call(() =>
+    getTemporaryUserDataFromDatabase()
+  );
+
+  if (temporaryUserData) {
+    yield put(databaseHasTemporaryUserData(true));
+  }
+}
+
 function* removeTemporaryUser() {
   yield call(
     {
@@ -45,22 +58,17 @@ function* removeTemporaryUser() {
     },
     TEMPORARY_USER_KEYPATH
   );
+
+  yield put(databaseHasTemporaryUserData(false));
 }
 
 export function* syncReduxTemporaryUserDataWithDatabase() {
   const dataWithDatabase = yield call(() => getTemporaryUserDataFromDatabase());
 
-  const dataWithRedux = yield select(state => state.temporaryUserData);
-
   if (dataWithDatabase) {
     delete dataWithDatabase.keyPath;
 
-    yield put(
-      syncTemporaryUserDataWithDatabase({
-        ...dataWithRedux,
-        ...dataWithDatabase
-      })
-    );
+    yield put(syncTemporaryUserDataWithDatabase(dataWithDatabase));
   }
 }
 
@@ -119,16 +127,21 @@ export function* removeUserFromDatabaseUserList(action) {
 
 export default function* rootSaga() {
   yield all([
-    call(() => syncReduxTemporaryUserDataWithDatabase()),
+    call(() => checkTemporaryUserDataInDatabase()),
 
     call(() => syncReduxUserListWithDatabase()),
 
-    takeLatest(removeTemporaryUserData.type, removeTemporaryUser),
+    takeLatest(
+      getTemporaryUserDataWithDatabase.type,
+      syncReduxTemporaryUserDataWithDatabase
+    ),
 
     takeLatest(
       setTemporaryUserData.type,
       syncDatabaseTemporaryUserDataWithRedux
     ),
+
+    takeLatest(removeTemporaryUserData.type, removeTemporaryUser),
 
     takeLatest(addUserToList.type, putUserToDatabaseUserList),
 

@@ -1,12 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
-import { getQueryStringIndex, setQueryStringIndex } from "../utils/helpers.js";
+import {
+  getQueryStringIndex,
+  setQueryStringIndex,
+  checkObjectPropsIsEmpty
+} from "../utils/helpers.js";
+
+import {
+  getTemporaryUserDataWithDatabase,
+  removeTemporaryUserData
+} from "../domain/temporaryUserDomain/temporaryUserActions.js";
 
 import CapabilitiesFormContainer from "./common/CapabilitiesForm/CapabilitiesFormContainer";
 import ContactsFormContainer from "./common/ContactsForm/ContactsFormContainer";
 import AccountFormContainer from "./common/AccountForm/AccountFormContainer";
 import ProfileFormContainer from "./common/ProfileForm/ProfileFormContainer";
+import FormMessage from "../components/FormMessage.jsx";
 
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -20,10 +30,16 @@ const AddNewUser = ({
   history,
   location,
 
-  capabilitiesIsSubmitted,
+  getTemporaryUserDataWithDatabase,
+  removeTemporaryUserData,
+
   contactsIsSubmitted,
+  profileIsSubmitted,
   accountIsSubmitted,
-  profileIsSubmitted
+
+  temporaryUserData,
+
+  databaseHasUserData
 }) => {
   const classes = useStyles();
 
@@ -77,6 +93,13 @@ const AddNewUser = ({
         />
       </Tabs>
 
+      {databaseHasUserData && checkObjectPropsIsEmpty(temporaryUserData) && (
+        <FormMessage
+          getTemporaryUserDataWithDatabase={getTemporaryUserDataWithDatabase}
+          removeTemporaryUserData={removeTemporaryUserData}
+        />
+      )}
+
       <TabPanel value={tabIndex} index={0}>
         <AccountFormContainer />
       </TabPanel>
@@ -98,21 +121,29 @@ const AddNewUser = ({
 
 const mapStateToProps = ({
   submitted: {
-    capabilitiesIsSubmitted,
     contactsIsSubmitted,
+    profileIsSubmitted,
     accountIsSubmitted,
-    profileIsSubmitted
-  }
+
+    databaseHasUserData
+  },
+  temporaryUserData
 }) => {
   return {
-    capabilitiesIsSubmitted,
     contactsIsSubmitted,
+    profileIsSubmitted,
     accountIsSubmitted,
-    profileIsSubmitted
+
+    temporaryUserData,
+
+    databaseHasUserData
   };
 };
 
-export default connect(mapStateToProps, {})(AddNewUser);
+export default connect(mapStateToProps, {
+  getTemporaryUserDataWithDatabase,
+  removeTemporaryUserData
+})(AddNewUser);
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;

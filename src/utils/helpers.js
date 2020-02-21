@@ -15,21 +15,18 @@ export const getQueryStringIndex = (query, location) => {
 
 const isEqual = require("lodash.isequal");
 
-const checkObjectPropsIsNotEmpty = formikValues => {
-  for (let key in formikValues) {
-    if (
-      formikValues.hasOwnProperty(key) &&
-      formikValues[key] !== null &&
-      formikValues[key] !== "" &&
-      formikValues[key] !== [] &&
-      formikValues[key] !== [""]
-    ) {
-      return true;
+export const checkObjectPropsIsEmpty = checkedObject => {
+  for (let key in checkedObject) {
+    if (checkedObject[key].length !== 0 && checkedObject[key][0] !== "") {
+      return false;
     }
   }
 
-  return false;
+  return true;
 };
 
-export const compareValuesAndCheckForEmptiness = (formikValues, reduxData) =>
-  checkObjectPropsIsNotEmpty(formikValues) && !isEqual(formikValues, reduxData);
+export const compareValuesAndCheckForEmptiness = (formikValues, reduxData) => {
+  return (
+    !checkObjectPropsIsEmpty(formikValues) && !isEqual(formikValues, reduxData)
+  );
+};
