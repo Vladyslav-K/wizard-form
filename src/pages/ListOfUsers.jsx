@@ -1,6 +1,7 @@
 import React from "react";
 import { DateTime } from "luxon";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
 import { removeUserFromList } from "../domain/userListDomain/userListActions.js";
 import AvatarForUserList from "../components/AvatarForUserList.jsx";
@@ -30,7 +31,7 @@ const ListOfUsers = ({ userList, removeUserFromList }) => {
         List of Users
       </Grid>
 
-      <TableContainer component={Paper}>
+      <TableContainer className={classes.tableContainer} component={Paper}>
         <Table>
           <TableHead>
             <TableRow>
@@ -41,6 +42,7 @@ const ListOfUsers = ({ userList, removeUserFromList }) => {
               <StyledTableCell align="left"> </StyledTableCell>
             </TableRow>
           </TableHead>
+
           <TableBody>
             {userList.map(user => (
               <StyledTableRow key={user.username}>
@@ -79,6 +81,25 @@ const ListOfUsers = ({ userList, removeUserFromList }) => {
           </TableBody>
         </Table>
       </TableContainer>
+
+      {userList.length === 0 && (
+        <Container className={classes.heading} maxWidth="md">
+          <Grid container direction="column" justify="center">
+            <Grid item className={classes.noUsersHeading}>
+              No users here :(
+            </Grid>
+            <Grid item>
+              <div className={classes.buttonContainer}>
+                <Link to="/registration">
+                  <button className={classes.button} type="submit">
+                    Create new user
+                  </button>
+                </Link>
+              </div>
+            </Grid>
+          </Grid>
+        </Container>
+      )}
     </Container>
   );
 };
@@ -88,6 +109,10 @@ export default connect(({ listOfUsers: { userList } }) => ({ userList }), {
 })(ListOfUsers);
 
 const useStyles = makeStyles(theme => ({
+  tableContainer: {
+    boxShadow: "none"
+  },
+
   heading: {
     padding: "3rem 0",
 
@@ -97,6 +122,38 @@ const useStyles = makeStyles(theme => ({
     fontWeight: "bold",
     lineHeight: "41px",
     fontSize: "35px"
+  },
+
+  buttonContainer: {
+    display: "flex",
+    justifyContent: "center",
+
+    marginTop: "10vh"
+  },
+
+  button: {
+    fontFamily: "Roboto",
+    fontStyle: "normal",
+    fontWeight: "500",
+    fontSize: "14px",
+    lineHeight: "16px",
+    textTransform: "none",
+
+    color: "white",
+    background: "#4E86E4",
+
+    padding: "12px 24px",
+
+    border: "none",
+
+    "&:hover": {
+      opacity: 0.9
+    }
+  },
+
+  noUsersHeading: {
+    textAlign: "center",
+    color: "#9BB0CB"
   }
 }));
 
