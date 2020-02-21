@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import { createHashHistory } from "history";
-import { useDebouncedCallback } from "use-debounce";
 
 import {
   removeTemporaryUserData,
@@ -15,19 +14,16 @@ import CapabilitiesForm from "./CapabilitiesForm";
 const CapabilitiesFormContainer = ({
   removeTemporaryUserData,
   setTemporaryUserData,
+  saveChangeToRedux,
   temporaryUserData,
   addUserToList,
   history
 }) => {
-  const [saveChangeToRedux] = useDebouncedCallback(formikValues => {
-    setTemporaryUserData({ ...formikValues });
-  }, 250);
-
   const handleSubmit = () => {
     addUserToList(temporaryUserData);
-    
+
     const history = createHashHistory();
-    history.push("/users")
+    history.push("/users");
 
     removeTemporaryUserData();
   };

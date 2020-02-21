@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { useDebouncedCallback } from "use-debounce";
 
 import { setQueryStringIndex } from "../../../utils/helpers.js";
 
@@ -11,18 +10,16 @@ import { setTemporaryUserData } from "../../../domain/temporaryUserDomain/tempor
 
 function AccountFormContainer({
   temporaryUserData,
+
   setAccountAsSubmitted,
-  setTemporaryUserData
+  setTemporaryUserData,
+  saveChangeToRedux
 }) {
   const [visible, setVisible] = useState(false);
 
   const toggleVisibility = () => {
     setVisible(!visible);
   };
-
-  const [saveChangeToRedux] = useDebouncedCallback(formikValues => {
-    setTemporaryUserData(formikValues);
-  }, 250);
 
   const handleSubmit = () => {
     setAccountAsSubmitted();

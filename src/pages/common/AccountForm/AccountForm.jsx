@@ -1,8 +1,6 @@
 import React, { memo } from "react";
 import { Formik, Field } from "formik";
 
-import { compareValuesAndCheckForEmptiness } from "../../../utils/helpers.js";
-
 import { AccountFormValidationSchema } from "../../../utils/validations";
 import InputPasswordField from "../../../components/InputPasswordField";
 import SubmitButton from "../../../components/SubmitButton";
@@ -46,8 +44,7 @@ const AccountForm = ({
     >
       {({ values, errors }) => (
         <Grid container justify="space-around" style={{ marginTop: "2rem" }}>
-          {compareValuesAndCheckForEmptiness(values, accountData) &&
-            saveChangeToRedux(values)}
+          {saveChangeToRedux(values, accountData)}
 
           <Grid item xs={3}>
             <Field

@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import { useDebouncedCallback } from "use-debounce";
 
 import { setQueryStringIndex } from "../../../utils/helpers.js";
 
@@ -12,12 +11,9 @@ import ProfileForm from "./ProfileForm";
 function ProfileFormContainer({
   setProfileAsSubmitted,
   setTemporaryUserData,
+  saveChangeToRedux,
   temporaryUserData
 }) {
-  const [saveChangeToRedux] = useDebouncedCallback(formikValues => {
-    setTemporaryUserData(formikValues);
-  }, 250);
-
   const handleSubmit = () => {
     setProfileAsSubmitted();
     setQueryStringIndex("step", 2);

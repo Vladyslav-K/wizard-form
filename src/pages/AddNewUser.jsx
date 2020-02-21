@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
-import {
-  getQueryStringIndex,
-  setQueryStringIndex,
-  checkObjectPropsIsEmpty
-} from "../utils/helpers.js";
+import { useDebouncedCallback } from "use-debounce";
+
+import { getQueryStringIndex, setQueryStringIndex } from "../utils/helpers.js";
 
 import {
   getTemporaryUserDataWithDatabase,
-  removeTemporaryUserData
+  removeTemporaryUserData,
+  setTemporaryUserData
 } from "../domain/temporaryUserDomain/temporaryUserActions.js";
 
 import CapabilitiesFormContainer from "./common/CapabilitiesForm/CapabilitiesFormContainer";
@@ -32,6 +31,7 @@ const AddNewUser = ({
 
   getTemporaryUserDataWithDatabase,
   removeTemporaryUserData,
+  setTemporaryUserData,
 
   contactsIsSubmitted,
   profileIsSubmitted,
@@ -59,6 +59,14 @@ const AddNewUser = ({
   const handleChange = (event, value) => {
     setQueryStringIndex("step", value);
   };
+
+  const [saveChangeToRedux] = useDebouncedCallback((formikValues, userData) => {
+    const isEqual = require("lodash.isequal");
+
+    if (!isEqual(formikValues, userData)) {
+      setTemporaryUserData(formikValues);
+    }
+  }, 250);
 
   return (
     <Container maxWidth="md">
@@ -93,7 +101,7 @@ const AddNewUser = ({
         />
       </Tabs>
 
-      {databaseHasUserData && checkObjectPropsIsEmpty(temporaryUserData) && (
+      {databaseHasUserData && (
         <FormMessage
           getTemporaryUserDataWithDatabase={getTemporaryUserDataWithDatabase}
           removeTemporaryUserData={removeTemporaryUserData}
@@ -101,19 +109,19 @@ const AddNewUser = ({
       )}
 
       <TabPanel value={tabIndex} index={0}>
-        <AccountFormContainer />
+        <AccountFormContainer saveChangeToRedux={saveChangeToRedux} />
       </TabPanel>
 
       <TabPanel value={tabIndex} index={1}>
-        <ProfileFormContainer />
+        <ProfileFormContainer saveChangeToRedux={saveChangeToRedux} />
       </TabPanel>
 
       <TabPanel value={tabIndex} index={2}>
-        <ContactsFormContainer />
+        <ContactsFormContainer saveChangeToRedux={saveChangeToRedux} />
       </TabPanel>
 
       <TabPanel value={tabIndex} index={3}>
-        <CapabilitiesFormContainer />
+        <CapabilitiesFormContainer saveChangeToRedux={saveChangeToRedux} />
       </TabPanel>
     </Container>
   );
@@ -142,7 +150,8 @@ const mapStateToProps = ({
 
 export default connect(mapStateToProps, {
   getTemporaryUserDataWithDatabase,
-  removeTemporaryUserData
+  removeTemporaryUserData,
+  setTemporaryUserData
 })(AddNewUser);
 
 function TabPanel(props) {

@@ -1,7 +1,6 @@
 import React, { memo } from "react";
 import { Formik, Field, FieldArray } from "formik";
 
-import { compareValuesAndCheckForEmptiness } from "../../../utils/helpers.js";
 import { language } from "../../../utils/dictionaries.js";
 
 import Grid from "@material-ui/core/Grid";
@@ -60,8 +59,7 @@ const ContactsForm = ({
     >
       {({ values, errors }) => (
         <Grid container justify="space-around" style={{ marginTop: "2rem" }}>
-          {compareValuesAndCheckForEmptiness(values, contactsData) &&
-            saveChangeToRedux(values)}
+          {saveChangeToRedux(values, contactsData)}
 
           <Grid item xs={4}>
             <StyledForm>
