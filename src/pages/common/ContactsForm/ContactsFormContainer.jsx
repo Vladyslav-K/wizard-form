@@ -12,7 +12,8 @@ function ContactsFormContainer({
   setContactsAsSubmitted,
   setTemporaryUserData,
   saveChangeToRedux,
-  temporaryUserData
+
+  contactsData
 }) {
   const handleSubmit = () => {
     setContactsAsSubmitted();
@@ -21,14 +22,35 @@ function ContactsFormContainer({
 
   return (
     <ContactsForm
-      temporaryUserData={temporaryUserData}
+      contactsData={contactsData}
       saveChangeToRedux={saveChangeToRedux}
       handleSubmit={handleSubmit}
     />
   );
 }
 
-export default connect(({ temporaryUserData }) => ({ temporaryUserData }), {
-  setContactsAsSubmitted,
-  setTemporaryUserData
-})(ContactsFormContainer);
+export default connect(
+  ({
+    temporaryUserData: {
+      mainLanguage,
+      facebookLink,
+      gitHubLink,
+      company,
+      phones,
+      fax
+    }
+  }) => ({
+    contactsData: {
+      mainLanguage,
+      facebookLink,
+      gitHubLink,
+      company,
+      phones,
+      fax
+    }
+  }),
+  {
+    setContactsAsSubmitted,
+    setTemporaryUserData
+  }
+)(ContactsFormContainer);

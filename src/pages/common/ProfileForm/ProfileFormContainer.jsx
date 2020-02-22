@@ -12,7 +12,7 @@ function ProfileFormContainer({
   setProfileAsSubmitted,
   setTemporaryUserData,
   saveChangeToRedux,
-  temporaryUserData
+  profileData
 }) {
   const handleSubmit = () => {
     setProfileAsSubmitted();
@@ -21,14 +21,28 @@ function ProfileFormContainer({
 
   return (
     <ProfileForm
+      profileData={profileData}
       saveChangeToRedux={saveChangeToRedux}
-      temporaryUserData={temporaryUserData}
       handleSubmit={handleSubmit}
     />
   );
 }
 
-export default connect(({ temporaryUserData }) => ({ temporaryUserData }), {
-  setProfileAsSubmitted,
-  setTemporaryUserData
-})(ProfileFormContainer);
+export default connect(
+  ({
+    temporaryUserData: {
+      firstName,
+      birthDate,
+      lastName,
+      address,
+      gender,
+      email
+    }
+  }) => ({
+    profileData: { firstName, birthDate, lastName, address, gender, email }
+  }),
+  {
+    setProfileAsSubmitted,
+    setTemporaryUserData
+  }
+)(ProfileFormContainer);

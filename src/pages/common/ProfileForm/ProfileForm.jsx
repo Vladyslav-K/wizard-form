@@ -10,45 +10,15 @@ import StyledForm from "../../../components/StyledForm";
 
 import Grid from "@material-ui/core/Grid";
 
-const ProfileForm = ({
-  saveChangeToRedux,
-  handleSubmit,
-  temporaryUserData
-}) => {
-  const {
-    firstName,
-    birthDate,
-    lastName,
-    address,
-    gender,
-    email
-  } = temporaryUserData;
-
-  const profileData = {
-    firstName,
-    birthDate,
-    lastName,
-    address,
-    gender,
-    email
-  };
-
+const ProfileForm = ({ saveChangeToRedux, handleSubmit, profileData }) => {
   return (
     <div>
       <Formik
         validateOnChange={false}
         validateOnBlur={false}
         enableReinitialize
-        initialValues={{
-          birthDate,
-          firstName,
-          lastName,
-          address,
-          gender,
-          email
-        }}
-        onSubmit={handleSubmit}
-      >
+        initialValues={profileData}
+        onSubmit={handleSubmit}>
         {({ values, errors }) => (
           <Grid container justify="space-around" style={{ marginTop: "2rem" }}>
             {saveChangeToRedux(values, profileData)}

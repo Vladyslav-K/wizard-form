@@ -9,7 +9,7 @@ import { setAccountAsSubmitted } from "../../../domain/submittedFormsDomain/subm
 import { setTemporaryUserData } from "../../../domain/temporaryUserDomain/temporaryUserActions.js";
 
 function AccountFormContainer({
-  temporaryUserData,
+  accountData,
 
   setAccountAsSubmitted,
   setTemporaryUserData,
@@ -32,12 +32,17 @@ function AccountFormContainer({
       toggleVisibility={toggleVisibility}
       handleSubmit={handleSubmit}
       visible={visible}
-      temporaryUserData={temporaryUserData}
+      accountData={accountData}
     />
   );
 }
 
-export default connect(({ temporaryUserData }) => ({ temporaryUserData }), {
-  setAccountAsSubmitted,
-  setTemporaryUserData
-})(AccountFormContainer);
+export default connect(
+  ({
+    temporaryUserData: { passwordConfirmation, password, username, avatar }
+  }) => ({ accountData: { passwordConfirmation, password, username, avatar } }),
+  {
+    setAccountAsSubmitted,
+    setTemporaryUserData
+  }
+)(AccountFormContainer);

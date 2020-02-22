@@ -17,31 +17,16 @@ const AccountForm = ({
   handleSubmit,
   visible,
 
-  temporaryUserData
+  accountData
 }) => {
-  const {
-    passwordConfirmation,
-    password,
-    username,
-    avatar
-  } = temporaryUserData;
-
-  const accountData = { passwordConfirmation, password, username, avatar };
-
   return (
     <Formik
       validationSchema={AccountFormValidationSchema}
       validateOnChange={false}
       validateOnBlur={false}
       enableReinitialize
-      initialValues={{
-        passwordConfirmation,
-        password,
-        username,
-        avatar
-      }}
-      onSubmit={handleSubmit}
-    >
+      initialValues={accountData}
+      onSubmit={handleSubmit}>
       {({ values, errors }) => (
         <Grid container justify="space-around" style={{ marginTop: "2rem" }}>
           {saveChangeToRedux(values, accountData)}

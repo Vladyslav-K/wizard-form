@@ -17,46 +17,16 @@ import InputMask from "../../../components/InputMask";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 
-const ContactsForm = ({
-  temporaryUserData,
-  saveChangeToRedux,
-  handleSubmit
-}) => {
+const ContactsForm = ({ contactsData, saveChangeToRedux, handleSubmit }) => {
   const classes = useStyles();
-
-  const {
-    mainLanguage,
-    facebookLink,
-    gitHubLink,
-    company,
-    phones,
-    fax
-  } = temporaryUserData;
-
-  const contactsData = {
-    mainLanguage,
-    facebookLink,
-    gitHubLink,
-    company,
-    phones,
-    fax
-  };
 
   return (
     <Formik
       validateOnChange={false}
       validateOnBlur={false}
       enableReinitialize
-      initialValues={{
-        mainLanguage,
-        facebookLink,
-        gitHubLink,
-        company,
-        phones,
-        fax
-      }}
-      onSubmit={handleSubmit}
-    >
+      initialValues={contactsData}
+      onSubmit={handleSubmit}>
       {({ values, errors }) => (
         <Grid container justify="space-around" style={{ marginTop: "2rem" }}>
           {saveChangeToRedux(values, contactsData)}
@@ -123,8 +93,7 @@ const ContactsForm = ({
                         {index > 0 && (
                           <Button
                             className={classes.minusButtonStyles}
-                            onClick={() => arrayHelpers.remove(index)}
-                          >
+                            onClick={() => arrayHelpers.remove(index)}>
                             <MinusIcon />
                           </Button>
                         )}
@@ -135,8 +104,7 @@ const ContactsForm = ({
                         className={classes.plusButtonStyles}
                         startIcon={<PlusIcon />}
                         disableRipple
-                        onClick={() => arrayHelpers.push("")}
-                      >
+                        onClick={() => arrayHelpers.push("")}>
                         add phone number
                       </Button>
                     )}

@@ -28,9 +28,13 @@ const CapabilitiesFormContainer = ({
     removeTemporaryUserData();
   };
 
+  const { additionalInformation, hobbies, skills } = temporaryUserData;
+
+  const capabilitiesData = { additionalInformation, hobbies, skills };
+
   return (
     <CapabilitiesForm
-      temporaryUserData={temporaryUserData}
+      capabilitiesData={capabilitiesData}
       saveChangeToRedux={saveChangeToRedux}
       handleSubmit={handleSubmit}
     />

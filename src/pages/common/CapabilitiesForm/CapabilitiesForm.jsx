@@ -14,25 +14,16 @@ import CheckBox from "../../../components/CheckBox";
 
 const CapabilitiesForm = ({
   saveChangeToRedux,
-  temporaryUserData,
+  capabilitiesData,
   handleSubmit
 }) => {
-  const { additionalInformation, hobbies, skills } = temporaryUserData;
-
-  const capabilitiesData = { additionalInformation, hobbies, skills };
-
   return (
     <Formik
       validateOnChange={false}
       validateOnBlur={false}
       enableReinitialize
-      initialValues={{
-        additionalInformation: temporaryUserData.additionalInformation,
-        hobbies: temporaryUserData.hobbies,
-        skills: temporaryUserData.skills
-      }}
-      onSubmit={handleSubmit}
-    >
+      initialValues={capabilitiesData}
+      onSubmit={handleSubmit}>
       {({ values, errors }) => (
         <Grid container justify="space-around" style={{ marginTop: "2rem" }}>
           {saveChangeToRedux(values, capabilitiesData)}
