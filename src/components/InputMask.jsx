@@ -1,13 +1,12 @@
 import React, { memo } from "react";
 import ReactInputMask from "react-input-mask";
 
-import InputError from "./InputError";
+import { InputError } from "./InputError";
 
 import { makeStyles } from "@material-ui/core/styles";
-import FormControl from "@material-ui/core/FormControl";
-import Grid from "@material-ui/core/Grid";
+import { FormControl, Grid } from "@material-ui/core";
 
-const InputMask = ({ field, form, label, required, errors }) => {
+export const InputMask = memo(({ field, form, label, required, errors }) => {
   const classes = useStyles();
 
   return (
@@ -32,9 +31,7 @@ const InputMask = ({ field, form, label, required, errors }) => {
       {errors && <InputError value={errors} />}
     </>
   );
-};
-
-export default memo(InputMask);
+});
 
 const useStyles = makeStyles(theme => ({
   fieldStyles: {

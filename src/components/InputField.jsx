@@ -1,50 +1,40 @@
 import React, { memo } from "react";
 
-import InputError from "./InputError";
+import { InputError } from "./InputError";
 
 import { makeStyles } from "@material-ui/core/styles";
-import OutlinedInput from "@material-ui/core/OutlinedInput";
-import FormControl from "@material-ui/core/FormControl";
-import Grid from "@material-ui/core/Grid";
+import { OutlinedInput, FormControl, Grid } from "@material-ui/core";
 
+export const InputField = memo(
+  ({ placeholder, multiline, required, errors, label, field, form, rows }) => {
+    const classes = useStyles();
 
-const InputField = ({
-  placeholder,
-  multiline,
-  required,
-  errors,
-  label,
-  field,
-  form,
-  rows
-}) => {
-  const classes = useStyles();
+    return (
+      <>
+        <FormControl variant="outlined" margin="normal" size="small">
+          <Grid container justify="space-between">
+            <span> {label} </span>
+            {required && <span> * </span>}
+          </Grid>
 
-  return (
-    <>
-      <FormControl variant="outlined" margin="normal" size="small">
-        <Grid container justify="space-between">
-          <span> {label} </span>
-          {required && <span> * </span>}
-        </Grid>
+          <OutlinedInput
+            onChange={event =>
+              form.setFieldValue(field.name, event.target.value)
+            }
+            className={classes.fieldStyles}
+            placeholder={placeholder}
+            multiline={multiline}
+            value={field.value}
+            type="input"
+            rows={rows}
+          />
+        </FormControl>
 
-        <OutlinedInput
-          onChange={event => form.setFieldValue(field.name, event.target.value)}
-          className={classes.fieldStyles}
-          placeholder={placeholder}
-          multiline={multiline}
-          value={field.value}
-          type="input"
-          rows={rows}
-        />
-      </FormControl>
-
-      {errors && <InputError value={errors} />}
-    </>
-  );
-};
-
-export default memo(InputField);
+        {errors && <InputError value={errors} />}
+      </>
+    );
+  }
+);
 
 const useStyles = makeStyles(theme => ({
   fieldStyles: {

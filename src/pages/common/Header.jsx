@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Link } from "react-router-dom";
 
 import { ReactComponent as ListOfUsersIcon } from "../../images/icons/list-of-users.svg";
@@ -6,11 +6,9 @@ import { ReactComponent as AddNewUserIcon } from "../../images/icons/add-new-use
 import { ReactComponent as LogoIcon } from "../../images/icons/Logo.svg";
 
 import { makeStyles } from "@material-ui/core/styles";
-import Toolbar from "@material-ui/core/Toolbar";
-import AppBar from "@material-ui/core/AppBar";
-import Button from "@material-ui/core/Button";
+import { Toolbar, AppBar, Button } from "@material-ui/core";
 
-function Header() {
+export const Header = memo(() => {
   const classes = useStyles();
 
   return (
@@ -25,8 +23,7 @@ function Header() {
           to="/registration"
           color="inherit"
           className={classes.button}
-          startIcon={<AddNewUserIcon />}
-        >
+          startIcon={<AddNewUserIcon />}>
           Adding new user
         </Button>
 
@@ -35,16 +32,13 @@ function Header() {
           to="/users"
           color="inherit"
           className={classes.button}
-          startIcon={<ListOfUsersIcon />}
-        >
+          startIcon={<ListOfUsersIcon />}>
           List of users
         </Button>
       </Toolbar>
     </AppBar>
   );
-}
-
-export default Header;
+});
 
 const useStyles = makeStyles(theme => ({
   root: {

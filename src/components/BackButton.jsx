@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const history = createHashHistory();
 
-const BackButton = () => {
+export const BackButton = memo(() => {
   const classes = useStyles();
 
   return (
@@ -15,9 +15,7 @@ const BackButton = () => {
       </button>
     </div>
   );
-};
-
-export default memo(BackButton);
+});
 
 const useStyles = makeStyles(theme => ({
   buttonContainer: {

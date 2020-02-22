@@ -11,21 +11,16 @@ import {
   setTemporaryUserData
 } from "../domain/temporaryUserDomain/temporaryUserActions.js";
 
-import CapabilitiesFormContainer from "./common/CapabilitiesForm/CapabilitiesFormContainer";
-import ContactsFormContainer from "./common/ContactsForm/ContactsFormContainer";
-import AccountFormContainer from "./common/AccountForm/AccountFormContainer";
-import ProfileFormContainer from "./common/ProfileForm/ProfileFormContainer";
-import FormMessage from "../components/FormMessage.jsx";
+import { CapabilitiesFormContainer } from "./common/CapabilitiesForm/CapabilitiesFormContainer";
+import { ContactsFormContainer } from "./common/ContactsForm/ContactsFormContainer";
+import { AccountFormContainer } from "./common/AccountForm/AccountFormContainer";
+import { ProfileFormContainer } from "./common/ProfileForm/ProfileFormContainer";
+import { FormMessage } from "../components/FormMessage.jsx";
 
 import { makeStyles, withStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import Container from "@material-ui/core/Container";
-import Tabs from "@material-ui/core/Tabs";
-import Grid from "@material-ui/core/Grid";
-import Tab from "@material-ui/core/Tab";
-import Box from "@material-ui/core/Box";
+import { Typography, Container, Tabs, Grid, Tab, Box } from "@material-ui/core";
 
-const AddNewUser = ({
+const ConnectedAddNewUser = ({
   history,
   location,
 
@@ -78,8 +73,7 @@ const AddNewUser = ({
         aria-label="Registration"
         onChange={handleChange}
         variant="fullWidth"
-        value={tabIndex}
-      >
+        value={tabIndex}>
         <StyledTab label="1. Account" {...a11yProps(0)} />
 
         <StyledTab
@@ -127,33 +121,6 @@ const AddNewUser = ({
   );
 };
 
-const mapStateToProps = ({
-  submitted: {
-    contactsIsSubmitted,
-    profileIsSubmitted,
-    accountIsSubmitted,
-
-    databaseHasUserData
-  },
-  temporaryUserData
-}) => {
-  return {
-    contactsIsSubmitted,
-    profileIsSubmitted,
-    accountIsSubmitted,
-
-    temporaryUserData,
-
-    databaseHasUserData
-  };
-};
-
-export default connect(mapStateToProps, {
-  getTemporaryUserDataWithDatabase,
-  removeTemporaryUserData,
-  setTemporaryUserData
-})(AddNewUser);
-
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -164,8 +131,7 @@ function TabPanel(props) {
       hidden={value !== index}
       component="div"
       role="tabpanel"
-      {...other}
-    >
+      {...other}>
       {value === index && <Box p={3}>{children}</Box>}
     </Typography>
   );
@@ -249,3 +215,29 @@ const useStyles = makeStyles(theme => ({
     display: "none"
   }
 }));
+
+export const AddNewUser = connect(
+  ({
+    submitted: {
+      contactsIsSubmitted,
+      profileIsSubmitted,
+      accountIsSubmitted,
+
+      databaseHasUserData
+    },
+    temporaryUserData
+  }) => ({
+    contactsIsSubmitted,
+    profileIsSubmitted,
+    accountIsSubmitted,
+
+    databaseHasUserData,
+
+    temporaryUserData
+  }),
+  {
+    getTemporaryUserDataWithDatabase,
+    removeTemporaryUserData,
+    setTemporaryUserData
+  }
+)(ConnectedAddNewUser);

@@ -6,9 +6,9 @@ import { setQueryStringIndex } from "../../../utils/helpers.js";
 import { setProfileAsSubmitted } from "../../../domain/submittedFormsDomain/submittedFormsActions.js";
 import { setTemporaryUserData } from "../../../domain/temporaryUserDomain/temporaryUserActions.js";
 
-import ProfileForm from "./ProfileForm";
+import { ProfileForm } from "./ProfileForm";
 
-function ProfileFormContainer({
+function ConnectedProfileFormContainer({
   setProfileAsSubmitted,
   setTemporaryUserData,
   saveChangeToRedux,
@@ -28,7 +28,7 @@ function ProfileFormContainer({
   );
 }
 
-export default connect(
+export const ProfileFormContainer = connect(
   ({
     temporaryUserData: {
       firstName,
@@ -45,4 +45,4 @@ export default connect(
     setProfileAsSubmitted,
     setTemporaryUserData
   }
-)(ProfileFormContainer);
+)(ConnectedProfileFormContainer);

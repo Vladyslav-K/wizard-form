@@ -1,26 +1,23 @@
 import React, { memo } from "react";
 
 import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { CardHeader, Card, Avatar } from "@material-ui/core";
 
-import Avatar from "@material-ui/core/Avatar";
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
+export const AvatarForUserList = memo(
+  ({ avatar, username, firstName, lastName }) => {
+    const classes = useStyles();
 
-const AvatarForUserList = ({ avatar, username, firstName, lastName }) => {
-  const classes = useStyles();
-
-  return (
-    <Card className={classes.cardContainer}>
-      <StyledCard
-        avatar={<Avatar size="large" alt="User avatar" src={avatar} />}
-        title={`${firstName} ${lastName}`}
-        subheader={username}
-      />
-    </Card>
-  );
-};
-
-export default memo(AvatarForUserList);
+    return (
+      <Card className={classes.cardContainer}>
+        <StyledCard
+          avatar={<Avatar size="large" alt="User avatar" src={avatar} />}
+          title={`${firstName} ${lastName}`}
+          subheader={username}
+        />
+      </Card>
+    );
+  }
+);
 
 const useStyles = makeStyles(theme => ({
   cardContainer: {

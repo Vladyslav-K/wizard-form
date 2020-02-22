@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
-const SubmitButton = () => {
+export const SubmitButton = memo(() => {
   const classes = useStyles();
 
   return (
@@ -11,9 +11,7 @@ const SubmitButton = () => {
       </button>
     </div>
   );
-};
-
-export default memo(SubmitButton);
+});
 
 const useStyles = makeStyles(theme => ({
   buttonContainer: {

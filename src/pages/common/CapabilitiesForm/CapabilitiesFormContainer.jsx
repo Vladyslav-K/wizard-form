@@ -9,9 +9,9 @@ import {
 
 import { addUserToList } from "../../../domain/userListDomain/userListActions.js";
 
-import CapabilitiesForm from "./CapabilitiesForm";
+import { CapabilitiesForm } from "./CapabilitiesForm";
 
-const CapabilitiesFormContainer = ({
+const ConnectedCapabilitiesFormContainer = ({
   removeTemporaryUserData,
   setTemporaryUserData,
   saveChangeToRedux,
@@ -41,8 +41,11 @@ const CapabilitiesFormContainer = ({
   );
 };
 
-export default connect(({ temporaryUserData }) => ({ temporaryUserData }), {
-  removeTemporaryUserData,
-  setTemporaryUserData,
-  addUserToList
-})(CapabilitiesFormContainer);
+export const CapabilitiesFormContainer = connect(
+  ({ temporaryUserData }) => ({ temporaryUserData }),
+  {
+    removeTemporaryUserData,
+    setTemporaryUserData,
+    addUserToList
+  }
+)(ConnectedCapabilitiesFormContainer);

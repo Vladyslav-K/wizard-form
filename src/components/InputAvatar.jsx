@@ -2,14 +2,12 @@ import React, { memo } from "react";
 
 import { ReactComponent as Plus } from "../images/icons/add.svg";
 import DefaultAvatarImage from "../images/icons/avatar.svg";
-import InputError from "./InputError";
+import { InputError } from "./InputError";
 
 import { makeStyles } from "@material-ui/core/styles";
-import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
+import { Avatar, Button } from "@material-ui/core";
 
-
-const InputAvatar = ({ field, form, errors }) => {
+export const InputAvatar = memo(({ field, form, errors }) => {
   const classes = useStyles();
 
   const handleImageChange = event => {
@@ -57,8 +55,7 @@ const InputAvatar = ({ field, form, errors }) => {
           className={classes.button}
           startIcon={<Plus />}
           component="span"
-          disableRipple
-        >
+          disableRipple>
           add avatar
         </Button>
       </label>
@@ -66,9 +63,7 @@ const InputAvatar = ({ field, form, errors }) => {
       {errors && <InputError value="Maximum image size 1 mb" />}
     </div>
   );
-};
-
-export default memo(InputAvatar);
+});
 
 const useStyles = makeStyles(theme => ({
   container: {

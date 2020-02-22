@@ -6,13 +6,15 @@ import "react-datepicker/dist/react-datepicker.css";
 import { ReactComponent as CalendarIcon } from "../images/icons/calendar.svg";
 
 import { makeStyles } from "@material-ui/core/styles";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import OutlinedInput from "@material-ui/core/OutlinedInput";
-import FormControl from "@material-ui/core/FormControl";
-import IconButton from "@material-ui/core/IconButton";
-import Grid from "@material-ui/core/Grid";
+import {
+  InputAdornment,
+  OutlinedInput,
+  FormControl,
+  IconButton,
+  Grid
+} from "@material-ui/core";
 
-const DatePicker = ({ field, form }) => {
+export const DatePicker = memo(({ field, form }) => {
   const classes = useStyles();
 
   const handleButtonMouseDown = event => {
@@ -24,8 +26,7 @@ const DatePicker = ({ field, form }) => {
       className={classes.container}
       variant="outlined"
       margin="normal"
-      size="small"
-    >
+      size="small">
       <Grid container justify="space-between">
         <span> Birth date </span>
         <span> * </span>
@@ -61,9 +62,7 @@ const DatePicker = ({ field, form }) => {
       customInput={<CustomInputRef />}
     />
   );
-};
-
-export default memo(DatePicker);
+});
 
 function TextMaskCustom(props) {
   const { inputRef, ...other } = props;

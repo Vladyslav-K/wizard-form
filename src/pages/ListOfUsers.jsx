@@ -4,25 +4,26 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
 import { removeUserFromList } from "../domain/userListDomain/userListActions.js";
-import AvatarForUserList from "../components/AvatarForUserList.jsx";
+import { AvatarForUserList } from "../components/AvatarForUserList.jsx";
 
 import { ReactComponent as DeleteIcon } from "../images/icons/Close.svg";
 import { ReactComponent as EditIcon } from "../images/icons/Edit.svg";
 
 import { makeStyles, withStyles } from "@material-ui/core/styles";
-import IconButton from "@material-ui/core/IconButton";
-import Container from "@material-ui/core/Container";
-import Grid from "@material-ui/core/Grid";
+import {
+  IconButton,
+  Container,
+  Paper,
+  Grid,
+  TableContainer,
+  TableHead,
+  TableBody,
+  TableCell,
+  TableRow,
+  Table
+} from "@material-ui/core";
 
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableRow from "@material-ui/core/TableRow";
-import Table from "@material-ui/core/Table";
-import Paper from "@material-ui/core/Paper";
-
-const ListOfUsers = ({ userList, removeUserFromList }) => {
+const ConnectedListOfUsers = ({ userList, removeUserFromList }) => {
   const classes = useStyles();
 
   return (
@@ -71,8 +72,7 @@ const ListOfUsers = ({ userList, removeUserFromList }) => {
                   </IconButton>
 
                   <IconButton
-                    onClick={() => removeUserFromList({ id: user.id })}
-                  >
+                    onClick={() => removeUserFromList({ id: user.id })}>
                     <DeleteIcon />
                   </IconButton>
                 </StyledTableCell>
@@ -103,10 +103,6 @@ const ListOfUsers = ({ userList, removeUserFromList }) => {
     </Container>
   );
 };
-
-export default connect(({ listOfUsers: { userList } }) => ({ userList }), {
-  removeUserFromList
-})(ListOfUsers);
 
 const useStyles = makeStyles(theme => ({
   tableContainer: {
@@ -197,3 +193,10 @@ const StyledTableRow = withStyles(theme => ({
     }
   }
 }))(TableRow);
+
+export const ListOfUsers = connect(
+  ({ listOfUsers: { userList } }) => ({ userList }),
+  {
+    removeUserFromList
+  }
+)(ConnectedListOfUsers);

@@ -3,18 +3,18 @@ import { connect } from "react-redux";
 
 import { setQueryStringIndex } from "../../../utils/helpers.js";
 
-import AccountForm from "./AccountForm";
+import { AccountForm } from "./AccountForm";
 
 import { setAccountAsSubmitted } from "../../../domain/submittedFormsDomain/submittedFormsActions.js";
 import { setTemporaryUserData } from "../../../domain/temporaryUserDomain/temporaryUserActions.js";
 
-function AccountFormContainer({
+const ConnectedAccountFormContainer = ({
   accountData,
 
   setAccountAsSubmitted,
   setTemporaryUserData,
   saveChangeToRedux
-}) {
+}) => {
   const [visible, setVisible] = useState(false);
 
   const toggleVisibility = () => {
@@ -35,9 +35,9 @@ function AccountFormContainer({
       accountData={accountData}
     />
   );
-}
+};
 
-export default connect(
+export const AccountFormContainer = connect(
   ({
     temporaryUserData: { passwordConfirmation, password, username, avatar }
   }) => ({ accountData: { passwordConfirmation, password, username, avatar } }),
@@ -45,4 +45,4 @@ export default connect(
     setAccountAsSubmitted,
     setTemporaryUserData
   }
-)(AccountFormContainer);
+)(ConnectedAccountFormContainer);

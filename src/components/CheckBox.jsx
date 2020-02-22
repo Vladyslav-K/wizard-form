@@ -3,10 +3,9 @@ import React, { memo } from "react";
 import { ReactComponent as CheckboxRectangle } from "../images/icons/checkbox_rectangle.svg";
 
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import MuiCheckbox from "@material-ui/core/Checkbox";
+import { FormControlLabel, Checkbox as MuiCheckbox } from "@material-ui/core";
 
-const CheckBox = ({ field, form, fieldName, label, options }) => {
+export const CheckBox = memo(({ field, form, fieldName, label, options }) => {
   return (
     <>
       <span style={{ margin: "1rem 0" }}>{label}</span>
@@ -31,6 +30,4 @@ const CheckBox = ({ field, form, fieldName, label, options }) => {
       </div>
     </>
   );
-};
-
-export default memo(CheckBox);
+});

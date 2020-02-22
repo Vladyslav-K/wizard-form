@@ -1,12 +1,14 @@
 import React, { memo } from "react";
 
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import Radio from "@material-ui/core/Radio";
-import Grid from "@material-ui/core/Grid";
+import {
+  FormControlLabel,
+  FormControl,
+  RadioGroup,
+  Radio,
+  Grid
+} from "@material-ui/core";
 
-const GenderRadio = ({ field, form }) => {
+export const GenderRadio = memo(({ field, form }) => {
   return (
     <FormControl component="fieldset" style={{ marginTop: "22px" }}>
       <span>Gender</span>
@@ -14,8 +16,7 @@ const GenderRadio = ({ field, form }) => {
         aria-label="position"
         value={field.value}
         row
-        onChange={event => form.setFieldValue(field.name, event.target.value)}
-      >
+        onChange={event => form.setFieldValue(field.name, event.target.value)}>
         <Grid container justify="space-between" style={{ width: "70%" }}>
           <FormControlLabel
             labelPlacement="end"
@@ -34,6 +35,4 @@ const GenderRadio = ({ field, form }) => {
       </RadioGroup>
     </FormControl>
   );
-};
-
-export default memo(GenderRadio);
+});

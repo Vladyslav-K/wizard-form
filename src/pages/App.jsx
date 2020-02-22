@@ -6,9 +6,9 @@ import {
   Route
 } from "react-router-dom";
 
-import ListOfUsers from "./ListOfUsers";
-import AddNewUser from "./AddNewUser";
-import Header from "./common/Header";
+import { ListOfUsers } from "./ListOfUsers";
+import { AddNewUser } from "./AddNewUser";
+import { Header } from "./common/Header";
 
 function App() {
   return (

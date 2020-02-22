@@ -6,9 +6,9 @@ import { setQueryStringIndex } from "../../../utils/helpers.js";
 import { setContactsAsSubmitted } from "../../../domain/submittedFormsDomain/submittedFormsActions.js";
 import { setTemporaryUserData } from "../../../domain/temporaryUserDomain/temporaryUserActions.js";
 
-import ContactsForm from "./ContactsForm";
+import { ContactsForm } from "./ContactsForm";
 
-function ContactsFormContainer({
+function ConnectedContactsFormContainer({
   setContactsAsSubmitted,
   setTemporaryUserData,
   saveChangeToRedux,
@@ -29,7 +29,7 @@ function ContactsFormContainer({
   );
 }
 
-export default connect(
+export const ContactsFormContainer = connect(
   ({
     temporaryUserData: {
       mainLanguage,
@@ -53,4 +53,4 @@ export default connect(
     setContactsAsSubmitted,
     setTemporaryUserData
   }
-)(ContactsFormContainer);
+)(ConnectedContactsFormContainer);
