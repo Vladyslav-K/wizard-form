@@ -82,7 +82,13 @@ export function* syncReduxTemporaryUserDataWithDatabase() {
 export function* syncDatabaseTemporaryUserDataWithRedux(action) {
   const dataWithDatabase = yield call(() => getTemporaryUserDataFromDatabase());
 
-  yield put(databaseHasTemporaryUserData(false));
+  const databaseHasUserData = yield select(
+    state => state.submitted.databaseHasUserData
+  );
+
+  if (databaseHasUserData) {
+    yield put(databaseHasTemporaryUserData(false));
+  }
 
   yield call(
     {
