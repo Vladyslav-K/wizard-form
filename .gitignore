@@ -6,6 +6,7 @@
 .pnp.js
 webpack.config.js
 .gitignore
+.vscode
 
 # testing
 /coverage
