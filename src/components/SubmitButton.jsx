@@ -1,13 +1,13 @@
 import React, { memo } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
-export const SubmitButton = memo(() => {
-  const classes = useStyles();
+export const SubmitButton = memo(({ finish }) => {
+  const classes = useStyles({ finish });
 
   return (
     <div className={classes.buttonContainer}>
       <button className={classes.button} type="submit">
-        Forward
+        {finish ? "Finish" : "Forward"}
       </button>
     </div>
   );
@@ -30,8 +30,9 @@ const useStyles = makeStyles(theme => ({
     textTransform: "none",
 
     color: "white",
-    background: "#4E86E4",
+    background: props => (props.finish ? "#4EE4A5" : "#4E86E4"),
 
+    minWidth: "104px",
     padding: "12px 24px",
 
     border: "none",

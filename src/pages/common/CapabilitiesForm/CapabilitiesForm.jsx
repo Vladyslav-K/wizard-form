@@ -63,7 +63,7 @@ export const CapabilitiesForm = memo(
 
                 <Grid container justify="space-between">
                   <BackButton />
-                  <SubmitButton />
+                  <SubmitButton finish />
                 </Grid>
               </StyledForm>
             </Grid>
