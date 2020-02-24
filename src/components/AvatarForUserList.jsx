@@ -1,18 +1,37 @@
 import React, { memo } from "react";
+import { Link } from "react-router-dom";
+
+import DefaultAvatarImage from "../images/icons/avatar.svg";
 
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { CardHeader, Card, Avatar } from "@material-ui/core";
 
 export const AvatarForUserList = memo(
-  ({ avatar, username, firstName, lastName }) => {
+  ({ avatar, username, firstName, lastName, id }) => {
     const classes = useStyles();
 
     return (
       <Card className={classes.cardContainer}>
         <StyledCard
-          avatar={<Avatar size="large" alt="User avatar" src={avatar} />}
+          avatar={
+            avatar ? (
+              <Avatar
+                className={classes.userAvatar}
+                alt="User avatar"
+                src={avatar}
+              />
+            ) : (
+              <Avatar
+                className={classes.defaultAvatar}
+                alt="Default avatar image"
+                src={DefaultAvatarImage}
+              />
+            )
+          }
           title={`${firstName} ${lastName}`}
           subheader={username}
+          component={Link}
+          to={`/users/view/${id}`}
         />
       </Card>
     );
@@ -24,6 +43,28 @@ const useStyles = makeStyles(theme => ({
     borderRadius: "none",
     boxShadow: "none",
     background: "none"
+  },
+
+  defaultAvatar: {
+    width: "40px",
+    height: "40px",
+
+    border: "2px solid #5E97F3",
+
+    "& img": {
+      width: "auto",
+
+      transform: "translateY(5px)"
+    }
+  },
+
+  userAvatar: {
+    height: "40px",
+    width: "40px",
+
+    "& img": {
+      width: "auto"
+    }
   }
 }));
 

@@ -53,6 +53,7 @@ const ConnectedListOfUsers = ({ userList, removeUserFromList }) => {
                     lastName={user.lastName}
                     username={user.username}
                     avatar={user.avatar}
+                    id={user.id}
                   />
                 </StyledTableCell>
 
