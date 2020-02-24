@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { createHashHistory } from "history";
 import { connect } from "react-redux";
 
 import { useDebouncedCallback } from "use-debounce";
@@ -11,11 +12,22 @@ import {
   setTemporaryUserData
 } from "../domain/temporaryUserDomain/temporaryUserActions.js";
 
-import { CapabilitiesFormContainer } from "./common/CapabilitiesForm/CapabilitiesFormContainer";
-import { ContactsFormContainer } from "./common/ContactsForm/ContactsFormContainer";
-import { AccountFormContainer } from "./common/AccountForm/AccountFormContainer";
-import { ProfileFormContainer } from "./common/ProfileForm/ProfileFormContainer";
+import {
+  setContactsAsSubmitted,
+  setProfileAsSubmitted,
+  setAccountAsSubmitted
+} from "../domain/submittedFormsDomain/submittedFormsActions.js";
+
+import { addUserToList } from "../domain/userListDomain/userListActions.js";
+
+import { CapabilitiesForm } from "./common/CapabilitiesForm";
+import { ContactsForm } from "./common/ContactsForm";
+import { AccountForm } from "./common/AccountForm";
+import { ProfileForm } from "./common/ProfileForm";
 import { FormMessage } from "../components/FormMessage.jsx";
+
+import { SubmitButton } from "../components/SubmitButton.jsx";
+import { BackButton } from "../components/BackButton.jsx";
 
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { Typography, Container, Tabs, Grid, Tab, Box } from "@material-ui/core";
@@ -28,6 +40,12 @@ const ConnectedAddNewUser = ({
   removeTemporaryUserData,
   setTemporaryUserData,
 
+  setContactsAsSubmitted,
+  setProfileAsSubmitted,
+  setAccountAsSubmitted,
+
+  addUserToList,
+
   contactsIsSubmitted,
   profileIsSubmitted,
   accountIsSubmitted,
@@ -39,6 +57,12 @@ const ConnectedAddNewUser = ({
   const classes = useStyles();
 
   const [tabIndex, setTabIndex] = useState(0);
+
+  const [visible, setVisible] = useState(false);
+
+  const toggleVisibility = () => {
+    setVisible(!visible);
+  };
 
   useEffect(() => {
     const queryIndex = getQueryStringIndex("step", location.search);
@@ -62,6 +86,29 @@ const ConnectedAddNewUser = ({
       setTemporaryUserData(formikValues);
     }
   }, 250);
+
+  const handleSubmit = (submittedFunc, queryStringIndex) => {
+    submittedFunc();
+    queryStringIndex && setQueryStringIndex("step", queryStringIndex);
+  };
+
+  const getButtons = (getBackButton, getFinishButton) => {
+    return (
+      <>
+        {getBackButton && <BackButton />}
+        <SubmitButton finish={getFinishButton} />
+      </>
+    );
+  };
+
+  const capabilitiesHandleSubmit = () => {
+    addUserToList(temporaryUserData);
+
+    const history = createHashHistory();
+    history.push("/users");
+
+    removeTemporaryUserData();
+  };
 
   return (
     <Container maxWidth="md">
@@ -103,19 +150,42 @@ const ConnectedAddNewUser = ({
       )}
 
       <TabPanel value={tabIndex} index={0}>
-        <AccountFormContainer saveChangeToRedux={saveChangeToRedux} />
+        <AccountForm
+          setAccountAsSubmitted={setAccountAsSubmitted}
+          saveChangeToRedux={saveChangeToRedux}
+          userData={temporaryUserData}
+          getButtons={getButtons}
+          visible={visible}
+          toggleVisibility={toggleVisibility}
+          handleSubmit={() => handleSubmit(setAccountAsSubmitted, 1)}
+        />
       </TabPanel>
 
       <TabPanel value={tabIndex} index={1}>
-        <ProfileFormContainer saveChangeToRedux={saveChangeToRedux} />
+        <ProfileForm
+          saveChangeToRedux={saveChangeToRedux}
+          userData={temporaryUserData}
+          getButtons={getButtons}
+          handleSubmit={() => handleSubmit(setProfileAsSubmitted, 2)}
+        />
       </TabPanel>
 
       <TabPanel value={tabIndex} index={2}>
-        <ContactsFormContainer saveChangeToRedux={saveChangeToRedux} />
+        <ContactsForm
+          saveChangeToRedux={saveChangeToRedux}
+          userData={temporaryUserData}
+          getButtons={getButtons}
+          handleSubmit={() => handleSubmit(setContactsAsSubmitted, 3)}
+        />
       </TabPanel>
 
       <TabPanel value={tabIndex} index={3}>
-        <CapabilitiesFormContainer saveChangeToRedux={saveChangeToRedux} />
+        <CapabilitiesForm
+          saveChangeToRedux={saveChangeToRedux}
+          userData={temporaryUserData}
+          getButtons={getButtons}
+          handleSubmit={() => capabilitiesHandleSubmit()}
+        />
       </TabPanel>
     </Container>
   );
@@ -238,6 +308,12 @@ export const AddNewUser = connect(
   {
     getTemporaryUserDataWithDatabase,
     removeTemporaryUserData,
-    setTemporaryUserData
+    setTemporaryUserData,
+
+    setContactsAsSubmitted,
+    setProfileAsSubmitted,
+    setAccountAsSubmitted,
+
+    addUserToList
   }
 )(ConnectedAddNewUser);

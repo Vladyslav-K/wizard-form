@@ -1,25 +1,41 @@
 import React, { memo } from "react";
 import { Formik, Field, FieldArray } from "formik";
 
-import { language } from "../../../utils/dictionaries.js";
+import { language } from "../../utils/dictionaries.js";
 
 import { Grid } from "@material-ui/core";
 
-import { ReactComponent as MinusIcon } from "../../../images/icons/minus.svg";
-import { ReactComponent as PlusIcon } from "../../../images/icons/add.svg";
-import { InputAutocomplete } from "../../../components/InputAutocomplete";
-import { SubmitButton } from "../../../components/SubmitButton";
-import { StyledForm } from "../../../components/StyledForm";
-import { BackButton } from "../../../components/BackButton";
-import { InputField } from "../../../components/InputField";
-import { InputMask } from "../../../components/InputMask";
+import { ReactComponent as MinusIcon } from "../../images/icons/minus.svg";
+import { ReactComponent as PlusIcon } from "../../images/icons/add.svg";
+import { InputAutocomplete } from "../../components/InputAutocomplete";
+import { StyledForm } from "../../components/StyledForm";
+import { InputField } from "../../components/InputField";
+import { InputMask } from "../../components/InputMask";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 
 export const ContactsForm = memo(
-  ({ contactsData, saveChangeToRedux, handleSubmit }) => {
+  ({ userData, saveChangeToRedux, handleSubmit, getButtons }) => {
     const classes = useStyles();
+
+    const {
+      mainLanguage,
+      facebookLink,
+      gitHubLink,
+      company,
+      phones,
+      fax
+    } = userData;
+
+    const contactsData = {
+      mainLanguage,
+      facebookLink,
+      gitHubLink,
+      company,
+      phones,
+      fax
+    };
 
     return (
       <Formik
@@ -114,8 +130,7 @@ export const ContactsForm = memo(
                 />
 
                 <Grid container justify="space-between">
-                  <BackButton />
-                  <SubmitButton />
+                  {getButtons("getBackButton")}
                 </Grid>
               </StyledForm>
             </Grid>

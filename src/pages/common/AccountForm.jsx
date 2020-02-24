@@ -1,13 +1,12 @@
 import React, { memo } from "react";
 import { Formik, Field } from "formik";
 
-import { AccountFormValidationSchema } from "../../../utils/validations";
-import { InputPasswordField } from "../../../components/InputPasswordField";
-import { SubmitButton } from "../../../components/SubmitButton";
-import { InputAvatar } from "../../../components/InputAvatar";
+import { AccountFormValidationSchema } from "../../utils/validations";
+import { InputPasswordField } from "../../components/InputPasswordField";
+import { InputAvatar } from "../../components/InputAvatar";
 
-import { InputField } from "../../../components/InputField";
-import { StyledForm } from "../../../components/StyledForm";
+import { InputField } from "../../components/InputField";
+import { StyledForm } from "../../components/StyledForm";
 
 import { Grid } from "@material-ui/core";
 
@@ -16,10 +15,15 @@ export const AccountForm = memo(
     saveChangeToRedux,
     toggleVisibility,
     handleSubmit,
+    getButtons,
     visible,
 
-    accountData
+    userData
   }) => {
+    const { passwordConfirmation, password, username, avatar } = userData;
+
+    const accountData = { passwordConfirmation, password, username, avatar };
+
     return (
       <Formik
         validationSchema={AccountFormValidationSchema}
@@ -69,7 +73,7 @@ export const AccountForm = memo(
                   required
                 />
 
-                <SubmitButton />
+                {getButtons()}
               </StyledForm>
             </Grid>
           </Grid>

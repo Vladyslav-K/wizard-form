@@ -1,17 +1,26 @@
 import React, { memo } from "react";
 import { Formik, Field } from "formik";
 
-import { GenderRadio } from "../../../components/GenderRadio.jsx";
-import { SubmitButton } from "../../../components/SubmitButton";
-import { BackButton } from "../../../components/BackButton";
-import { DatePicker } from "../../../components/DatePicker";
-import { InputField } from "../../../components/InputField";
-import { StyledForm } from "../../../components/StyledForm";
+import { GenderRadio } from "../../components/GenderRadio.jsx";
+import { DatePicker } from "../../components/DatePicker";
+import { InputField } from "../../components/InputField";
+import { StyledForm } from "../../components/StyledForm";
 
 import { Grid } from "@material-ui/core";
 
 export const ProfileForm = memo(
-  ({ saveChangeToRedux, handleSubmit, profileData }) => {
+  ({ saveChangeToRedux, handleSubmit, getButtons, userData }) => {
+    const { firstName, birthDate, lastName, address, gender, email } = userData;
+
+    const profileData = {
+      firstName,
+      birthDate,
+      lastName,
+      address,
+      gender,
+      email
+    };
+
     return (
       <div>
         <Formik
@@ -70,8 +79,7 @@ export const ProfileForm = memo(
                   <Field component={GenderRadio} name="gender" />
 
                   <Grid container justify="space-between">
-                    <BackButton />
-                    <SubmitButton />
+                    {getButtons("getBackButton")}
                   </Grid>
                 </StyledForm>
               </Grid>

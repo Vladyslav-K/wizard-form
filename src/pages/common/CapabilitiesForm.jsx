@@ -1,19 +1,21 @@
 import React, { memo } from "react";
 import { Formik, Field, FieldArray } from "formik";
 
-import { skillsList, hobbiesList } from "../../../utils/dictionaries.js";
+import { skillsList, hobbiesList } from "../../utils/dictionaries.js";
 
 import { Grid } from "@material-ui/core";
 
-import { InputAutocomplete } from "../../../components/InputAutocomplete";
-import { SubmitButton } from "../../../components/SubmitButton";
-import { StyledForm } from "../../../components/StyledForm";
-import { BackButton } from "../../../components/BackButton";
-import { InputField } from "../../../components/InputField";
-import { CheckBox } from "../../../components/CheckBox";
+import { InputAutocomplete } from "../../components/InputAutocomplete";
+import { StyledForm } from "../../components/StyledForm";
+import { InputField } from "../../components/InputField";
+import { CheckBox } from "../../components/CheckBox";
 
 export const CapabilitiesForm = memo(
-  ({ saveChangeToRedux, capabilitiesData, handleSubmit }) => {
+  ({ saveChangeToRedux, userData, handleSubmit, getButtons }) => {
+    const { additionalInformation, hobbies, skills } = userData;
+
+    const capabilitiesData = { additionalInformation, hobbies, skills };
+
     return (
       <Formik
         validateOnChange={false}
@@ -62,8 +64,7 @@ export const CapabilitiesForm = memo(
                 />
 
                 <Grid container justify="space-between">
-                  <BackButton />
-                  <SubmitButton finish />
+                  {getButtons("getBackButton", "getFinishButton")}
                 </Grid>
               </StyledForm>
             </Grid>
