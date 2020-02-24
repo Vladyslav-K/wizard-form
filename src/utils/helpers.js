@@ -13,12 +13,12 @@ export const getQueryStringIndex = (query, location) => {
   return +queryIndex;
 };
 
-export const checkObjectPropsIsEmpty = checkedObject => {
+export const checkObjectPropsIsNotEmpty = checkedObject => {
   for (let key in checkedObject) {
     if (checkedObject[key].length !== 0 && checkedObject[key][0] !== "") {
-      return false;
+      return true;
     }
   }
 
-  return true;
+  return false;
 };

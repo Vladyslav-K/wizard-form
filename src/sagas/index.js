@@ -1,7 +1,7 @@
 import { all, call, put, select, takeLatest } from "redux-saga/effects";
 import { DateTime } from "luxon";
 
-import { checkObjectPropsIsEmpty } from "../utils/helpers.js";
+import { checkObjectPropsIsNotEmpty } from "../utils/helpers.js";
 import database from "../utils/database.js";
 
 import { databaseHasTemporaryUserData } from "../domain/submittedFormsDomain/submittedFormsActions.js";
@@ -50,7 +50,7 @@ function* checkTemporaryUserDataInDatabase() {
     delete temporaryUserData.id;
   }
 
-  if (!checkObjectPropsIsEmpty(temporaryUserData)) {
+  if (checkObjectPropsIsNotEmpty(temporaryUserData)) {
     yield put(databaseHasTemporaryUserData(true));
   }
 }
