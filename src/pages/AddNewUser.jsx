@@ -28,9 +28,11 @@ import { FormMessage } from "../components/FormMessage.jsx";
 
 import { SubmitButton } from "../components/SubmitButton.jsx";
 import { BackButton } from "../components/BackButton.jsx";
+import { StyledTab } from "../components/StyledTab.jsx";
+import { TabPanel } from "../components/TabPanel.jsx";
 
-import { makeStyles, withStyles } from "@material-ui/core/styles";
-import { Typography, Container, Tabs, Grid, Tab, Box } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import { Container, Tabs, Grid } from "@material-ui/core";
 
 const ConnectedAddNewUser = ({
   history,
@@ -191,54 +193,12 @@ const ConnectedAddNewUser = ({
   );
 };
 
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <Typography
-      aria-labelledby={`nav-tab-${index}`}
-      id={`nav-tabpanel-${index}`}
-      hidden={value !== index}
-      component="div"
-      role="tabpanel"
-      {...other}>
-      {value === index && <Box p={3}>{children}</Box>}
-    </Typography>
-  );
-}
-
 function a11yProps(index) {
   return {
     "aria-controls": `nav-tabpanel-${index}`,
     id: `nav-tab-${index}`
   };
 }
-
-const StyledTab = withStyles(theme => ({
-  root: {
-    padding: "20px",
-
-    textTransform: "none",
-
-    background: "#EAF1FD",
-
-    fontFamily: "Roboto",
-    fontStyle: "normal",
-    fontWeight: "bold",
-    lineHeight: "28px",
-    fontSize: "24px",
-
-    "& span": {
-      userSelect: "none"
-    },
-
-    "&$selected": {
-      color: "white",
-      background: "#4E86E4"
-    }
-  },
-  selected: {}
-}))(props => <Tab disableRipple {...props} />);
 
 const useStyles = makeStyles(theme => ({
   heading: {

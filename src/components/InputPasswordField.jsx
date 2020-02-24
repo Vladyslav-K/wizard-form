@@ -37,10 +37,7 @@ export const InputPasswordField = memo(
           margin="normal"
           size="small">
           <Grid container justify="space-between">
-            <span>
-              {" "}
-              {passwordConfirmation ? "Repeat Password" : "Password"}{" "}
-            </span>
+            <span>{passwordConfirmation ? "Repeat Password" : "Password"}</span>
             {required && <span> * </span>}
           </Grid>
 
