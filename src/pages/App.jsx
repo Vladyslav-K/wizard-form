@@ -8,6 +8,7 @@ import {
 
 import { ListOfUsers } from "./ListOfUsers";
 import { AddNewUser } from "./AddNewUser";
+import { UserView } from "./UserView.jsx";
 import { Header } from "./common/Header";
 import { Editing } from "./Editing.jsx";
 
@@ -24,6 +25,7 @@ function App() {
         <Route path="/registration" exact component={AddNewUser} />
         <Route path="/users" exact component={ListOfUsers} />
         <Route path="/users/edit/:id" exact component={Editing} />
+        <Route path="/users/view/:id" exact component={UserView} />
       </Switch>
     </Router>
   );
