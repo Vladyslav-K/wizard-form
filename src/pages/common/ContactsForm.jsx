@@ -129,9 +129,7 @@ export const ContactsForm = memo(
                   )}
                 />
 
-                <Grid container justify="space-between">
-                  {getButtons("getBackButton")}
-                </Grid>
+                {getButtons("getBackButton")}
               </StyledForm>
             </Grid>
           </Grid>

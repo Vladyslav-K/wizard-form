@@ -9,6 +9,7 @@ import {
 import { ListOfUsers } from "./ListOfUsers";
 import { AddNewUser } from "./AddNewUser";
 import { Header } from "./common/Header";
+import { Editing } from "./Editing.jsx";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         />
         <Route path="/registration" exact component={AddNewUser} />
         <Route path="/users" exact component={ListOfUsers} />
+        <Route path="/users/edit/:id" exact component={Editing} />
       </Switch>
     </Router>
   );

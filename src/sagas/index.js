@@ -21,12 +21,30 @@ import {
   addUserToList
 } from "../domain/userListDomain/userListActions.js";
 
+import {
+  saveEditedUserToList,
+  setEditedUserData,
+  getUserFromList
+} from "../domain/editedUserDomain/editedUserActions.js";
+
 const TEMPORARY_USER_ID = 1;
 
 function* getUserListFromDatabase() {
   const userList = yield call(() => database.userList.toArray());
 
   return userList;
+}
+
+function* getEditedUserFromDatabase(action) {
+  const userData = yield call(
+    {
+      context: database.userList,
+      fn: database.userList.get
+    },
+    action.payload.id
+  );
+
+  yield put(setEditedUserData(userData));
 }
 
 function* getTemporaryUserDataFromDatabase() {
@@ -67,7 +85,7 @@ function* removeTemporaryUser() {
   yield put(databaseHasTemporaryUserData(false));
 }
 
-export function* syncReduxTemporaryUserDataWithDatabase() {
+function* syncReduxTemporaryUserDataWithDatabase() {
   const dataWithDatabase = yield call(() => getTemporaryUserDataFromDatabase());
 
   yield put(databaseHasTemporaryUserData(false));
@@ -79,7 +97,7 @@ export function* syncReduxTemporaryUserDataWithDatabase() {
   }
 }
 
-export function* syncDatabaseTemporaryUserDataWithRedux(action) {
+function* syncDatabaseTemporaryUserDataWithRedux(action) {
   const dataWithDatabase = yield call(() => getTemporaryUserDataFromDatabase());
 
   const databaseHasUserData = yield select(
@@ -103,7 +121,7 @@ export function* syncDatabaseTemporaryUserDataWithRedux(action) {
   );
 }
 
-export function* syncReduxUserListWithDatabase() {
+function* syncReduxUserListWithDatabase() {
   yield put(userListIsLoading());
 
   try {
@@ -114,7 +132,7 @@ export function* syncReduxUserListWithDatabase() {
   }
 }
 
-export function* putUserToDatabaseUserList() {
+function* putUserToDatabaseUserList() {
   const userData = yield select(state => state.temporaryUserData);
 
   yield call(
@@ -130,7 +148,7 @@ export function* putUserToDatabaseUserList() {
   );
 }
 
-export function* removeUserFromDatabaseUserList(action) {
+function* removeUserFromDatabaseUserList(action) {
   yield call(
     {
       context: database.userList,
@@ -138,6 +156,19 @@ export function* removeUserFromDatabaseUserList(action) {
     },
     action.payload.id
   );
+}
+
+function* changeUserDataAfterEditing(action) {
+  yield call(
+    {
+      context: database.userList,
+      fn: database.userList.update
+    },
+    action.payload.id,
+    action.payload.userData
+  );
+
+  yield call(() => syncReduxUserListWithDatabase());
 }
 
 export default function* rootSaga() {
@@ -160,6 +191,10 @@ export default function* rootSaga() {
 
     takeLatest(addUserToList.type, putUserToDatabaseUserList),
 
-    takeLatest(removeUserFromList.type, removeUserFromDatabaseUserList)
+    takeLatest(removeUserFromList.type, removeUserFromDatabaseUserList),
+
+    takeLatest(saveEditedUserToList.type, changeUserDataAfterEditing),
+
+    takeLatest(getUserFromList.type, getEditedUserFromDatabase)
   ]);
 }

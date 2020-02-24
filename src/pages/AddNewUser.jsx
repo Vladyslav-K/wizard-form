@@ -97,8 +97,14 @@ const ConnectedAddNewUser = ({
   const getButtons = (getBackButton, getFinishButton) => {
     return (
       <>
-        {getBackButton && <BackButton />}
-        <SubmitButton finish={getFinishButton} />
+        {getBackButton ? (
+          <Grid container justify="space-between">
+            <BackButton />
+            <SubmitButton finish={getFinishButton} />
+          </Grid>
+        ) : (
+          <SubmitButton />
+        )}
       </>
     );
   };

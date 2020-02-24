@@ -67,7 +67,7 @@ const ConnectedListOfUsers = ({ userList, removeUserFromList }) => {
                 </StyledTableCell>
 
                 <StyledTableCell align="left">
-                  <IconButton>
+                  <IconButton component={Link} to={`/users/edit/${user.id}`}>
                     <EditIcon />
                   </IconButton>
 

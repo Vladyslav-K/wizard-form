@@ -1,13 +1,13 @@
 import React, { memo } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
-export const SubmitButton = memo(({ finish }) => {
+export const SubmitButton = memo(({ finish, save }) => {
   const classes = useStyles({ finish });
 
   return (
     <div className={classes.buttonContainer}>
       <button className={classes.button} type="submit">
-        {finish ? "Finish" : "Forward"}
+        {finish ? "Finish" : save ? "Save" : "Forward"}
       </button>
     </div>
   );

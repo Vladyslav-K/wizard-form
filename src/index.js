@@ -10,6 +10,7 @@ import createSagaMiddleware from "redux-saga";
 
 import { temporaryUserReducers } from "./domain/temporaryUserDomain/temporaryUserReducers.js";
 import { submittedFormsReducers } from "./domain/submittedFormsDomain/submittedFormsReducers.js";
+import { editedUserReducers } from "./domain/editedUserDomain/editedUserReducers.js";
 import { userListReducers } from "./domain/userListDomain/userListReducers.js";
 
 import rootSaga from "./sagas";
@@ -18,6 +19,7 @@ import App from "./pages/App";
 
 const reducer = {
   temporaryUserData: temporaryUserReducers,
+  editedUserData: editedUserReducers,
   submitted: submittedFormsReducers,
   listOfUsers: userListReducers
 };

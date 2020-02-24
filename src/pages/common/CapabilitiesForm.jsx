@@ -63,9 +63,7 @@ export const CapabilitiesForm = memo(
                   )}
                 />
 
-                <Grid container justify="space-between">
-                  {getButtons("getBackButton", "getFinishButton")}
-                </Grid>
+                {getButtons("getBackButton", "getFinishButton")}
               </StyledForm>
             </Grid>
           </Grid>
