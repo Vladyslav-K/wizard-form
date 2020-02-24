@@ -22,10 +22,10 @@ import {
 } from "../domain/userListDomain/userListActions.js";
 
 import {
-  saveEditedUserToList,
-  setEditedUserData,
+  saveCurrentUserToList,
+  setCurrentUserData,
   getUserFromList
-} from "../domain/editedUserDomain/editedUserActions.js";
+} from "../domain/currentUserDomain/currentUserActions.js";
 
 const TEMPORARY_USER_ID = 1;
 
@@ -44,7 +44,7 @@ function* getEditedUserFromDatabase(action) {
     action.payload.id
   );
 
-  yield put(setEditedUserData(userData));
+  yield put(setCurrentUserData(userData));
 }
 
 function* getTemporaryUserDataFromDatabase() {
@@ -193,7 +193,7 @@ export default function* rootSaga() {
 
     takeLatest(removeUserFromList.type, removeUserFromDatabaseUserList),
 
-    takeLatest(saveEditedUserToList.type, changeUserDataAfterEditing),
+    takeLatest(saveCurrentUserToList.type, changeUserDataAfterEditing),
 
     takeLatest(getUserFromList.type, getEditedUserFromDatabase)
   ]);

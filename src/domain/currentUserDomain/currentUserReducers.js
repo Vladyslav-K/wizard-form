@@ -1,6 +1,6 @@
 import { createReducer } from "@reduxjs/toolkit";
 
-import { setEditedUserData } from "./editedUserActions.js";
+import { setCurrentUserData } from "./currentUserActions.js";
 
 const initialState = {
   passwordConfirmation: "",
@@ -27,8 +27,8 @@ const initialState = {
   skills: []
 };
 
-export const editedUserReducers = createReducer(initialState, {
-  [setEditedUserData]: (state, action) => {
+export const currentUserReducers = createReducer(initialState, {
+  [setCurrentUserData]: (state, action) => {
     return { ...state, ...action.payload };
   }
 });

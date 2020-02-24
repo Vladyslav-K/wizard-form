@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { useDebouncedCallback } from "use-debounce";
@@ -7,10 +6,10 @@ import { useDebouncedCallback } from "use-debounce";
 import { getQueryStringIndex, setQueryStringIndex } from "../utils/helpers.js";
 
 import {
-  saveEditedUserToList,
-  setEditedUserData,
+  saveCurrentUserToList,
+  setCurrentUserData,
   getUserFromList
-} from "../domain/editedUserDomain/editedUserActions.js";
+} from "../domain/currentUserDomain/currentUserActions.js";
 
 import { CapabilitiesForm } from "./common/CapabilitiesForm";
 import { ContactsForm } from "./common/ContactsForm";
@@ -27,10 +26,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import { IconButton, Button, Container, Tabs, Grid } from "@material-ui/core";
 
 const ConnectedEditing = ({
-  saveEditedUserToList,
-  setEditedUserData,
+  saveCurrentUserToList,
+  setCurrentUserData,
   getUserFromList,
-  editedUserData,
+  currentUserData,
   userList,
 
   location,
@@ -68,12 +67,12 @@ const ConnectedEditing = ({
     const isEqual = require("lodash.isequal");
 
     if (!isEqual(formikValues, userData)) {
-      setEditedUserData(formikValues);
+      setCurrentUserData(formikValues);
     }
   }, 250);
 
   const handleSubmit = () => {
-    saveEditedUserToList({ userData: editedUserData, id: +match.params.id });
+    saveCurrentUserToList({ userData: currentUserData, id: +match.params.id });
   };
 
   const getButtons = () => {
@@ -125,7 +124,7 @@ const ConnectedEditing = ({
           toggleVisibility={toggleVisibility}
           handleSubmit={handleSubmit}
           getButtons={getButtons}
-          userData={editedUserData}
+          userData={currentUserData}
           visible={visible}
         />
       </TabPanel>
@@ -134,7 +133,7 @@ const ConnectedEditing = ({
           saveChangeToRedux={saveChangeToRedux}
           handleSubmit={handleSubmit}
           getButtons={getButtons}
-          userData={editedUserData}
+          userData={currentUserData}
         />
       </TabPanel>
       <TabPanel value={tabIndex} index={2}>
@@ -142,7 +141,7 @@ const ConnectedEditing = ({
           saveChangeToRedux={saveChangeToRedux}
           handleSubmit={handleSubmit}
           getButtons={getButtons}
-          userData={editedUserData}
+          userData={currentUserData}
         />
       </TabPanel>
       <TabPanel value={tabIndex} index={3}>
@@ -150,7 +149,7 @@ const ConnectedEditing = ({
           saveChangeToRedux={saveChangeToRedux}
           handleSubmit={handleSubmit}
           getButtons={getButtons}
-          userData={editedUserData}
+          userData={currentUserData}
         />
       </TabPanel>
     </Container>
@@ -226,13 +225,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const Editing = connect(
-  ({ editedUserData, listOfUsers: { userList } }) => ({
-    editedUserData,
+  ({ currentUserData, listOfUsers: { userList } }) => ({
+    currentUserData,
     userList
   }),
   {
-    saveEditedUserToList,
-    setEditedUserData,
+    saveCurrentUserToList,
+    setCurrentUserData,
     getUserFromList
   }
 )(ConnectedEditing);
