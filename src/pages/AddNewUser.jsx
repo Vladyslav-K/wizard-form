@@ -73,9 +73,8 @@ const ConnectedAddNewUser = ({
   }, [location.search]);
 
   useEffect(() => {
-    if (!location.search) {
-      history.push({ search: "?step=0" });
-    }
+    history.push({ search: "?step=0" });
+
     // eslint-disable-next-line
   }, []);
 

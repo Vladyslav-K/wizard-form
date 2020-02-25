@@ -1,5 +1,4 @@
 import React, { memo } from "react";
-import { Link } from "react-router-dom";
 import { createHashHistory } from "history";
 
 import DefaultAvatarImage from "../images/icons/avatar.svg";

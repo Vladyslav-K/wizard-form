@@ -54,7 +54,6 @@ export const DatePicker = memo(({ field, form }) => {
 
   return (
     <ReactDatePicker
-      maxDate={new Date().setFullYear(new Date().getFullYear() - 18)}
       dateFormat="dd/MM/y"
       selected={field.value}
       value={field.value}
