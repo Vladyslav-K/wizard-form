@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 
 import { getUserFromList } from "../domain/currentUserDomain/currentUserActions.js";
 
+import { ReactComponent as EditIcon } from "../images/icons/Edit2.svg";
 import { ReactComponent as ArrowIcon } from "../images/icons/Rectangle.svg";
 import DefaultAvatarImage from "../images/icons/avatar.svg";
 
@@ -52,6 +53,13 @@ const ConnectedUserView = ({
     history.push({ pathname: "/users" });
   };
 
+  const linkHandleClick = step => {
+    history.push({
+      pathname: `/users/edit/${+match.params.id}`,
+      search: `?step=${step}`
+    });
+  };
+
   return (
     <Container maxWidth="md">
       <Grid container justify="center">
@@ -62,7 +70,7 @@ const ConnectedUserView = ({
             </IconButton>
 
             <Button className={classes.linkToUsers} onClick={handleClick}>
-              User Profile
+              Users List
             </Button>
           </Grid>
           <Grid className={classes.heading} item xs={7}>
@@ -70,7 +78,7 @@ const ConnectedUserView = ({
           </Grid>
         </Grid>
 
-        <Grid container item xs={10} direction="row" justify="space-around">
+        <Grid container item xs={10} direction="row" justify="space-between">
           <Grid item>
             {avatar ? (
               <Avatar
@@ -100,11 +108,18 @@ const ConnectedUserView = ({
               container
               xs={12}
               item>
-              <Grid item xs={2}>
-                <span> Account </span>
+              <Grid item xs={3}>
+                <Grid container direction="row">
+                  <span> Account </span>
+                  <IconButton
+                    className={classes.editIcon}
+                    onClick={() => linkHandleClick(0)}>
+                    <EditIcon />
+                  </IconButton>
+                </Grid>
               </Grid>
 
-              <Grid direction="column" container item xs={2}>
+              <Grid direction="column" container item xs={4}>
                 <Grid container direction="column" item xs>
                   <span> User name: </span>
 
@@ -133,11 +148,18 @@ const ConnectedUserView = ({
               container
               xs={12}
               item>
-              <Grid item xs={2}>
-                <span> Personal </span>
+              <Grid item xs={3}>
+                <Grid container direction="row">
+                  <span> Personal </span>
+                  <IconButton
+                    className={classes.editIcon}
+                    onClick={() => linkHandleClick(1)}>
+                    <EditIcon />
+                  </IconButton>
+                </Grid>
               </Grid>
 
-              <Grid direction="column" container item xs={2}>
+              <Grid direction="column" container item xs={4}>
                 <Grid container direction="column" item xs>
                   <span> First name: </span>
 
@@ -184,11 +206,18 @@ const ConnectedUserView = ({
               container
               xs={12}
               item>
-              <Grid item xs={2}>
-                <span> Contacts </span>
+              <Grid item xs={3}>
+                <Grid container direction="row">
+                  <span> Contacts </span>
+                  <IconButton
+                    className={classes.editIcon}
+                    onClick={() => linkHandleClick(2)}>
+                    <EditIcon />
+                  </IconButton>
+                </Grid>
               </Grid>
 
-              <Grid direction="column" container item xs={2}>
+              <Grid direction="column" container item xs={4}>
                 <Grid container direction="column" item xs>
                   {phones[0] && <span> Phone #1: </span>}
 
@@ -241,11 +270,18 @@ const ConnectedUserView = ({
               container
               xs={12}
               item>
-              <Grid item xs={2}>
-                <span> Cababilities </span>
+              <Grid item xs={3}>
+                <Grid container direction="row">
+                  <span> Capabilities </span>
+                  <IconButton
+                    className={classes.editIcon}
+                    onClick={() => linkHandleClick(3)}>
+                    <EditIcon />
+                  </IconButton>
+                </Grid>
               </Grid>
 
-              <Grid direction="column" container item xs={2}>
+              <Grid direction="column" container item xs={4}>
                 <Grid container direction="column" item xs>
                   <span> Skills: </span>
 
@@ -253,7 +289,7 @@ const ConnectedUserView = ({
                     <span> Additional information: </span>
                   )}
 
-                  {hobbies.lenght > 0 && <span> My hobbies: </span>}
+                  {hobbies && <span> My hobbies: </span>}
                 </Grid>
               </Grid>
 
@@ -361,6 +397,11 @@ const useStyles = makeStyles(theme => ({
     "& img": {
       width: "auto"
     }
+  },
+
+  editIcon: {
+    padding: 0,
+    margin: "0px 0px 0px 12px"
   }
 }));
 
