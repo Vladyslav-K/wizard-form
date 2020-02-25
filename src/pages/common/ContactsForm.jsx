@@ -1,6 +1,8 @@
 import React, { memo } from "react";
 import { Formik, Field, FieldArray } from "formik";
 
+import { contactsFormValidationSchema } from "../../utils/validations";
+
 import { language } from "../../utils/dictionaries.js";
 
 import { Grid } from "@material-ui/core";
@@ -39,6 +41,7 @@ export const ContactsForm = memo(
 
     return (
       <Formik
+        validationSchema={contactsFormValidationSchema}
         validateOnChange={false}
         validateOnBlur={false}
         enableReinitialize

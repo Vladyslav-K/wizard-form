@@ -1,6 +1,8 @@
 import React, { memo } from "react";
 import { Formik, Field } from "formik";
 
+import { profileFormValidationSchema } from "../../utils/validations";
+
 import { GenderRadio } from "../../components/GenderRadio.jsx";
 import { DatePicker } from "../../components/DatePicker";
 import { InputField } from "../../components/InputField";
@@ -24,6 +26,7 @@ export const ProfileForm = memo(
     return (
       <div>
         <Formik
+          validationSchema={profileFormValidationSchema}
           validateOnChange={false}
           validateOnBlur={false}
           enableReinitialize

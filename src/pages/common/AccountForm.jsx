@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 import { Formik, Field } from "formik";
 
-import { AccountFormValidationSchema } from "../../utils/validations";
+import { accountFormValidationSchema } from "../../utils/validations";
 import { InputPasswordField } from "../../components/InputPasswordField";
 import { InputAvatar } from "../../components/InputAvatar";
 
@@ -26,7 +26,7 @@ export const AccountForm = memo(
 
     return (
       <Formik
-        validationSchema={AccountFormValidationSchema}
+        validationSchema={accountFormValidationSchema}
         validateOnChange={false}
         validateOnBlur={false}
         enableReinitialize

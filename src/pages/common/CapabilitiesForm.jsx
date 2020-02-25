@@ -1,6 +1,8 @@
 import React, { memo } from "react";
 import { Formik, Field, FieldArray } from "formik";
 
+import { capabilitiesFormValidationSchema } from "../../utils/validations";
+
 import { skillsList, hobbiesList } from "../../utils/dictionaries.js";
 
 import { Grid } from "@material-ui/core";
@@ -18,6 +20,7 @@ export const CapabilitiesForm = memo(
 
     return (
       <Formik
+        validationSchema={capabilitiesFormValidationSchema}
         validateOnChange={false}
         validateOnBlur={false}
         enableReinitialize
