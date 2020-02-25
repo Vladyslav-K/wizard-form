@@ -55,7 +55,9 @@ const ConnectedEditing = ({
   useEffect(() => {
     getUserFromList({ id: +match.params.id });
 
-    history.push({ search: "?step=0" });
+    if (!location.search) {
+      history.push({ search: "?step=0" });
+    }
     // eslint-disable-next-line
   }, []);
 
@@ -84,7 +86,7 @@ const ConnectedEditing = ({
   };
 
   const handleClick = () => {
-    history.push({ pathname: "/users" });
+    history.push({ pathname: `/users/view/${+match.params.id}` });
   };
 
   return (
