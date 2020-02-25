@@ -33,6 +33,7 @@ export const CapabilitiesForm = memo(
             <Grid item xs={4}>
               <StyledForm>
                 <Field
+                  errors={errors.skills}
                   component={InputAutocomplete}
                   options={skillsList}
                   label="Skills"

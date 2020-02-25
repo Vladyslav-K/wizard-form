@@ -7,7 +7,6 @@ import { language } from "../../utils/dictionaries.js";
 
 import { Grid } from "@material-ui/core";
 
-import { ReactComponent as MinusIcon } from "../../images/icons/minus.svg";
 import { ReactComponent as PlusIcon } from "../../images/icons/add.svg";
 import { InputAutocomplete } from "../../components/InputAutocomplete";
 import { StyledForm } from "../../components/StyledForm";

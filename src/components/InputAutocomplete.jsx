@@ -3,8 +3,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { TextField, Grid } from "@material-ui/core";
 
+import { InputError } from "./InputError";
+
 export const InputAutocomplete = memo(
-  ({ required, multiple, options, field, label, form }) => {
+  ({ required, multiple, options, field, label, form, errors }) => {
     const classes = useStyles();
 
     return (
@@ -32,6 +34,8 @@ export const InputAutocomplete = memo(
               {...params}
               fullWidth
             />
+
+            {errors && <InputError value={errors} />}
           </Grid>
         )}
       />
@@ -46,6 +50,9 @@ const useStyles = makeStyles(theme => ({
   },
 
   fieldStyles: {
+    marginTop: "16px",
+    marginBottom: "8px",
+
     fontFamily: "Roboto",
     fontStyle: "normal",
     fontWeight: "500",
