@@ -1,5 +1,6 @@
 import React, { memo } from "react";
 import { Link } from "react-router-dom";
+import { createHashHistory } from "history";
 
 import DefaultAvatarImage from "../images/icons/avatar.svg";
 
@@ -9,6 +10,12 @@ import { CardHeader, Card, Avatar } from "@material-ui/core";
 export const AvatarForUserList = memo(
   ({ avatar, username, firstName, lastName, id }) => {
     const classes = useStyles();
+
+    const history = createHashHistory();
+
+    const handleClick = () => {
+      history.push({ pathname: `/users/view/${id}` });
+    };
 
     return (
       <Card className={classes.cardContainer}>
@@ -30,8 +37,7 @@ export const AvatarForUserList = memo(
           }
           title={`${firstName} ${lastName}`}
           subheader={username}
-          component={Link}
-          to={`/users/view/${id}`}
+          onClick={handleClick}
         />
       </Card>
     );
@@ -42,7 +48,8 @@ const useStyles = makeStyles(theme => ({
   cardContainer: {
     borderRadius: "none",
     boxShadow: "none",
-    background: "none"
+    background: "none",
+    cursor: "pointer"
   },
 
   defaultAvatar: {
