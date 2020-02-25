@@ -102,21 +102,15 @@ export const ContactsForm = memo(
                   render={arrayHelpers => (
                     <div>
                       {values.phones.map((phone, index) => (
-                        <div key={index} className={classes.phoneContainer}>
+                        <div key={index}>
                           <Field
+                            index={index}
                             label={`Phone #${index + 1}`}
                             name={`phones.${index}`}
-                            errors={errors.phone}
+                            errors={errors.phones && errors.phones[index]}
+                            onClick={() => arrayHelpers.remove(index)}
                             component={InputMask}
                           />
-
-                          {index > 0 && (
-                            <Button
-                              className={classes.minusButtonStyles}
-                              onClick={() => arrayHelpers.remove(index)}>
-                              <MinusIcon />
-                            </Button>
-                          )}
                         </div>
                       ))}
                       {values.phones.length < 3 && (
@@ -149,12 +143,6 @@ const useStyles = makeStyles(theme => ({
   },
 
   minusButtonStyles: {
-    marginTop: "20px",
     minWidth: 0
-  },
-
-  phoneContainer: {
-    display: "flex",
-    width: "100%"
   }
 }));

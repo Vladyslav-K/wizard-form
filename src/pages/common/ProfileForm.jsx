@@ -57,7 +57,11 @@ export const ProfileForm = memo(
                     required
                   />
 
-                  <Field component={DatePicker} name="birthDate" />
+                  <Field
+                    errors={errors.birthDate}
+                    component={DatePicker}
+                    name="birthDate"
+                  />
                 </StyledForm>
               </Grid>
 

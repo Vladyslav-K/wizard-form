@@ -5,6 +5,8 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import { ReactComponent as CalendarIcon } from "../images/icons/calendar.svg";
 
+import { InputError } from "./InputError";
+
 import { makeStyles } from "@material-ui/core/styles";
 import {
   InputAdornment,
@@ -14,7 +16,7 @@ import {
   Grid
 } from "@material-ui/core";
 
-export const DatePicker = memo(({ field, form }) => {
+export const DatePicker = memo(({ field, form, errors }) => {
   const classes = useStyles();
 
   const handleButtonMouseDown = event => {
@@ -53,13 +55,17 @@ export const DatePicker = memo(({ field, form }) => {
   ));
 
   return (
-    <ReactDatePicker
-      dateFormat="dd/MM/y"
-      selected={field.value}
-      value={field.value}
-      onChange={value => form.setFieldValue(field.name, value)}
-      customInput={<CustomInputRef />}
-    />
+    <>
+      <ReactDatePicker
+        dateFormat="dd/MM/y"
+        selected={field.value}
+        value={field.value}
+        onChange={value => form.setFieldValue(field.name, value)}
+        customInput={<CustomInputRef />}
+      />
+
+      {errors && <InputError value={errors} />}
+    </>
   );
 });
 

@@ -60,12 +60,17 @@ export const profileFormValidationSchema = Yup.object().shape({
     .min(2, "Last name must be more than two characters!")
     .max(20, "Last name must be less than 20 characters!"),
 
-  birthDate: Yup.date().min(
-    DateTime.local()
-      .minus({ year: 18 })
-      .toJSDate(),
-    "You must be 18 or older to registration"
-  ),
+  birthDate: Yup.date()
+    .required("Birth date is required!")
+    .test("checkDate", "Invalid date!", value => {
+      return DateTime.isDateTime(DateTime.fromJSDate(value));
+    })
+    .max(
+      DateTime.local()
+        .minus({ year: 18 })
+        .toJSDate(),
+      "You must be 18 or older to registration!"
+    ),
 
   email: Yup.string()
     .email("Invalid email")
