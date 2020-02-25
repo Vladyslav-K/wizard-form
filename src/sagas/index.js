@@ -1,8 +1,17 @@
 import { all, call, put, select, takeLatest } from "redux-saga/effects";
-import { DateTime } from "luxon";
 
 import { checkObjectPropsIsNotEmpty } from "../utils/helpers.js";
-import database from "../utils/database.js";
+
+import {
+  deleteTemporaryUserFromDB,
+  getTemporaryUserFromDB,
+  putTemporaryUserToDB,
+  deleteUserFromUserListInDB,
+  addUserToUserListFromDB,
+  updateUserListInDB,
+  getUserListFromDB,
+  getCurrentUserFromDB
+} from "../utils/database.js";
 
 import { databaseHasTemporaryUserData } from "../domain/submittedFormsDomain/submittedFormsActions.js";
 
@@ -27,42 +36,8 @@ import {
   getUserFromList
 } from "../domain/currentUserDomain/currentUserActions.js";
 
-const TEMPORARY_USER_ID = 1;
-
-function* getUserListFromDatabase() {
-  const userList = yield call(() => database.userList.toArray());
-
-  return userList;
-}
-
-function* getEditedUserFromDatabase(action) {
-  const userData = yield call(
-    {
-      context: database.userList,
-      fn: database.userList.get
-    },
-    action.payload.id
-  );
-
-  yield put(setCurrentUserData(userData));
-}
-
-function* getTemporaryUserDataFromDatabase() {
-  const temporaryUserData = yield call(
-    {
-      context: database.temporaryUserData,
-      fn: database.temporaryUserData.get
-    },
-    TEMPORARY_USER_ID
-  );
-
-  return temporaryUserData;
-}
-
 function* checkTemporaryUserDataInDatabase() {
-  const temporaryUserData = yield call(() =>
-    getTemporaryUserDataFromDatabase()
-  );
+  const temporaryUserData = yield call(() => getTemporaryUserFromDB());
 
   if (temporaryUserData) {
     delete temporaryUserData.id;
@@ -74,19 +49,13 @@ function* checkTemporaryUserDataInDatabase() {
 }
 
 function* removeTemporaryUser() {
-  yield call(
-    {
-      context: database.temporaryUserData,
-      fn: database.temporaryUserData.delete
-    },
-    TEMPORARY_USER_ID
-  );
+  yield call(() => deleteTemporaryUserFromDB());
 
   yield put(databaseHasTemporaryUserData(false));
 }
 
 function* syncReduxTemporaryUserDataWithDatabase() {
-  const dataWithDatabase = yield call(() => getTemporaryUserDataFromDatabase());
+  const dataWithDatabase = yield call(() => getTemporaryUserFromDB());
 
   yield put(databaseHasTemporaryUserData(false));
 
@@ -98,7 +67,8 @@ function* syncReduxTemporaryUserDataWithDatabase() {
 }
 
 function* syncDatabaseTemporaryUserDataWithRedux(action) {
-  const dataWithDatabase = yield call(() => getTemporaryUserDataFromDatabase());
+  const dataWithDatabase = yield call(() => getTemporaryUserFromDB());
+  const currentData = action.payload;
 
   const databaseHasUserData = yield select(
     state => state.submitted.databaseHasUserData
@@ -108,24 +78,14 @@ function* syncDatabaseTemporaryUserDataWithRedux(action) {
     yield put(databaseHasTemporaryUserData(false));
   }
 
-  yield call(
-    {
-      context: database.temporaryUserData,
-      fn: database.temporaryUserData.put
-    },
-    {
-      ...dataWithDatabase,
-      ...action.payload,
-      id: TEMPORARY_USER_ID
-    }
-  );
+  yield call(() => putTemporaryUserToDB(dataWithDatabase, currentData));
 }
 
 function* syncReduxUserListWithDatabase() {
   yield put(userListIsLoading());
 
   try {
-    const userListWithDB = yield call(() => getUserListFromDatabase());
+    const userListWithDB = yield call(() => getUserListFromDB());
     yield put(syncUserListWithDatabase(userListWithDB));
   } catch {
     yield put(userListFetchingError());
@@ -135,38 +95,28 @@ function* syncReduxUserListWithDatabase() {
 function* putUserToDatabaseUserList() {
   const userData = yield select(state => state.temporaryUserData);
 
-  yield call(
-    {
-      context: database.userList,
-      fn: database.userList.add
-    },
-    {
-      ...userData,
-      createdAt: DateTime.local().toJSDate(),
-      updatedAt: DateTime.local().toJSDate()
-    }
-  );
+  yield call(() => addUserToUserListFromDB(userData));
 }
 
 function* removeUserFromDatabaseUserList(action) {
-  yield call(
-    {
-      context: database.userList,
-      fn: database.userList.delete
-    },
-    action.payload.id
-  );
+  const userId = action.payload.id;
+
+  yield call(() => deleteUserFromUserListInDB(userId));
+}
+
+function* getEditedUserFromDatabase(action) {
+  const userId = action.payload.id;
+
+  const userData = yield call(() => getCurrentUserFromDB(userId));
+
+  yield put(setCurrentUserData(userData));
 }
 
 function* changeUserDataAfterEditing(action) {
-  yield call(
-    {
-      context: database.userList,
-      fn: database.userList.update
-    },
-    action.payload.id,
-    action.payload.userData
-  );
+  const userId = action.payload.id;
+  const userData = action.payload.userData;
+
+  yield call(() => updateUserListInDB(userId, userData));
 
   yield call(() => syncReduxUserListWithDatabase());
 }

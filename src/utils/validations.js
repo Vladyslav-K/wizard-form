@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 import { DateTime } from "luxon";
-import database from "../utils/database.js";
+import { getFilteredCurrentUserFromDB } from "../utils/database.js";
 
 const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
 
@@ -12,16 +12,10 @@ export const accountFormValidationSchema = Yup.object().shape({
     .min(2, "Username must be more than two characters!")
     .max(20, "Username must be less than 20 characters!")
     .test("checkUsername", "User name already used", async value => {
-      const user = await database.userList
-        .where({ username: value || "" })
-        .first();
-
-      if (user) {
-        return false;
-      }
-
-      return true;
+      const user = await getFilteredCurrentUserFromDB("username", value);
+      return !user;
     }),
+
   password: Yup.string()
     .required("Password is required!")
     .min(6, "Password must be more than two characters!")
@@ -76,15 +70,8 @@ export const profileFormValidationSchema = Yup.object().shape({
     .email("Invalid email")
     .required("Email is required!")
     .test("checkEmail", "Email already used!", async value => {
-      const user = await database.userList
-        .where({ email: value || "" })
-        .first();
-
-      if (user) {
-        return false;
-      }
-
-      return true;
+      const user = await getFilteredCurrentUserFromDB("email", value);
+      return !user;
     }),
 
   address: Yup.string().required("Address is required!")
