@@ -62,6 +62,12 @@ const ConnectedAddNewUser = ({
 
   const [visible, setVisible] = useState(false);
 
+  const [disabledTabs, setDisabledTabs] = useState({
+    capabilitiesTab: true,
+    contactsTab: true,
+    profileTab: true
+  });
+
   const toggleVisibility = () => {
     setVisible(!visible);
   };
@@ -90,8 +96,7 @@ const ConnectedAddNewUser = ({
     }
   }, 250);
 
-  const handleSubmit = (submittedFunc, queryStringIndex) => {
-    submittedFunc();
+  const goToStep = queryStringIndex => {
     queryStringIndex && setQueryStringIndex("step", queryStringIndex);
   };
 
@@ -116,6 +121,12 @@ const ConnectedAddNewUser = ({
     const history = createHashHistory();
     history.push("/users");
 
+    setDisabledTabs({
+      capabilitiesTab: true,
+      contactsTab: true,
+      profileTab: true
+    });
+
     removeTemporaryUserData();
   };
 
@@ -133,19 +144,19 @@ const ConnectedAddNewUser = ({
         <StyledTab label="1. Account" {...a11yProps(0)} />
 
         <StyledTab
-          disabled={!accountIsSubmitted}
+          disabled={disabledTabs.profileTab}
           label="2. Profile"
           {...a11yProps(1)}
         />
 
         <StyledTab
-          disabled={!profileIsSubmitted}
+          disabled={disabledTabs.contactsTab}
           label="3. Contacts"
           {...a11yProps(2)}
         />
 
         <StyledTab
-          disabled={!contactsIsSubmitted}
+          disabled={disabledTabs.capabilitiesTab}
           label="4. Capabilities"
           {...a11yProps(3)}
         />
@@ -160,13 +171,18 @@ const ConnectedAddNewUser = ({
 
       <TabPanel value={tabIndex} index={0}>
         <AccountForm
-          setAccountAsSubmitted={setAccountAsSubmitted}
           saveChangeToRedux={saveChangeToRedux}
           userData={temporaryUserData}
           getButtons={getButtons}
           visible={visible}
           toggleVisibility={toggleVisibility}
-          handleSubmit={() => handleSubmit(setAccountAsSubmitted, 1)}
+          handleSubmit={() => {
+            setDisabledTabs(prevState => ({
+              ...prevState,
+              profileTab: false
+            }));
+            goToStep(1);
+          }}
         />
       </TabPanel>
 
@@ -175,7 +191,13 @@ const ConnectedAddNewUser = ({
           saveChangeToRedux={saveChangeToRedux}
           userData={temporaryUserData}
           getButtons={getButtons}
-          handleSubmit={() => handleSubmit(setProfileAsSubmitted, 2)}
+          handleSubmit={() => {
+            setDisabledTabs(prevState => ({
+              ...prevState,
+              contactsTab: false
+            }));
+            goToStep(2);
+          }}
         />
       </TabPanel>
 
@@ -184,7 +206,13 @@ const ConnectedAddNewUser = ({
           saveChangeToRedux={saveChangeToRedux}
           userData={temporaryUserData}
           getButtons={getButtons}
-          handleSubmit={() => handleSubmit(setContactsAsSubmitted, 3)}
+          handleSubmit={() => {
+            setDisabledTabs(prevState => ({
+              ...prevState,
+              capabilitiesTab: false
+            }));
+            goToStep(3);
+          }}
         />
       </TabPanel>
 

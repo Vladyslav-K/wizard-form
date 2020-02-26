@@ -54,10 +54,6 @@ const ConnectedEditing = ({
 
   useEffect(() => {
     getUserFromList({ id: +match.params.id });
-
-    if (!location.search) {
-      history.push({ search: "?step=0" });
-    }
     // eslint-disable-next-line
   }, []);
 
