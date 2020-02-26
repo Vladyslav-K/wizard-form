@@ -6,7 +6,7 @@ const database = new Dexie("UsersData");
 
 database.version(1).stores({
   temporaryUserData: "++id",
-  userList: "++id, username, email, firstName, lastName"
+  userList: "++id, username, email, firstName, lastName, createdAt"
 });
 
 export const getTemporaryUserFromDB = () => {
@@ -26,7 +26,7 @@ export const putTemporaryUserToDB = (prevDBData, currentData) => {
 };
 
 export const getUserListFromDB = () => {
-  return database.userList.toArray();
+  return database.userList.orderBy("createdAt").toArray();
 };
 
 export const addUserToUserListFromDB = userData => {
