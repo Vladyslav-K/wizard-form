@@ -18,12 +18,8 @@ export const AccountForm = memo(
     getButtons,
     visible,
 
-    userData
+    accountData
   }) => {
-    const { passwordConfirmation, password, username, avatar } = userData;
-
-    const accountData = { passwordConfirmation, password, username, avatar };
-
     return (
       <Formik
         validationSchema={accountFormValidationSchema}

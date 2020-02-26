@@ -11,18 +11,7 @@ import { StyledForm } from "../../components/StyledForm";
 import { Grid } from "@material-ui/core";
 
 export const ProfileForm = memo(
-  ({ saveChangeToRedux, handleSubmit, getButtons, userData }) => {
-    const { firstName, birthDate, lastName, address, gender, email } = userData;
-
-    const profileData = {
-      firstName,
-      birthDate,
-      lastName,
-      address,
-      gender,
-      email
-    };
-
+  ({ saveChangeToRedux, handleSubmit, getButtons, profileData }) => {
     return (
       <div>
         <Formik

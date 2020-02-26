@@ -1,16 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { createHashHistory } from "history";
 import { connect } from "react-redux";
+import isEqual from "lodash.isequal";
+import lodashPick from "lodash.pick";
 
 import { useDebouncedCallback } from "use-debounce";
 
-import { getQueryStringValue, setQueryString } from "../utils/helpers.js";
+import {
+  checkObjectPropsIsNotEmpty,
+  getQueryStringValue,
+  setQueryString
+} from "../utils/helpers.js";
 
 import {
   CAPABILITIES_TAB_INDEX,
   CONTACTS_TAB_INDEX,
   PROFILE_TAB_INDEX,
-  ACCOUNT_TAB_INDEX
+  ACCOUNT_TAB_INDEX,
+  fields
 } from "../utils/constants.js";
 
 import {
@@ -69,10 +76,6 @@ const ConnectedAddNewUser = ({
     profileTab: true
   });
 
-  const toggleVisibility = () => {
-    setVisible(!visible);
-  };
-
   useEffect(() => {
     const queryTab = getQueryStringValue("tab", location.search);
 
@@ -96,6 +99,10 @@ const ConnectedAddNewUser = ({
     // eslint-disable-next-line
   }, []);
 
+  const toggleVisibility = () => {
+    setVisible(!visible);
+  };
+
   const handleChange = (event, value) => {
     setQueryString(
       "tab",
@@ -110,8 +117,6 @@ const ConnectedAddNewUser = ({
   };
 
   const [saveChangeToRedux] = useDebouncedCallback((formikValues, userData) => {
-    const isEqual = require("lodash.isequal");
-
     if (!isEqual(formikValues, userData)) {
       setTemporaryUserData(formikValues);
     }
@@ -146,6 +151,36 @@ const ConnectedAddNewUser = ({
 
     removeTemporaryUserData();
   };
+
+  const accountData = lodashPick(
+    temporaryUserData,
+    Object.keys(fields.account)
+  );
+  const profileData = lodashPick(
+    temporaryUserData,
+    Object.keys(fields.profile)
+  );
+  const contactsData = lodashPick(
+    temporaryUserData,
+    Object.keys(fields.contacts)
+  );
+  const capabilitiesData = lodashPick(
+    temporaryUserData,
+    Object.keys(fields.capabilities)
+  );
+
+  useEffect(() => {
+    checkObjectPropsIsNotEmpty(profileData) &&
+      setDisabledTabs(prevState => ({ ...prevState, profileTab: false }));
+
+    checkObjectPropsIsNotEmpty(contactsData) &&
+      setDisabledTabs(prevState => ({ ...prevState, contactsTab: false }));
+
+    checkObjectPropsIsNotEmpty(capabilitiesData) &&
+      setDisabledTabs(prevState => ({ ...prevState, capabilitiesTab: false }));
+
+    // eslint-disable-next-line
+  }, [temporaryUserData]);
 
   return (
     <Container maxWidth="md">
@@ -189,7 +224,7 @@ const ConnectedAddNewUser = ({
       <TabPanel value={tabIndex} index={0}>
         <AccountForm
           saveChangeToRedux={saveChangeToRedux}
-          userData={temporaryUserData}
+          accountData={accountData}
           getButtons={getButtons}
           visible={visible}
           toggleVisibility={toggleVisibility}
@@ -206,7 +241,7 @@ const ConnectedAddNewUser = ({
       <TabPanel value={tabIndex} index={1}>
         <ProfileForm
           saveChangeToRedux={saveChangeToRedux}
-          userData={temporaryUserData}
+          profileData={profileData}
           getButtons={getButtons}
           handleSubmit={() => {
             setDisabledTabs(prevState => ({
@@ -221,7 +256,7 @@ const ConnectedAddNewUser = ({
       <TabPanel value={tabIndex} index={2}>
         <ContactsForm
           saveChangeToRedux={saveChangeToRedux}
-          userData={temporaryUserData}
+          contactsData={contactsData}
           getButtons={getButtons}
           handleSubmit={() => {
             setDisabledTabs(prevState => ({
@@ -236,6 +271,7 @@ const ConnectedAddNewUser = ({
       <TabPanel value={tabIndex} index={3}>
         <CapabilitiesForm
           saveChangeToRedux={saveChangeToRedux}
+          capabilitiesData={capabilitiesData}
           userData={temporaryUserData}
           getButtons={getButtons}
           handleSubmit={() => capabilitiesHandleSubmit()}

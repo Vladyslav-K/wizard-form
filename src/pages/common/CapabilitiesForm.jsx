@@ -13,11 +13,13 @@ import { InputField } from "../../components/InputField";
 import { CheckBox } from "../../components/CheckBox";
 
 export const CapabilitiesForm = memo(
-  ({ saveChangeToRedux, userData, handleSubmit, getButtons }) => {
-    const { additionalInformation, hobbies, skills } = userData;
-
-    const capabilitiesData = { additionalInformation, hobbies, skills };
-
+  ({
+    saveChangeToRedux,
+    capabilitiesData,
+    handleSubmit,
+    getButtons,
+    userData
+  }) => {
     return (
       <Formik
         validationSchema={capabilitiesFormValidationSchema}

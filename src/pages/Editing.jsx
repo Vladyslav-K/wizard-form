@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
+import isEqual from "lodash.isequal";
+import lodashPick from "lodash.pick";
 
 import { useDebouncedCallback } from "use-debounce";
 
@@ -9,7 +11,8 @@ import {
   CAPABILITIES_TAB_INDEX,
   CONTACTS_TAB_INDEX,
   PROFILE_TAB_INDEX,
-  ACCOUNT_TAB_INDEX
+  ACCOUNT_TAB_INDEX,
+  fields
 } from "../utils/constants.js";
 
 import {
@@ -92,8 +95,6 @@ const ConnectedEditing = ({
   };
 
   const [saveChangeToRedux] = useDebouncedCallback((formikValues, userData) => {
-    const isEqual = require("lodash.isequal");
-
     if (!isEqual(formikValues, userData)) {
       setCurrentUserData(formikValues);
     }
@@ -114,6 +115,17 @@ const ConnectedEditing = ({
   const handleClick = () => {
     history.push({ pathname: `/users/view/${+match.params.id}` });
   };
+
+  const accountData = lodashPick(currentUserData, Object.keys(fields.account));
+  const profileData = lodashPick(currentUserData, Object.keys(fields.profile));
+  const contactsData = lodashPick(
+    currentUserData,
+    Object.keys(fields.contacts)
+  );
+  const capabilitiesData = lodashPick(
+    currentUserData,
+    Object.keys(fields.capabilities)
+  );
 
   return (
     <Container maxWidth="md">
@@ -146,38 +158,42 @@ const ConnectedEditing = ({
 
         <StyledTab label="4. Capabilities" {...a11yProps(3)} />
       </Tabs>
+
       <TabPanel value={tabIndex} index={0}>
         <AccountForm
           saveChangeToRedux={saveChangeToRedux}
           toggleVisibility={toggleVisibility}
           handleSubmit={handleSubmit}
+          accountData={accountData}
           getButtons={getButtons}
-          userData={currentUserData}
           visible={visible}
         />
       </TabPanel>
+
       <TabPanel value={tabIndex} index={1}>
         <ProfileForm
           saveChangeToRedux={saveChangeToRedux}
           handleSubmit={handleSubmit}
+          profileData={profileData}
           getButtons={getButtons}
-          userData={currentUserData}
         />
       </TabPanel>
+
       <TabPanel value={tabIndex} index={2}>
         <ContactsForm
           saveChangeToRedux={saveChangeToRedux}
           handleSubmit={handleSubmit}
+          contactsData={contactsData}
           getButtons={getButtons}
-          userData={currentUserData}
         />
       </TabPanel>
+
       <TabPanel value={tabIndex} index={3}>
         <CapabilitiesForm
           saveChangeToRedux={saveChangeToRedux}
+          capabilitiesData={capabilitiesData}
           handleSubmit={handleSubmit}
           getButtons={getButtons}
-          userData={currentUserData}
         />
       </TabPanel>
     </Container>

@@ -1,34 +1,20 @@
 import { createReducer } from "@reduxjs/toolkit";
 
+import { fields } from "../../utils/constants.js";
+
 import {
   syncTemporaryUserDataWithDatabase,
   removeTemporaryUserData,
   setTemporaryUserData
 } from "./temporaryUserActions.js";
 
+const { account, profile, contacts, capabilities } = fields;
+
 const initialState = {
-  passwordConfirmation: "",
-  password: "",
-  username: "",
-  avatar: "",
-
-  firstName: "",
-  birthDate: "",
-  lastName: "",
-  address: "",
-  gender: "",
-  email: "",
-
-  mainLanguage: "",
-  facebookLink: "",
-  gitHubLink: "",
-  company: "",
-  phones: [""],
-  fax: "",
-
-  additionalInformation: "",
-  hobbies: [],
-  skills: []
+  ...account,
+  ...profile,
+  ...contacts,
+  ...capabilities
 };
 
 export const temporaryUserReducers = createReducer(initialState, {

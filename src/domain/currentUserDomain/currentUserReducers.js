@@ -1,30 +1,16 @@
 import { createReducer } from "@reduxjs/toolkit";
 
+import { fields } from "../../utils/constants.js";
+
 import { setCurrentUserData } from "./currentUserActions.js";
 
+const { account, profile, contacts, capabilities } = fields;
+
 const initialState = {
-  passwordConfirmation: "",
-  password: "",
-  username: "",
-  avatar: "",
-
-  firstName: "",
-  birthDate: "",
-  lastName: "",
-  address: "",
-  gender: "",
-  email: "",
-
-  mainLanguage: "",
-  facebookLink: "",
-  gitHubLink: "",
-  company: "",
-  phones: [""],
-  fax: "",
-
-  additionalInformation: "",
-  hobbies: [],
-  skills: []
+  ...account,
+  ...profile,
+  ...contacts,
+  ...capabilities
 };
 
 export const currentUserReducers = createReducer(initialState, {

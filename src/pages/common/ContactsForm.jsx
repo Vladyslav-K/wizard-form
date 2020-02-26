@@ -17,26 +17,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 
 export const ContactsForm = memo(
-  ({ userData, saveChangeToRedux, handleSubmit, getButtons }) => {
+  ({ saveChangeToRedux, handleSubmit, getButtons, contactsData }) => {
     const classes = useStyles();
-
-    const {
-      mainLanguage,
-      facebookLink,
-      gitHubLink,
-      company,
-      phones,
-      fax
-    } = userData;
-
-    const contactsData = {
-      mainLanguage,
-      facebookLink,
-      gitHubLink,
-      company,
-      phones,
-      fax
-    };
 
     return (
       <Formik
