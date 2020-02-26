@@ -25,6 +25,7 @@ import {
 import {
   syncUserListWithDatabase,
   userListFetchingError,
+  updateUserListFromDB,
   removeUserFromList,
   userListIsLoading,
   addUserToList
@@ -125,8 +126,6 @@ export default function* rootSaga() {
   yield all([
     call(() => checkTemporaryUserDataInDatabase()),
 
-    call(() => syncReduxUserListWithDatabase()),
-
     takeLatest(
       getTemporaryUserDataWithDatabase.type,
       syncReduxTemporaryUserDataWithDatabase
@@ -136,6 +135,8 @@ export default function* rootSaga() {
       setTemporaryUserData.type,
       syncDatabaseTemporaryUserDataWithRedux
     ),
+
+    takeLatest(updateUserListFromDB.type, syncReduxUserListWithDatabase),
 
     takeLatest(removeTemporaryUserData.type, removeTemporaryUser),
 

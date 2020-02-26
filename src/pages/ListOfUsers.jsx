@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { DateTime } from "luxon";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { removeUserFromList } from "../domain/userListDomain/userListActions.js";
+import {
+  updateUserListFromDB,
+  removeUserFromList
+} from "../domain/userListDomain/userListActions.js";
 import { AvatarForUserList } from "../components/AvatarForUserList.jsx";
 
 import { ReactComponent as DeleteIcon } from "../images/icons/Close.svg";
@@ -23,8 +26,16 @@ import {
   Table
 } from "@material-ui/core";
 
-const ConnectedListOfUsers = ({ userList, removeUserFromList }) => {
+const ConnectedListOfUsers = ({
+  updateUserListFromDB,
+  removeUserFromList,
+  userList
+}) => {
   const classes = useStyles();
+
+  useEffect(() => {
+    updateUserListFromDB();
+  }, [updateUserListFromDB]);
 
   return (
     <Container maxWidth="md">
@@ -198,6 +209,7 @@ const StyledTableRow = withStyles(theme => ({
 export const ListOfUsers = connect(
   ({ listOfUsers: { userList } }) => ({ userList }),
   {
+    updateUserListFromDB,
     removeUserFromList
   }
 )(ConnectedListOfUsers);
