@@ -1,16 +1,16 @@
 import { createHashHistory } from "history";
 
-export const setQueryStringIndex = (query, newIndex) => {
+export const setQueryString = (queryName, queryValue) => {
   const history = createHashHistory();
 
-  history.push({ search: `?${query}=${newIndex}` });
+  history.push({ search: `?${queryName}=${queryValue}` });
 };
 
-export const getQueryStringIndex = (query, location) => {
+export const getQueryStringValue = (query, location) => {
   const params = new URLSearchParams(location);
-  const queryIndex = params.get(query);
+  const queryValue = params.get(query);
 
-  return +queryIndex;
+  return queryValue;
 };
 
 export const checkObjectPropsIsNotEmpty = checkedObject => {

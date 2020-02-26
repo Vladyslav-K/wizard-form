@@ -200,7 +200,7 @@ const StyledTableCell = withStyles(theme => ({
 }))(TableCell);
 
 const ButtonCell = withStyles(theme => ({
-  root: {
+  body: {
     display: "flex",
     flexDirection: "row"
   }

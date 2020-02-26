@@ -3,7 +3,14 @@ import { connect } from "react-redux";
 
 import { useDebouncedCallback } from "use-debounce";
 
-import { getQueryStringIndex, setQueryStringIndex } from "../utils/helpers.js";
+import { getQueryStringValue, setQueryString } from "../utils/helpers.js";
+
+import {
+  CAPABILITIES_TAB_INDEX,
+  CONTACTS_TAB_INDEX,
+  PROFILE_TAB_INDEX,
+  ACCOUNT_TAB_INDEX
+} from "../utils/constants.js";
 
 import {
   saveCurrentUserToList,
@@ -47,18 +54,41 @@ const ConnectedEditing = ({
   };
 
   useEffect(() => {
-    const queryIndex = getQueryStringIndex("step", location.search);
+    const queryTab = getQueryStringValue("tab", location.search);
 
-    setTabIndex(queryIndex);
+    setTabIndex(
+      queryTab === "capabilities"
+        ? CAPABILITIES_TAB_INDEX
+        : queryTab === "contacts"
+        ? CONTACTS_TAB_INDEX
+        : queryTab === "profile"
+        ? PROFILE_TAB_INDEX
+        : ACCOUNT_TAB_INDEX
+    );
   }, [location.search]);
 
   useEffect(() => {
+    const queryTab = getQueryStringValue("tab", location.search);
+
+    if (!queryTab) {
+      setQueryString("tab", "account");
+    }
+
     getUserFromList({ id: +match.params.id });
     // eslint-disable-next-line
   }, []);
 
   const handleChange = (event, value) => {
-    setQueryStringIndex("step", value);
+    setQueryString(
+      "tab",
+      value === CAPABILITIES_TAB_INDEX
+        ? "capabilities"
+        : value === CONTACTS_TAB_INDEX
+        ? "contacts"
+        : value === PROFILE_TAB_INDEX
+        ? "profile"
+        : "account"
+    );
   };
 
   const [saveChangeToRedux] = useDebouncedCallback((formikValues, userData) => {

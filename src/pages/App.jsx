@@ -20,7 +20,7 @@ function App() {
         <Route
           path="/"
           exact
-          render={() => <Redirect to="/registration?step=0" />}
+          render={() => <Redirect to="/registration?tab=account" />}
         />
         <Route path="/registration" exact component={AddNewUser} />
         <Route path="/users" exact component={ListOfUsers} />

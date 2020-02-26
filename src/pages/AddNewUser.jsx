@@ -4,19 +4,20 @@ import { connect } from "react-redux";
 
 import { useDebouncedCallback } from "use-debounce";
 
-import { getQueryStringIndex, setQueryStringIndex } from "../utils/helpers.js";
+import { getQueryStringValue, setQueryString } from "../utils/helpers.js";
+
+import {
+  CAPABILITIES_TAB_INDEX,
+  CONTACTS_TAB_INDEX,
+  PROFILE_TAB_INDEX,
+  ACCOUNT_TAB_INDEX
+} from "../utils/constants.js";
 
 import {
   getTemporaryUserDataWithDatabase,
   removeTemporaryUserData,
   setTemporaryUserData
 } from "../domain/temporaryUserDomain/temporaryUserActions.js";
-
-import {
-  setContactsAsSubmitted,
-  setProfileAsSubmitted,
-  setAccountAsSubmitted
-} from "../domain/submittedFormsDomain/submittedFormsActions.js";
 
 import { addUserToList } from "../domain/userListDomain/userListActions.js";
 
@@ -73,19 +74,39 @@ const ConnectedAddNewUser = ({
   };
 
   useEffect(() => {
-    const queryIndex = getQueryStringIndex("step", location.search);
+    const queryTab = getQueryStringValue("tab", location.search);
 
-    setTabIndex(queryIndex);
+    setTabIndex(
+      queryTab === "capabilities"
+        ? CAPABILITIES_TAB_INDEX
+        : queryTab === "contacts"
+        ? CONTACTS_TAB_INDEX
+        : queryTab === "profile"
+        ? PROFILE_TAB_INDEX
+        : ACCOUNT_TAB_INDEX
+    );
+
+    if (!queryTab) {
+      setQueryString("tab", "account");
+    }
   }, [location.search]);
 
   useEffect(() => {
-    history.push({ search: "?step=0" });
-
+    history.push({ search: "?tab=account" });
     // eslint-disable-next-line
   }, []);
 
   const handleChange = (event, value) => {
-    setQueryStringIndex("step", value);
+    setQueryString(
+      "tab",
+      value === CAPABILITIES_TAB_INDEX
+        ? "capabilities"
+        : value === CONTACTS_TAB_INDEX
+        ? "contacts"
+        : value === PROFILE_TAB_INDEX
+        ? "profile"
+        : "account"
+    );
   };
 
   const [saveChangeToRedux] = useDebouncedCallback((formikValues, userData) => {
@@ -95,10 +116,6 @@ const ConnectedAddNewUser = ({
       setTemporaryUserData(formikValues);
     }
   }, 250);
-
-  const goToStep = queryStringIndex => {
-    queryStringIndex && setQueryStringIndex("step", queryStringIndex);
-  };
 
   const getButtons = (getBackButton, getFinishButton) => {
     return (
@@ -181,7 +198,7 @@ const ConnectedAddNewUser = ({
               ...prevState,
               profileTab: false
             }));
-            goToStep(1);
+            setQueryString("tab", "profile");
           }}
         />
       </TabPanel>
@@ -196,7 +213,7 @@ const ConnectedAddNewUser = ({
               ...prevState,
               contactsTab: false
             }));
-            goToStep(2);
+            setQueryString("tab", "contacts");
           }}
         />
       </TabPanel>
@@ -211,7 +228,7 @@ const ConnectedAddNewUser = ({
               ...prevState,
               capabilitiesTab: false
             }));
-            goToStep(3);
+            setQueryString("tab", "capabilities");
           }}
         />
       </TabPanel>
@@ -304,10 +321,6 @@ export const AddNewUser = connect(
     getTemporaryUserDataWithDatabase,
     removeTemporaryUserData,
     setTemporaryUserData,
-
-    setContactsAsSubmitted,
-    setProfileAsSubmitted,
-    setAccountAsSubmitted,
 
     addUserToList
   }
