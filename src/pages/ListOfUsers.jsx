@@ -78,7 +78,7 @@ const ConnectedListOfUsers = ({
                   {DateTime.fromJSDate(user.updatedAt).toRelative()}
                 </StyledTableCell>
 
-                <StyledTableCell align="left">
+                <ButtonCell>
                   <IconButton component={Link} to={`/users/edit/${user.id}`}>
                     <EditIcon />
                   </IconButton>
@@ -87,7 +87,7 @@ const ConnectedListOfUsers = ({
                     onClick={() => removeUserFromList({ id: user.id })}>
                     <DeleteIcon />
                   </IconButton>
-                </StyledTableCell>
+                </ButtonCell>
               </StyledTableRow>
             ))}
           </TableBody>
@@ -185,6 +185,7 @@ const StyledTableCell = withStyles(theme => ({
       minWidth: 0
     }
   },
+
   body: {
     fontFamily: "Roboto",
     fontStyle: "normal",
@@ -197,6 +198,13 @@ const StyledTableCell = withStyles(theme => ({
     height: "93px"
   }
 }))(TableCell);
+
+const ButtonCell = withStyles(theme => ({
+  root: {
+    display: "flex",
+    flexDirection: "row"
+  }
+}))(StyledTableCell);
 
 const StyledTableRow = withStyles(theme => ({
   root: {
