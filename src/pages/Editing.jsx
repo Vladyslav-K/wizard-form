@@ -5,15 +5,14 @@ import lodashPick from "lodash.pick";
 
 import { useDebouncedCallback } from "use-debounce";
 
-import { getQueryStringValue, setQueryString } from "../utils/helpers.js";
-
 import {
-  CAPABILITIES_TAB_INDEX,
-  CONTACTS_TAB_INDEX,
-  PROFILE_TAB_INDEX,
-  ACCOUNT_TAB_INDEX,
-  fields
-} from "../utils/constants.js";
+  getQueryStringValue,
+  setQueryString,
+  getTabKeyByValue,
+  getTabValueByKey
+} from "../utils/helpers.js";
+
+import { fields } from "../utils/constants.js";
 
 import {
   saveCurrentUserToList,
@@ -59,15 +58,7 @@ const ConnectedEditing = ({
   useEffect(() => {
     const queryTab = getQueryStringValue("tab", location.search);
 
-    setTabIndex(
-      queryTab === "capabilities"
-        ? CAPABILITIES_TAB_INDEX
-        : queryTab === "contacts"
-        ? CONTACTS_TAB_INDEX
-        : queryTab === "profile"
-        ? PROFILE_TAB_INDEX
-        : ACCOUNT_TAB_INDEX
-    );
+    setTabIndex(getTabValueByKey(queryTab));
   }, [location.search]);
 
   useEffect(() => {
@@ -82,16 +73,7 @@ const ConnectedEditing = ({
   }, []);
 
   const handleChange = (event, value) => {
-    setQueryString(
-      "tab",
-      value === CAPABILITIES_TAB_INDEX
-        ? "capabilities"
-        : value === CONTACTS_TAB_INDEX
-        ? "contacts"
-        : value === PROFILE_TAB_INDEX
-        ? "profile"
-        : "account"
-    );
+    setQueryString("tab", getTabKeyByValue(value));
   };
 
   const [saveChangeToRedux] = useDebouncedCallback((formikValues, userData) => {

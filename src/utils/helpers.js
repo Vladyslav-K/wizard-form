@@ -1,5 +1,7 @@
 import { createHashHistory } from "history";
 
+import { tabs, ACCOUNT_TAB_INDEX } from "./constants.js";
+
 export const setQueryString = (queryName, queryValue) => {
   const history = createHashHistory();
 
@@ -21,4 +23,12 @@ export const checkObjectPropsIsNotEmpty = checkedObject => {
   }
 
   return false;
+};
+
+export const getTabKeyByValue = value => {
+  return Object.keys(tabs).find(key => tabs[key] === value) || "account";
+};
+
+export const getTabValueByKey = key => {
+  return tabs[key] || ACCOUNT_TAB_INDEX;
 };

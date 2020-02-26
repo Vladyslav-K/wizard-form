@@ -40,3 +40,11 @@ export const fields = {
     skills: []
   }
 };
+
+export const tabs = {
+  capabilities: CAPABILITIES_TAB_INDEX,
+  contacts: CONTACTS_TAB_INDEX,
+  profile: PROFILE_TAB_INDEX,
+  account: ACCOUNT_TAB_INDEX
+};
+
