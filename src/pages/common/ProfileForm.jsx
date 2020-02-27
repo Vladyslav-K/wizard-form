@@ -19,7 +19,10 @@ export const ProfileForm = memo(
           validateOnChange={false}
           validateOnBlur={false}
           enableReinitialize
-          initialValues={initialData}
+          initialValues={{
+            ...initialData,
+            birthDate: initialData.birthDate || new Date()
+          }}
           onSubmit={handleSubmit}>
           {({ values, errors }) => (
             <Grid

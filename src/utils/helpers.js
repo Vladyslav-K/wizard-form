@@ -21,7 +21,11 @@ export const getQueryStringValue = ({ queryName, location }) => {
 
 export const checkObjectPropsIsNotEmpty = checkedObject => {
   for (let key in checkedObject) {
-    if (checkedObject[key].length !== 0 && checkedObject[key][0] !== "") {
+    if (
+      checkedObject[key] &&
+      checkedObject[key][0] !== "" &&
+      checkedObject[key].length !== 0
+    ) {
       return true;
     }
   }
