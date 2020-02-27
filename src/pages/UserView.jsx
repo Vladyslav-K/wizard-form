@@ -145,24 +145,37 @@ const ConnectedUserView = ({
                   </Grid>
                 </Grid>
 
-                <Grid direction="column" container item xs={4}>
-                  <Grid container direction="column" item xs>
-                    <span> User name: </span>
+                <Grid container item xs={9}>
+                  <Grid
+                    className={classes.container}
+                    justify="space-between"
+                    direction="row"
+                    container
+                    xs={12}
+                    item>
+                    <Grid item xs={6}>
+                      <span> User name: </span>
+                    </Grid>
 
-                    <span> Password: </span>
+                    <Grid className={classes.content} item xs={6}>
+                      <span> {username} </span>
+                    </Grid>
                   </Grid>
-                </Grid>
 
-                <Grid
-                  className={classes.content}
-                  direction="column"
-                  container
-                  xs={4}
-                  item>
-                  <Grid container direction="column" item xs>
-                    <span>{username}</span>
+                  <Grid
+                    className={classes.container}
+                    justify="space-between"
+                    direction="row"
+                    container
+                    xs={12}
+                    item>
+                    <Grid item xs={6}>
+                      <span> Password: </span>
+                    </Grid>
 
-                    <span>{password}</span>
+                    <Grid className={classes.content} item xs={6}>
+                      <span> {password} </span>
+                    </Grid>
                   </Grid>
                 </Grid>
               </Grid>
@@ -185,42 +198,103 @@ const ConnectedUserView = ({
                   </Grid>
                 </Grid>
 
-                <Grid direction="column" container item xs={4}>
-                  <Grid container direction="column" item xs>
-                    <span> First name: </span>
+                <Grid container item xs={9}>
+                  <Grid
+                    className={classes.container}
+                    justify="space-between"
+                    direction="row"
+                    container
+                    xs={12}
+                    item>
+                    <Grid item xs={6}>
+                      <span> First name: </span>
+                    </Grid>
 
-                    <span> Last name: </span>
-
-                    <span> Birth date: </span>
-
-                    <span> Email: </span>
-
-                    <span> Adress: </span>
-
-                    {gender && <span> Gender: </span>}
+                    <Grid className={classes.content} item xs={6}>
+                      <span> {firstName} </span>
+                    </Grid>
                   </Grid>
-                </Grid>
 
-                <Grid
-                  className={classes.content}
-                  direction="column"
-                  container
-                  xs={4}
-                  item>
-                  <Grid container direction="column" item xs>
-                    <span>{firstName}</span>
+                  <Grid
+                    className={classes.container}
+                    justify="space-between"
+                    direction="row"
+                    container
+                    xs={12}
+                    item>
+                    <Grid item xs={6}>
+                      <span> Last name: </span>
+                    </Grid>
 
-                    <span>{lastName}</span>
+                    <Grid className={classes.content} item xs={6}>
+                      <span> {lastName} </span>
+                    </Grid>
+                  </Grid>
 
-                    <span>
-                      {DateTime.fromJSDate(birthDate).toFormat("dd.LL.yyyy")}
-                    </span>
+                  <Grid
+                    className={classes.container}
+                    justify="space-between"
+                    direction="row"
+                    container
+                    xs={12}
+                    item>
+                    <Grid item xs={6}>
+                      <span> Birth date: </span>
+                    </Grid>
 
-                    <span> {email} </span>
+                    <Grid className={classes.content} item xs={6}>
+                      <span>
+                        {DateTime.fromJSDate(birthDate).toFormat("dd.LL.yyyy")}
+                      </span>
+                    </Grid>
+                  </Grid>
 
-                    <span> {address} </span>
+                  <Grid
+                    className={classes.container}
+                    justify="space-between"
+                    direction="row"
+                    container
+                    xs={12}
+                    item>
+                    <Grid item xs={6}>
+                      <span> Email: </span>
+                    </Grid>
 
-                    {gender && <span> {gender} </span>}
+                    <Grid className={classes.content} item xs={6}>
+                      <span> {email} </span>
+                    </Grid>
+                  </Grid>
+
+                  <Grid
+                    className={classes.container}
+                    justify="space-between"
+                    direction="row"
+                    container
+                    xs={12}
+                    item>
+                    <Grid item xs={6}>
+                      <span> Address: </span>
+                    </Grid>
+
+                    <Grid className={classes.content} item xs={6}>
+                      <span> {address} </span>
+                    </Grid>
+                  </Grid>
+
+                  <Grid
+                    className={classes.container}
+                    justify="space-between"
+                    direction="row"
+                    container
+                    xs={12}
+                    item>
+                    <Grid item xs={6}>
+                      <span> Gender: </span>
+                    </Grid>
+
+                    <Grid className={classes.content} item xs={6}>
+                      <span> {gender} </span>
+                    </Grid>
                   </Grid>
                 </Grid>
               </Grid>
@@ -243,48 +317,141 @@ const ConnectedUserView = ({
                   </Grid>
                 </Grid>
 
-                <Grid direction="column" container item xs={4}>
-                  <Grid container direction="column" item xs>
-                    {phones[0] && <span> Phone #1: </span>}
+                <Grid container item xs={9}>
+                  {phones[0] && (
+                    <Grid
+                      className={classes.container}
+                      justify="space-between"
+                      direction="row"
+                      container
+                      xs={12}
+                      item>
+                      <Grid item xs={6}>
+                        <span> Phone#1 </span>
+                      </Grid>
 
-                    {phones[1] && <span> Phone #2: </span>}
+                      <Grid className={classes.content} item xs={6}>
+                        <span> {phones[0]} </span>
+                      </Grid>
+                    </Grid>
+                  )}
 
-                    {phones[2] && <span> Phone #3: </span>}
+                  {phones[1] && (
+                    <Grid
+                      className={classes.container}
+                      justify="space-between"
+                      direction="row"
+                      container
+                      xs={12}
+                      item>
+                      <Grid item xs={6}>
+                        <span> Phone#1 </span>
+                      </Grid>
 
-                    <span> Fax: </span>
+                      <Grid className={classes.content} item xs={6}>
+                        <span> {phones[1]} </span>
+                      </Grid>
+                    </Grid>
+                  )}
 
-                    {company && <span> Company: </span>}
+                  {phones[2] && (
+                    <Grid
+                      className={classes.container}
+                      justify="space-between"
+                      direction="row"
+                      container
+                      xs={12}
+                      item>
+                      <Grid item xs={6}>
+                        <span> Phone#1 </span>
+                      </Grid>
 
-                    <span> Github link: </span>
+                      <Grid className={classes.content} item xs={6}>
+                        <span> {phones[2]} </span>
+                      </Grid>
+                    </Grid>
+                  )}
 
-                    <span> Facebook link: </span>
+                  <Grid
+                    className={classes.container}
+                    justify="space-between"
+                    direction="row"
+                    container
+                    xs={12}
+                    item>
+                    <Grid item xs={6}>
+                      <span> Fax: </span>
+                    </Grid>
 
-                    <span> Main language: </span>
+                    <Grid className={classes.content} item xs={6}>
+                      <span> {fax} </span>
+                    </Grid>
                   </Grid>
-                </Grid>
 
-                <Grid
-                  className={classes.content}
-                  direction="column"
-                  container
-                  xs={4}
-                  item>
-                  <Grid container direction="column" item xs>
-                    {phones[0] && <span> {phones[0]} </span>}
+                  {company && (
+                    <Grid
+                      className={classes.container}
+                      justify="space-between"
+                      direction="row"
+                      container
+                      xs={12}
+                      item>
+                      <Grid item xs={6}>
+                        <span> Company: </span>
+                      </Grid>
 
-                    {phones[1] && <span> {phones[1]} </span>}
+                      <Grid className={classes.content} item xs={6}>
+                        <span>{company}</span>
+                      </Grid>
+                    </Grid>
+                  )}
 
-                    {phones[2] && <span> {phones[2]} </span>}
+                  <Grid
+                    className={classes.container}
+                    justify="space-between"
+                    direction="row"
+                    container
+                    xs={12}
+                    item>
+                    <Grid item xs={6}>
+                      <span> Github link: </span>
+                    </Grid>
 
-                    <span>{fax}</span>
+                    <Grid className={classes.content} item xs={6}>
+                      <span> {gitHubLink} </span>
+                    </Grid>
+                  </Grid>
 
-                    {company && <span>{company}</span>}
+                  <Grid
+                    className={classes.container}
+                    justify="space-between"
+                    direction="row"
+                    container
+                    xs={12}
+                    item>
+                    <Grid item xs={6}>
+                      <span> Facebook link: </span>
+                    </Grid>
 
-                    <span> {gitHubLink} </span>
+                    <Grid className={classes.content} item xs={6}>
+                      <span> {facebookLink} </span>
+                    </Grid>
+                  </Grid>
 
-                    <span> {facebookLink} </span>
+                  <Grid
+                    className={classes.container}
+                    justify="space-between"
+                    direction="row"
+                    container
+                    xs={12}
+                    item>
+                    <Grid item xs={6}>
+                      <span> Main language: </span>
+                    </Grid>
 
-                    <span> {mainLanguage} </span>
+                    <Grid className={classes.content} item xs={6}>
+                      <span> {mainLanguage} </span>
+                    </Grid>
                   </Grid>
                 </Grid>
               </Grid>
@@ -307,33 +474,58 @@ const ConnectedUserView = ({
                   </Grid>
                 </Grid>
 
-                <Grid direction="column" container item xs={4}>
-                  <Grid container direction="column" item xs>
-                    <span> Skills: </span>
+                <Grid container item xs={9}>
+                  <Grid
+                    className={classes.container}
+                    justify="space-between"
+                    direction="row"
+                    container
+                    xs={12}
+                    item>
+                    <Grid item xs={6}>
+                      <span> Skills: </span>
+                    </Grid>
 
-                    {additionalInformation && (
-                      <span> Additional information: </span>
-                    )}
-
-                    {hobbies && <span> My hobbies: </span>}
+                    <Grid className={classes.content} item xs={6}>
+                      <span> {String(skills.map(skill => " " + skill))} </span>
+                    </Grid>
                   </Grid>
-                </Grid>
 
-                <Grid
-                  className={classes.content}
-                  direction="column"
-                  container
-                  xs={4}
-                  item>
-                  <Grid container direction="column" item xs>
-                    <span> {String(skills.map(skill => " " + skill))} </span>
+                  {additionalInformation && (
+                    <Grid
+                      className={classes.container}
+                      justify="space-between"
+                      direction="row"
+                      container
+                      xs={12}
+                      item>
+                      <Grid item xs={6}>
+                        <span> Additional information: </span>
+                      </Grid>
 
-                    {additionalInformation && (
-                      <span>{additionalInformation}</span>
-                    )}
+                      <Grid className={classes.content} item xs={6}>
+                        <span> {additionalInformation} </span>
+                      </Grid>
+                    </Grid>
+                  )}
 
-                    {hobbies && <span>{hobbies}</span>}
-                  </Grid>
+                  {hobbies && (
+                    <Grid
+                      className={classes.container}
+                      justify="space-between"
+                      direction="row"
+                      container
+                      xs={12}
+                      item>
+                      <Grid item xs={6}>
+                        <span> Hobbies: </span>
+                      </Grid>
+
+                      <Grid className={classes.content} item xs={6}>
+                        <span> {hobbies} </span>
+                      </Grid>
+                    </Grid>
+                  )}
                 </Grid>
               </Grid>
             </Grid>
@@ -346,7 +538,7 @@ const ConnectedUserView = ({
 
 const useStyles = makeStyles(theme => ({
   container: {
-    margin: "15px"
+    marginBottom: "20px"
   },
 
   heading: {
@@ -379,11 +571,7 @@ const useStyles = makeStyles(theme => ({
     fontStyle: "normal",
     fontWeight: "500",
     fontSize: "14px",
-    lineHeight: "16px",
-
-    "& span": {
-      marginBottom: "16px"
-    }
+    lineHeight: "16px"
   },
 
   linkToUsers: {
