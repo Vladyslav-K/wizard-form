@@ -3,6 +3,7 @@ import { Formik, Field } from "formik";
 
 import { profileFormValidationSchema } from "../../utils/validations";
 
+import { InputGooglePlacesAutocomplete } from "../../components/InputGooglePlacesAutocomplete";
 import { GenderRadio } from "../../components/GenderRadio.jsx";
 import { DatePicker } from "../../components/DatePicker";
 import { InputField } from "../../components/InputField";
@@ -68,7 +69,7 @@ export const ProfileForm = memo(
                   />
 
                   <Field
-                    component={InputField}
+                    component={InputGooglePlacesAutocomplete}
                     errors={errors.address}
                     label="Address"
                     name="address"
