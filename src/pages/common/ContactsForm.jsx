@@ -59,6 +59,7 @@ export const ContactsForm = memo(
                 />
 
                 <Field
+                  errors={errors.mainLanguage}
                   component={InputAutocomplete}
                   label="Main language"
                   name="mainLanguage"

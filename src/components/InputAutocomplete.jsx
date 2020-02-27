@@ -11,16 +11,12 @@ export const InputAutocomplete = memo(
 
     return (
       <Autocomplete
-        onInputChange={(event, value) =>
-          !multiple && form.setFieldValue(field.name, value)
-        }
-        onChange={(event, value) => form.setFieldValue(field.name, value)}
+        getOptionLabel={options => options}
         value={field.value}
         multiple={multiple}
         options={options}
-        disableClearable
         size="small"
-        freeSolo
+        onChange={(event, value) => form.setFieldValue(field.name, value)}
         renderInput={params => (
           <Grid container className={classes.fieldContainer}>
             <Grid container justify="space-between">
@@ -29,6 +25,7 @@ export const InputAutocomplete = memo(
             </Grid>
 
             <TextField
+              name={field.name}
               id={field.name}
               className={classes.fieldStyles}
               variant="outlined"
