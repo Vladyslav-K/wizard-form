@@ -52,3 +52,7 @@ export const getCurrentUserFromDB = userId => {
 export const getFilteredCurrentUserFromDB = (keyPath, value = "") => {
   return database.userList.where({ [keyPath]: value }).first();
 };
+
+export const addTestUserToDB = user => {
+  return database.userList.add({ ...user });
+};

@@ -36,7 +36,7 @@ import { StyledTab } from "../components/StyledTab.jsx";
 import { TabPanel } from "../components/TabPanel.jsx";
 
 import { makeStyles } from "@material-ui/core/styles";
-import { Container, Tabs, Grid } from "@material-ui/core";
+import { Container, Tabs, Grid, CircularProgress } from "@material-ui/core";
 
 const ConnectedAddNewUser = ({
   history,
@@ -56,7 +56,8 @@ const ConnectedAddNewUser = ({
   profileIsSubmitted,
   accountIsSubmitted,
 
-  temporaryUserData,
+  userData,
+  isLoading,
 
   databaseHasUserData
 }) => {
@@ -73,7 +74,10 @@ const ConnectedAddNewUser = ({
   });
 
   useEffect(() => {
-    const queryTab = getQueryStringValue("tab", location.search);
+    const queryTab = getQueryStringValue({
+      queryName: "tab",
+      location: location.search
+    });
 
     setTabIndex(getTabValueByKey(queryTab));
   }, [location.search]);
@@ -88,7 +92,7 @@ const ConnectedAddNewUser = ({
   };
 
   const handleChange = (event, value) => {
-    setQueryString("tab", getTabKeyByValue(value));
+    setQueryString({ queryName: "tab", queryValue: getTabKeyByValue(value) });
   };
 
   const [saveChangeToRedux] = useDebouncedCallback((formikValues, userData) => {
@@ -113,7 +117,7 @@ const ConnectedAddNewUser = ({
   };
 
   const capabilitiesHandleSubmit = () => {
-    addUserToList(temporaryUserData);
+    addUserToList(userData);
 
     const history = createHashHistory();
     history.push("/users");
@@ -127,20 +131,11 @@ const ConnectedAddNewUser = ({
     removeTemporaryUserData();
   };
 
-  const accountData = lodashPick(
-    temporaryUserData,
-    Object.keys(fields.account)
-  );
-  const profileData = lodashPick(
-    temporaryUserData,
-    Object.keys(fields.profile)
-  );
-  const contactsData = lodashPick(
-    temporaryUserData,
-    Object.keys(fields.contacts)
-  );
+  const accountData = lodashPick(userData, Object.keys(fields.account));
+  const profileData = lodashPick(userData, Object.keys(fields.profile));
+  const contactsData = lodashPick(userData, Object.keys(fields.contacts));
   const capabilitiesData = lodashPick(
-    temporaryUserData,
+    userData,
     Object.keys(fields.capabilities)
   );
 
@@ -155,7 +150,7 @@ const ConnectedAddNewUser = ({
       setDisabledTabs(prevState => ({ ...prevState, capabilitiesTab: false }));
 
     // eslint-disable-next-line
-  }, [temporaryUserData]);
+  }, [userData]);
 
   return (
     <Container maxWidth="md">
@@ -197,33 +192,42 @@ const ConnectedAddNewUser = ({
       )}
 
       <TabPanel value={tabIndex} index={0}>
-        <AccountForm
-          saveChangeToRedux={saveChangeToRedux}
-          accountData={accountData}
-          getButtons={getButtons}
-          visible={visible}
-          toggleVisibility={toggleVisibility}
-          handleSubmit={() => {
-            setDisabledTabs(prevState => ({
-              ...prevState,
-              profileTab: false
-            }));
-            setQueryString("tab", "profile");
-          }}
-        />
+        {isLoading ? (
+          <Grid
+            container
+            justify="center"
+            className={classes.circularContainer}>
+            <CircularProgress className={classes.circular} size="8%" />
+          </Grid>
+        ) : (
+          <AccountForm
+            saveChangeToRedux={saveChangeToRedux}
+            initialData={accountData}
+            getButtons={getButtons}
+            visible={visible}
+            toggleVisibility={toggleVisibility}
+            handleSubmit={() => {
+              setDisabledTabs(prevState => ({
+                ...prevState,
+                profileTab: false
+              }));
+              setQueryString({ queryName: "tab", queryValue: "profile" });
+            }}
+          />
+        )}
       </TabPanel>
 
       <TabPanel value={tabIndex} index={1}>
         <ProfileForm
           saveChangeToRedux={saveChangeToRedux}
-          profileData={profileData}
+          initialData={profileData}
           getButtons={getButtons}
           handleSubmit={() => {
             setDisabledTabs(prevState => ({
               ...prevState,
               contactsTab: false
             }));
-            setQueryString("tab", "contacts");
+            setQueryString({ queryName: "tab", queryValue: "contacts" });
           }}
         />
       </TabPanel>
@@ -231,14 +235,14 @@ const ConnectedAddNewUser = ({
       <TabPanel value={tabIndex} index={2}>
         <ContactsForm
           saveChangeToRedux={saveChangeToRedux}
-          contactsData={contactsData}
+          initialData={contactsData}
           getButtons={getButtons}
           handleSubmit={() => {
             setDisabledTabs(prevState => ({
               ...prevState,
               capabilitiesTab: false
             }));
-            setQueryString("tab", "capabilities");
+            setQueryString({ queryName: "tab", queryValue: "capabilities" });
           }}
         />
       </TabPanel>
@@ -246,8 +250,8 @@ const ConnectedAddNewUser = ({
       <TabPanel value={tabIndex} index={3}>
         <CapabilitiesForm
           saveChangeToRedux={saveChangeToRedux}
-          capabilitiesData={capabilitiesData}
-          userData={temporaryUserData}
+          initialData={capabilitiesData}
+          userData={userData}
           getButtons={getButtons}
           handleSubmit={() => capabilitiesHandleSubmit()}
         />
@@ -306,27 +310,22 @@ const useStyles = makeStyles(theme => ({
 
   tabIncticator: {
     display: "none"
+  },
+
+  circularContainer: {
+    marginTop: "10vh"
+  },
+
+  circular: {
+    color: "#4E86E4"
   }
 }));
 
 export const AddNewUser = connect(
-  ({
-    submitted: {
-      contactsIsSubmitted,
-      profileIsSubmitted,
-      accountIsSubmitted,
-
-      databaseHasUserData
-    },
-    temporaryUserData
-  }) => ({
-    contactsIsSubmitted,
-    profileIsSubmitted,
-    accountIsSubmitted,
-
+  ({ temporaryUserData: { databaseHasUserData, isLoading, userData } }) => ({
     databaseHasUserData,
-
-    temporaryUserData
+    isLoading,
+    userData
   }),
   {
     getTemporaryUserDataWithDatabase,

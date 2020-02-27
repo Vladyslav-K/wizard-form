@@ -4,16 +4,36 @@ import { connect } from "react-redux";
 
 import { getUserFromList } from "../domain/currentUserDomain/currentUserActions.js";
 
+import { updateUserListFromDB } from "../domain/userListDomain/userListActions.js";
+
+import { getTabKeyByValue, setQueryString } from "../utils/helpers.js";
+
+import {
+  CAPABILITIES_TAB_INDEX,
+  CONTACTS_TAB_INDEX,
+  PROFILE_TAB_INDEX,
+  ACCOUNT_TAB_INDEX
+} from "../utils/constants.js";
+
 import { ReactComponent as EditIcon } from "../images/icons/Edit2.svg";
 import { ReactComponent as ArrowIcon } from "../images/icons/Rectangle.svg";
 import DefaultAvatarImage from "../images/icons/avatar.svg";
 
 import { makeStyles } from "@material-ui/core/styles";
-import { IconButton, Button, Container, Grid, Avatar } from "@material-ui/core";
+import {
+  CircularProgress,
+  IconButton,
+  Container,
+  Avatar,
+  Button,
+  Grid
+} from "@material-ui/core";
 
 const ConnectedUserView = ({
+  updateUserListFromDB,
   getUserFromList,
-  currentUserData,
+  isLoading,
+  userData,
   userList,
   history,
   match
@@ -42,7 +62,7 @@ const ConnectedUserView = ({
     additionalInformation,
     hobbies,
     skills
-  } = currentUserData;
+  } = userData;
 
   useEffect(() => {
     getUserFromList({ id: +match.params.id });
@@ -53,266 +73,273 @@ const ConnectedUserView = ({
     history.push({ pathname: "/users" });
   };
 
-  const linkHandleClick = step => {
-    history.push({
-      pathname: `/users/edit/${+match.params.id}`,
-      search: `?step=${step}`
+  const linkHandleClick = value => {
+    setQueryString({
+      queryName: "tab",
+      queryValue: getTabKeyByValue(value),
+      pathname: `/users/edit/${+match.params.id}`
     });
   };
 
   return (
     <Container maxWidth="md">
-      <Grid container justify="center">
-        <Grid container justify="space-between">
-          <Grid item xs={3}>
-            <IconButton onClick={handleClick}>
-              <ArrowIcon />
-            </IconButton>
+      {isLoading ? (
+        <Grid container justify="center" className={classes.circularContainer}>
+          <CircularProgress className={classes.circular} size="8%" />
+        </Grid>
+      ) : (
+        <Grid container justify="center">
+          <Grid container justify="space-between">
+            <Grid item xs={3}>
+              <IconButton onClick={handleClick}>
+                <ArrowIcon />
+              </IconButton>
 
-            <Button className={classes.linkToUsers} onClick={handleClick}>
-              Users List
-            </Button>
+              <Button className={classes.linkToUsers} onClick={handleClick}>
+                Users List
+              </Button>
+            </Grid>
+            <Grid className={classes.heading} item xs={7}>
+              {username}
+            </Grid>
           </Grid>
-          <Grid className={classes.heading} item xs={7}>
-            {username}
+
+          <Grid container item xs={10} direction="row" justify="space-between">
+            <Grid item>
+              {avatar ? (
+                <Avatar
+                  className={classes.userAvatar}
+                  alt="User avatar"
+                  src={avatar}
+                />
+              ) : (
+                <Avatar
+                  className={classes.defaultAvatar}
+                  alt="Default avatar image"
+                  src={DefaultAvatarImage}
+                />
+              )}
+            </Grid>
+
+            <Grid
+              className={classes.headers}
+              justify="space-around"
+              container
+              xs={8}
+              item>
+              <Grid
+                className={classes.container}
+                justify="space-around"
+                direction="row"
+                container
+                xs={12}
+                item>
+                <Grid item xs={3}>
+                  <Grid container direction="row">
+                    <span> Account </span>
+                    <IconButton
+                      className={classes.editIcon}
+                      onClick={() => linkHandleClick(ACCOUNT_TAB_INDEX)}>
+                      <EditIcon />
+                    </IconButton>
+                  </Grid>
+                </Grid>
+
+                <Grid direction="column" container item xs={4}>
+                  <Grid container direction="column" item xs>
+                    <span> User name: </span>
+
+                    <span> Password: </span>
+                  </Grid>
+                </Grid>
+
+                <Grid
+                  className={classes.content}
+                  direction="column"
+                  container
+                  xs={4}
+                  item>
+                  <Grid container direction="column" item xs>
+                    <span>{username}</span>
+
+                    <span>{password}</span>
+                  </Grid>
+                </Grid>
+              </Grid>
+
+              <Grid
+                className={classes.container}
+                justify="space-around"
+                direction="row"
+                container
+                xs={12}
+                item>
+                <Grid item xs={3}>
+                  <Grid container direction="row">
+                    <span> Personal </span>
+                    <IconButton
+                      className={classes.editIcon}
+                      onClick={() => linkHandleClick(PROFILE_TAB_INDEX)}>
+                      <EditIcon />
+                    </IconButton>
+                  </Grid>
+                </Grid>
+
+                <Grid direction="column" container item xs={4}>
+                  <Grid container direction="column" item xs>
+                    <span> First name: </span>
+
+                    <span> Last name: </span>
+
+                    <span> Birth date: </span>
+
+                    <span> Email: </span>
+
+                    <span> Adress: </span>
+
+                    {gender && <span> Gender: </span>}
+                  </Grid>
+                </Grid>
+
+                <Grid
+                  className={classes.content}
+                  direction="column"
+                  container
+                  xs={4}
+                  item>
+                  <Grid container direction="column" item xs>
+                    <span>{firstName}</span>
+
+                    <span>{lastName}</span>
+
+                    <span>
+                      {DateTime.fromJSDate(birthDate).toFormat("dd.LL.yyyy")}
+                    </span>
+
+                    <span> {email} </span>
+
+                    <span> {address} </span>
+
+                    {gender && <span> {gender} </span>}
+                  </Grid>
+                </Grid>
+              </Grid>
+
+              <Grid
+                className={classes.container}
+                justify="space-around"
+                direction="row"
+                container
+                xs={12}
+                item>
+                <Grid item xs={3}>
+                  <Grid container direction="row">
+                    <span> Contacts </span>
+                    <IconButton
+                      className={classes.editIcon}
+                      onClick={() => linkHandleClick(CONTACTS_TAB_INDEX)}>
+                      <EditIcon />
+                    </IconButton>
+                  </Grid>
+                </Grid>
+
+                <Grid direction="column" container item xs={4}>
+                  <Grid container direction="column" item xs>
+                    {phones[0] && <span> Phone #1: </span>}
+
+                    {phones[1] && <span> Phone #2: </span>}
+
+                    {phones[2] && <span> Phone #3: </span>}
+
+                    <span> Fax: </span>
+
+                    {company && <span> Company: </span>}
+
+                    <span> Github link: </span>
+
+                    <span> Facebook link: </span>
+
+                    <span> Main language: </span>
+                  </Grid>
+                </Grid>
+
+                <Grid
+                  className={classes.content}
+                  direction="column"
+                  container
+                  xs={4}
+                  item>
+                  <Grid container direction="column" item xs>
+                    {phones[0] && <span> {phones[0]} </span>}
+
+                    {phones[1] && <span> {phones[1]} </span>}
+
+                    {phones[2] && <span> {phones[2]} </span>}
+
+                    <span>{fax}</span>
+
+                    {company && <span>{company}</span>}
+
+                    <span> {gitHubLink} </span>
+
+                    <span> {facebookLink} </span>
+
+                    <span> {mainLanguage} </span>
+                  </Grid>
+                </Grid>
+              </Grid>
+
+              <Grid
+                className={classes.container}
+                justify="space-around"
+                direction="row"
+                container
+                xs={12}
+                item>
+                <Grid item xs={3}>
+                  <Grid container direction="row">
+                    <span> Capabilities </span>
+                    <IconButton
+                      className={classes.editIcon}
+                      onClick={() => linkHandleClick(CAPABILITIES_TAB_INDEX)}>
+                      <EditIcon />
+                    </IconButton>
+                  </Grid>
+                </Grid>
+
+                <Grid direction="column" container item xs={4}>
+                  <Grid container direction="column" item xs>
+                    <span> Skills: </span>
+
+                    {additionalInformation && (
+                      <span> Additional information: </span>
+                    )}
+
+                    {hobbies && <span> My hobbies: </span>}
+                  </Grid>
+                </Grid>
+
+                <Grid
+                  className={classes.content}
+                  direction="column"
+                  container
+                  xs={4}
+                  item>
+                  <Grid container direction="column" item xs>
+                    <span> {String(skills.map(skill => " " + skill))} </span>
+
+                    {additionalInformation && (
+                      <span>{additionalInformation}</span>
+                    )}
+
+                    {hobbies && <span>{hobbies}</span>}
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
-
-        <Grid container item xs={10} direction="row" justify="space-between">
-          <Grid item>
-            {avatar ? (
-              <Avatar
-                className={classes.userAvatar}
-                alt="User avatar"
-                src={avatar}
-              />
-            ) : (
-              <Avatar
-                className={classes.defaultAvatar}
-                alt="Default avatar image"
-                src={DefaultAvatarImage}
-              />
-            )}
-          </Grid>
-
-          <Grid
-            className={classes.headers}
-            justify="space-around"
-            container
-            xs={8}
-            item>
-            <Grid
-              className={classes.container}
-              justify="space-around"
-              direction="row"
-              container
-              xs={12}
-              item>
-              <Grid item xs={3}>
-                <Grid container direction="row">
-                  <span> Account </span>
-                  <IconButton
-                    className={classes.editIcon}
-                    onClick={() => linkHandleClick(0)}>
-                    <EditIcon />
-                  </IconButton>
-                </Grid>
-              </Grid>
-
-              <Grid direction="column" container item xs={4}>
-                <Grid container direction="column" item xs>
-                  <span> User name: </span>
-
-                  <span> Password: </span>
-                </Grid>
-              </Grid>
-
-              <Grid
-                className={classes.content}
-                direction="column"
-                container
-                xs={4}
-                item>
-                <Grid container direction="column" item xs>
-                  <span>{username}</span>
-
-                  <span>{password}</span>
-                </Grid>
-              </Grid>
-            </Grid>
-
-            <Grid
-              className={classes.container}
-              justify="space-around"
-              direction="row"
-              container
-              xs={12}
-              item>
-              <Grid item xs={3}>
-                <Grid container direction="row">
-                  <span> Personal </span>
-                  <IconButton
-                    className={classes.editIcon}
-                    onClick={() => linkHandleClick(1)}>
-                    <EditIcon />
-                  </IconButton>
-                </Grid>
-              </Grid>
-
-              <Grid direction="column" container item xs={4}>
-                <Grid container direction="column" item xs>
-                  <span> First name: </span>
-
-                  <span> Last name: </span>
-
-                  <span> Birth date: </span>
-
-                  <span> Email: </span>
-
-                  <span> Adress: </span>
-
-                  {gender && <span> Gender: </span>}
-                </Grid>
-              </Grid>
-
-              <Grid
-                className={classes.content}
-                direction="column"
-                container
-                xs={4}
-                item>
-                <Grid container direction="column" item xs>
-                  <span>{firstName}</span>
-
-                  <span>{lastName}</span>
-
-                  <span>
-                    {DateTime.fromJSDate(birthDate).toFormat("dd.LL.yyyy")}
-                  </span>
-
-                  <span> {email} </span>
-
-                  <span> {address} </span>
-
-                  {gender && <span> {gender} </span>}
-                </Grid>
-              </Grid>
-            </Grid>
-
-            <Grid
-              className={classes.container}
-              justify="space-around"
-              direction="row"
-              container
-              xs={12}
-              item>
-              <Grid item xs={3}>
-                <Grid container direction="row">
-                  <span> Contacts </span>
-                  <IconButton
-                    className={classes.editIcon}
-                    onClick={() => linkHandleClick(2)}>
-                    <EditIcon />
-                  </IconButton>
-                </Grid>
-              </Grid>
-
-              <Grid direction="column" container item xs={4}>
-                <Grid container direction="column" item xs>
-                  {phones[0] && <span> Phone #1: </span>}
-
-                  {phones[1] && <span> Phone #2: </span>}
-
-                  {phones[2] && <span> Phone #3: </span>}
-
-                  <span> Fax: </span>
-
-                  {company && <span> Company: </span>}
-
-                  <span> Github link: </span>
-
-                  <span> Facebook link: </span>
-
-                  <span> Main language: </span>
-                </Grid>
-              </Grid>
-
-              <Grid
-                className={classes.content}
-                direction="column"
-                container
-                xs={4}
-                item>
-                <Grid container direction="column" item xs>
-                  {phones[0] && <span> {phones[0]} </span>}
-
-                  {phones[1] && <span> {phones[1]} </span>}
-
-                  {phones[2] && <span> {phones[2]} </span>}
-
-                  <span>{fax}</span>
-
-                  {company && <span>{company}</span>}
-
-                  <span> {gitHubLink} </span>
-
-                  <span> {facebookLink} </span>
-
-                  <span> {mainLanguage} </span>
-                </Grid>
-              </Grid>
-            </Grid>
-
-            <Grid
-              className={classes.container}
-              justify="space-around"
-              direction="row"
-              container
-              xs={12}
-              item>
-              <Grid item xs={3}>
-                <Grid container direction="row">
-                  <span> Capabilities </span>
-                  <IconButton
-                    className={classes.editIcon}
-                    onClick={() => linkHandleClick(3)}>
-                    <EditIcon />
-                  </IconButton>
-                </Grid>
-              </Grid>
-
-              <Grid direction="column" container item xs={4}>
-                <Grid container direction="column" item xs>
-                  <span> Skills: </span>
-
-                  {additionalInformation && (
-                    <span> Additional information: </span>
-                  )}
-
-                  {hobbies && <span> My hobbies: </span>}
-                </Grid>
-              </Grid>
-
-              <Grid
-                className={classes.content}
-                direction="column"
-                container
-                xs={4}
-                item>
-                <Grid container direction="column" item xs>
-                  <span> {String(skills.map(skill => " " + skill))} </span>
-
-                  {additionalInformation && (
-                    <span>{additionalInformation}</span>
-                  )}
-
-                  {hobbies && <span>{hobbies}</span>}
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
+      )}
     </Container>
   );
 };
@@ -402,13 +429,25 @@ const useStyles = makeStyles(theme => ({
   editIcon: {
     padding: 0,
     margin: "0px 0px 0px 12px"
+  },
+
+  circularContainer: {
+    marginTop: "35vh"
+  },
+
+  circular: {
+    color: "#4E86E4"
   }
 }));
 
 export const UserView = connect(
-  ({ currentUserData, listOfUsers: { userList } }) => ({
-    currentUserData,
+  ({
+    currentUserData: { isLoading, userData },
+    listOfUsers: { userList }
+  }) => ({
+    isLoading,
+    userData,
     userList
   }),
-  { getUserFromList }
+  { updateUserListFromDB, getUserFromList }
 )(ConnectedUserView);

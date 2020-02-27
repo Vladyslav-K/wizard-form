@@ -9,21 +9,21 @@ import {
 } from "./userListActions.js";
 
 const initialState = {
-  isErrorFetching: false,
   isLoading: false,
+  isError: false,
   userList: []
 };
 
 export const userListReducers = createReducer(initialState, {
   [syncUserListWithDatabase]: (state, action) => {
     state.userList = action.payload || [];
-    state.isErrorFetching = false;
     state.isLoading = false;
+    state.isError = false;
   },
 
   [userListFetchingError]: (state, action) => {
-    state.isErrorFetching = true;
     state.isLoading = false;
+    state.isError = true;
   },
 
   [removeUserFromList]: (state, action) => {
@@ -33,8 +33,8 @@ export const userListReducers = createReducer(initialState, {
   },
 
   [userListIsLoading]: (state, action) => {
-    state.isErrorFetching = false;
     state.isLoading = true;
+    state.isError = false;
   },
 
   [addUserToList]: (state, action) => {

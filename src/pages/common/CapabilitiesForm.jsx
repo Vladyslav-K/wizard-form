@@ -13,24 +13,18 @@ import { InputField } from "../../components/InputField";
 import { CheckBox } from "../../components/CheckBox";
 
 export const CapabilitiesForm = memo(
-  ({
-    saveChangeToRedux,
-    capabilitiesData,
-    handleSubmit,
-    getButtons,
-    userData
-  }) => {
+  ({ saveChangeToRedux, initialData, handleSubmit, getButtons, userData }) => {
     return (
       <Formik
         validationSchema={capabilitiesFormValidationSchema}
         validateOnChange={false}
         validateOnBlur={false}
         enableReinitialize
-        initialValues={capabilitiesData}
+        initialValues={initialData}
         onSubmit={handleSubmit}>
         {({ values, errors }) => (
           <Grid container justify="space-around" style={{ marginTop: "2rem" }}>
-            {saveChangeToRedux(values, capabilitiesData)}
+            {saveChangeToRedux(values, initialData)}
 
             <Grid item xs={4}>
               <StyledForm>

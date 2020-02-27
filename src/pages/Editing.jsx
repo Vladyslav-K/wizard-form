@@ -32,13 +32,21 @@ import { TabPanel } from "../components/TabPanel.jsx";
 import { ReactComponent as ArrowIcon } from "../images/icons/Rectangle.svg";
 
 import { makeStyles } from "@material-ui/core/styles";
-import { IconButton, Button, Container, Tabs, Grid } from "@material-ui/core";
+import {
+  CircularProgress,
+  IconButton,
+  Container,
+  Button,
+  Tabs,
+  Grid
+} from "@material-ui/core";
 
 const ConnectedEditing = ({
   saveCurrentUserToList,
   setCurrentUserData,
   getUserFromList,
-  currentUserData,
+  isLoading,
+  userData,
   userList,
 
   location,
@@ -56,16 +64,22 @@ const ConnectedEditing = ({
   };
 
   useEffect(() => {
-    const queryTab = getQueryStringValue("tab", location.search);
+    const queryTab = getQueryStringValue({
+      queryName: "tab",
+      location: location.search
+    });
 
     setTabIndex(getTabValueByKey(queryTab));
   }, [location.search]);
 
   useEffect(() => {
-    const queryTab = getQueryStringValue("tab", location.search);
+    const queryTab = getQueryStringValue({
+      queryName: "tab",
+      location: location.search
+    });
 
     if (!queryTab) {
-      setQueryString("tab", "account");
+      setQueryString({ queryName: "tab", queryValue: "account" });
     }
 
     getUserFromList({ id: +match.params.id });
@@ -73,7 +87,7 @@ const ConnectedEditing = ({
   }, []);
 
   const handleChange = (event, value) => {
-    setQueryString("tab", getTabKeyByValue(value));
+    setQueryString({ queryName: "tab", queryValue: getTabKeyByValue(value) });
   };
 
   const [saveChangeToRedux] = useDebouncedCallback((formikValues, userData) => {
@@ -83,7 +97,7 @@ const ConnectedEditing = ({
   }, 250);
 
   const handleSubmit = () => {
-    saveCurrentUserToList({ userData: currentUserData, id: +match.params.id });
+    saveCurrentUserToList({ userData: userData, id: +match.params.id });
   };
 
   const getButtons = () => {
@@ -98,86 +112,86 @@ const ConnectedEditing = ({
     history.push({ pathname: `/users/view/${+match.params.id}` });
   };
 
-  const accountData = lodashPick(currentUserData, Object.keys(fields.account));
-  const profileData = lodashPick(currentUserData, Object.keys(fields.profile));
-  const contactsData = lodashPick(
-    currentUserData,
-    Object.keys(fields.contacts)
-  );
+  const accountData = lodashPick(userData, Object.keys(fields.account));
+  const profileData = lodashPick(userData, Object.keys(fields.profile));
+  const contactsData = lodashPick(userData, Object.keys(fields.contacts));
   const capabilitiesData = lodashPick(
-    currentUserData,
+    userData,
     Object.keys(fields.capabilities)
   );
 
   return (
     <Container maxWidth="md">
-      <Grid container justify="space-between">
-        <Grid item xs={3}>
-          <IconButton onClick={handleClick}>
-            <ArrowIcon />
-          </IconButton>
-
-          <Button className={classes.linkToUsers} onClick={handleClick}>
-            User Profile
-          </Button>
+      {isLoading ? (
+        <Grid container justify="center" className={classes.circularContainer}>
+          <CircularProgress className={classes.circular} size="8%" />
         </Grid>
-        <Grid className={classes.heading} item xs={7}>
-          Editing
-        </Grid>
-      </Grid>
+      ) : (
+        <>
+          <Grid container justify="space-between">
+            <Grid item xs={3}>
+              <IconButton onClick={handleClick}>
+                <ArrowIcon />
+              </IconButton>
 
-      <Tabs
-        classes={{ indicator: classes.tabIncticator }}
-        aria-label="Registration"
-        onChange={handleChange}
-        variant="fullWidth"
-        value={tabIndex}>
-        <StyledTab label="1. Account" {...a11yProps(0)} />
+              <Button className={classes.linkToUsers} onClick={handleClick}>
+                User Profile
+              </Button>
+            </Grid>
+            <Grid className={classes.heading} item xs={7}>
+              Editing
+            </Grid>
+          </Grid>
+          <Tabs
+            classes={{ indicator: classes.tabIncticator }}
+            aria-label="Registration"
+            onChange={handleChange}
+            variant="fullWidth"
+            value={tabIndex}>
+            <StyledTab label="1. Account" {...a11yProps(0)} />
 
-        <StyledTab label="2. Profile" {...a11yProps(1)} />
+            <StyledTab label="2. Profile" {...a11yProps(1)} />
 
-        <StyledTab label="3. Contacts" {...a11yProps(2)} />
+            <StyledTab label="3. Contacts" {...a11yProps(2)} />
 
-        <StyledTab label="4. Capabilities" {...a11yProps(3)} />
-      </Tabs>
-
-      <TabPanel value={tabIndex} index={0}>
-        <AccountForm
-          saveChangeToRedux={saveChangeToRedux}
-          toggleVisibility={toggleVisibility}
-          handleSubmit={handleSubmit}
-          accountData={accountData}
-          getButtons={getButtons}
-          visible={visible}
-        />
-      </TabPanel>
-
-      <TabPanel value={tabIndex} index={1}>
-        <ProfileForm
-          saveChangeToRedux={saveChangeToRedux}
-          handleSubmit={handleSubmit}
-          profileData={profileData}
-          getButtons={getButtons}
-        />
-      </TabPanel>
-
-      <TabPanel value={tabIndex} index={2}>
-        <ContactsForm
-          saveChangeToRedux={saveChangeToRedux}
-          handleSubmit={handleSubmit}
-          contactsData={contactsData}
-          getButtons={getButtons}
-        />
-      </TabPanel>
-
-      <TabPanel value={tabIndex} index={3}>
-        <CapabilitiesForm
-          saveChangeToRedux={saveChangeToRedux}
-          capabilitiesData={capabilitiesData}
-          handleSubmit={handleSubmit}
-          getButtons={getButtons}
-        />
-      </TabPanel>
+            <StyledTab label="4. Capabilities" {...a11yProps(3)} />
+          </Tabs>
+          <TabPanel value={tabIndex} index={0}>
+            <AccountForm
+              saveChangeToRedux={saveChangeToRedux}
+              toggleVisibility={toggleVisibility}
+              handleSubmit={handleSubmit}
+              initialData={accountData}
+              getButtons={getButtons}
+              visible={visible}
+            />
+          </TabPanel>
+          <TabPanel value={tabIndex} index={1}>
+            <ProfileForm
+              saveChangeToRedux={saveChangeToRedux}
+              handleSubmit={handleSubmit}
+              initialData={profileData}
+              getButtons={getButtons}
+            />
+          </TabPanel>
+          <TabPanel value={tabIndex} index={2}>
+            <ContactsForm
+              saveChangeToRedux={saveChangeToRedux}
+              handleSubmit={handleSubmit}
+              initialData={contactsData}
+              getButtons={getButtons}
+            />
+          </TabPanel>
+          <TabPanel value={tabIndex} index={3}>
+            <CapabilitiesForm
+              saveChangeToRedux={saveChangeToRedux}
+              initialData={capabilitiesData}
+              handleSubmit={handleSubmit}
+              getButtons={getButtons}
+            />
+          </TabPanel>
+        </>
+      )}
     </Container>
   );
 };
@@ -247,12 +261,24 @@ const useStyles = makeStyles(theme => ({
 
   tabIncticator: {
     display: "none"
+  },
+
+  circularContainer: {
+    marginTop: "35vh"
+  },
+
+  circular: {
+    color: "#4E86E4"
   }
 }));
 
 export const Editing = connect(
-  ({ currentUserData, listOfUsers: { userList } }) => ({
-    currentUserData,
+  ({
+    currentUserData: { isLoading, userData },
+    listOfUsers: { userList }
+  }) => ({
+    isLoading,
+    userData,
     userList
   }),
   {

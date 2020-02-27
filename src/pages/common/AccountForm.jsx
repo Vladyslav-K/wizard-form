@@ -18,7 +18,7 @@ export const AccountForm = memo(
     getButtons,
     visible,
 
-    accountData
+    initialData
   }) => {
     return (
       <Formik
@@ -26,11 +26,11 @@ export const AccountForm = memo(
         validateOnChange={false}
         validateOnBlur={false}
         enableReinitialize
-        initialValues={accountData}
+        initialValues={initialData}
         onSubmit={handleSubmit}>
         {({ values, errors }) => (
           <Grid container justify="space-around" style={{ marginTop: "2rem" }}>
-            {saveChangeToRedux(values, accountData)}
+            {saveChangeToRedux(values, initialData)}
 
             <Grid item xs={3}>
               <Field

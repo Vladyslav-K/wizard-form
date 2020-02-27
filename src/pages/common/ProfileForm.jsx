@@ -11,7 +11,7 @@ import { StyledForm } from "../../components/StyledForm";
 import { Grid } from "@material-ui/core";
 
 export const ProfileForm = memo(
-  ({ saveChangeToRedux, handleSubmit, getButtons, profileData }) => {
+  ({ saveChangeToRedux, handleSubmit, getButtons, initialData }) => {
     return (
       <div>
         <Formik
@@ -19,14 +19,14 @@ export const ProfileForm = memo(
           validateOnChange={false}
           validateOnBlur={false}
           enableReinitialize
-          initialValues={profileData}
+          initialValues={initialData}
           onSubmit={handleSubmit}>
           {({ values, errors }) => (
             <Grid
               container
               justify="space-around"
               style={{ marginTop: "2rem" }}>
-              {saveChangeToRedux(values, profileData)}
+              {saveChangeToRedux(values, initialData)}
 
               <Grid item xs={4}>
                 <StyledForm>

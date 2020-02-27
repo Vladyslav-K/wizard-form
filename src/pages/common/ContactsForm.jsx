@@ -17,7 +17,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 
 export const ContactsForm = memo(
-  ({ saveChangeToRedux, handleSubmit, getButtons, contactsData }) => {
+  ({ saveChangeToRedux, handleSubmit, getButtons, initialData }) => {
     const classes = useStyles();
 
     return (
@@ -26,11 +26,11 @@ export const ContactsForm = memo(
         validateOnChange={false}
         validateOnBlur={false}
         enableReinitialize
-        initialValues={contactsData}
+        initialValues={initialData}
         onSubmit={handleSubmit}>
         {({ values, errors }) => (
           <Grid container justify="space-around" style={{ marginTop: "2rem" }}>
-            {saveChangeToRedux(values, contactsData)}
+            {saveChangeToRedux(values, initialData)}
 
             <Grid item xs={4}>
               <StyledForm>

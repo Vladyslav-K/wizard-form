@@ -13,3 +13,5 @@ export const removeUserFromList = createAction("REMOVE_USER_FROM_LIST");
 export const userListIsLoading = createAction("USER_LIST_IS_LOADING");
 
 export const addUserToList = createAction("ADD_USER_TO_LIST");
+
+export const getTestUsers = createAction("GET_TEST_USERS");

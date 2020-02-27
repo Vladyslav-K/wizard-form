@@ -10,16 +10,18 @@ import {
   addUserToUserListFromDB,
   updateUserListInDB,
   getUserListFromDB,
-  getCurrentUserFromDB
+  getCurrentUserFromDB,
+  addTestUserToDB
 } from "../utils/database.js";
-
-import { databaseHasTemporaryUserData } from "../domain/submittedFormsDomain/submittedFormsActions.js";
 
 import {
   syncTemporaryUserDataWithDatabase,
   getTemporaryUserDataWithDatabase,
+  databaseHasTemporaryUserData,
   removeTemporaryUserData,
-  setTemporaryUserData
+  setTemporaryUserData,
+  temporaryUserFetchingError,
+  temporaryUserIsLoading
 } from "../domain/temporaryUserDomain/temporaryUserActions.js";
 
 import {
@@ -28,13 +30,16 @@ import {
   updateUserListFromDB,
   removeUserFromList,
   userListIsLoading,
-  addUserToList
+  addUserToList,
+  getTestUsers
 } from "../domain/userListDomain/userListActions.js";
 
 import {
   saveCurrentUserToList,
   setCurrentUserData,
-  getUserFromList
+  getUserFromList,
+  currentUserFetchingError,
+  currentUserIsLoading
 } from "../domain/currentUserDomain/currentUserActions.js";
 
 function* checkTemporaryUserDataInDatabase() {
@@ -56,30 +61,32 @@ function* removeTemporaryUser() {
 }
 
 function* syncReduxTemporaryUserDataWithDatabase() {
-  const dataWithDatabase = yield call(() => getTemporaryUserFromDB());
-
   yield put(databaseHasTemporaryUserData(false));
+  yield put(temporaryUserIsLoading());
 
-  if (dataWithDatabase) {
+  try {
+    const dataWithDatabase = yield call(() => getTemporaryUserFromDB());
+
     delete dataWithDatabase.id;
 
     yield put(syncTemporaryUserDataWithDatabase(dataWithDatabase));
+  } catch {
+    yield put(temporaryUserFetchingError());
   }
 }
 
 function* syncDatabaseTemporaryUserDataWithRedux(action) {
-  const dataWithDatabase = yield call(() => getTemporaryUserFromDB());
-  const currentData = action.payload;
+  const currentData = yield select(state => state.temporaryUserData.userData);
 
   const databaseHasUserData = yield select(
-    state => state.submitted.databaseHasUserData
+    state => state.temporaryUserData.databaseHasUserData
   );
 
   if (databaseHasUserData) {
-    yield put(databaseHasTemporaryUserData(false));
+    yield call(() => removeTemporaryUser());
   }
 
-  yield call(() => putTemporaryUserToDB(dataWithDatabase, currentData));
+  yield call(() => putTemporaryUserToDB(currentData));
 }
 
 function* syncReduxUserListWithDatabase() {
@@ -94,7 +101,7 @@ function* syncReduxUserListWithDatabase() {
 }
 
 function* putUserToDatabaseUserList() {
-  const userData = yield select(state => state.temporaryUserData);
+  const userData = yield select(state => state.temporaryUserData.userData);
 
   yield call(() => addUserToUserListFromDB(userData));
 }
@@ -105,12 +112,17 @@ function* removeUserFromDatabaseUserList(action) {
   yield call(() => deleteUserFromUserListInDB(userId));
 }
 
-function* getEditedUserFromDatabase(action) {
+function* getCurrentUserFromDatabase(action) {
+  yield put(currentUserIsLoading());
+
   const userId = action.payload.id;
 
-  const userData = yield call(() => getCurrentUserFromDB(userId));
-
-  yield put(setCurrentUserData(userData));
+  try {
+    const userData = yield call(() => getCurrentUserFromDB(userId));
+    yield put(setCurrentUserData(userData));
+  } catch {
+    yield put(currentUserFetchingError());
+  }
 }
 
 function* changeUserDataAfterEditing(action) {
@@ -118,6 +130,14 @@ function* changeUserDataAfterEditing(action) {
   const userData = action.payload.userData;
 
   yield call(() => updateUserListInDB(userId, userData));
+
+  yield call(() => syncReduxUserListWithDatabase());
+}
+
+function* putTestUserListToDatabase(action) {
+  const testUserList = action.payload;
+
+  yield call(() => testUserList.forEach(user => addTestUserToDB(user)));
 
   yield call(() => syncReduxUserListWithDatabase());
 }
@@ -146,6 +166,8 @@ export default function* rootSaga() {
 
     takeLatest(saveCurrentUserToList.type, changeUserDataAfterEditing),
 
-    takeLatest(getUserFromList.type, getEditedUserFromDatabase)
+    takeLatest(getUserFromList.type, getCurrentUserFromDatabase),
+
+    takeLatest(getTestUsers.type, putTestUserListToDatabase)
   ]);
 }

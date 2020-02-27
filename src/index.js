@@ -9,7 +9,6 @@ import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import createSagaMiddleware from "redux-saga";
 
 import { temporaryUserReducers } from "./domain/temporaryUserDomain/temporaryUserReducers.js";
-import { submittedFormsReducers } from "./domain/submittedFormsDomain/submittedFormsReducers.js";
 import { currentUserReducers } from "./domain/currentUserDomain/currentUserReducers.js";
 import { userListReducers } from "./domain/userListDomain/userListReducers.js";
 
@@ -20,7 +19,6 @@ import App from "./pages/App";
 const reducer = {
   temporaryUserData: temporaryUserReducers,
   currentUserData: currentUserReducers,
-  submitted: submittedFormsReducers,
   listOfUsers: userListReducers
 };
 
