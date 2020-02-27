@@ -27,19 +27,21 @@ export const InputAvatar = memo(({ field, form, errors }) => {
   return (
     <div className={classes.container}>
       {field.value ? (
-        <Avatar
-          className={classes.userAvatar}
-          alt="User avatar"
-          src={field.value}
-          onClick={handleImageChange}
-        />
+        <label htmlFor="text-button-file">
+          <Avatar
+            className={classes.userAvatar}
+            alt="User avatar"
+            src={field.value}
+          />
+        </label>
       ) : (
-        <Avatar
-          className={classes.defaultAvatar}
-          alt="Default avatar image"
-          src={DefaultAvatarImage}
-          onClick={handleImageChange}
-        />
+        <label htmlFor="text-button-file">
+          <Avatar
+            className={classes.defaultAvatar}
+            alt="Default avatar image"
+            src={DefaultAvatarImage}
+          />
+        </label>
       )}
 
       <input
