@@ -37,11 +37,14 @@ export const InputPasswordField = memo(
           margin="normal"
           size="small">
           <Grid container justify="space-between">
-            <span>{passwordConfirmation ? "Repeat Password" : "Password"}</span>
-            {required && <span> * </span>}
+            <label htmlFor={field.name}>
+              {passwordConfirmation ? "Repeat Password" : "Password"}
+            </label>
+            {required && <label> * </label>}
           </Grid>
 
           <OutlinedInput
+            id={field.name}
             name={passwordConfirmation ? "passwordConfirmation" : "password"}
             type={visible ? "text" : "password"}
             className={classes.fieldStyles}

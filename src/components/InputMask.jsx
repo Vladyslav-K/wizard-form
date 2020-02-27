@@ -16,13 +16,14 @@ export const InputMask = memo(
       <Grid container direction="column">
         <FormControl variant="outlined" margin="normal" size="small" fullWidth>
           <Grid container justify="space-between">
-            <span> {label} </span>
-            {required && <span> * </span>}
+            <label htmlFor={field.name}> {label} </label>
+            {required && <label> * </label>}
           </Grid>
 
           {index && index > 0 ? (
             <Grid container direction="row">
               <ReactInputMask
+                id={field.name}
                 onChange={event =>
                   form.setFieldValue(field.name, event.target.value)
                 }
@@ -42,6 +43,7 @@ export const InputMask = memo(
             </Grid>
           ) : (
             <ReactInputMask
+              id={field.name}
               onChange={event =>
                 form.setFieldValue(field.name, event.target.value)
               }

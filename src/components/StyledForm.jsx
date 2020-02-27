@@ -14,6 +14,17 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     flexDirection: "column",
 
+    "& label": {
+      fontFamily: "Roboto",
+      fontStyle: "normal",
+      fontWeight: "normal",
+      fontSize: "14px",
+      lineHeight: "16px",
+      color: "#657C9A",
+
+      marginBottom: "8px"
+    },
+
     "& span": {
       fontFamily: "Roboto",
       fontStyle: "normal",

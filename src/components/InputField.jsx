@@ -13,11 +13,12 @@ export const InputField = memo(
       <>
         <FormControl variant="outlined" margin="normal" size="small">
           <Grid container justify="space-between">
-            <span> {label} </span>
-            {required && <span> * </span>}
+            <label htmlFor={field.name}> {label} </label>
+            {required && <label> * </label>}
           </Grid>
 
           <OutlinedInput
+            id={field.name}
             onChange={event =>
               form.setFieldValue(field.name, event.target.value)
             }

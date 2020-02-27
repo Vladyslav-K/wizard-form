@@ -24,11 +24,12 @@ export const InputAutocomplete = memo(
         renderInput={params => (
           <Grid container className={classes.fieldContainer}>
             <Grid container justify="space-between">
-              <span> {label} </span>
-              {required && <span> * </span>}
+              <label htmlFor={field.name}> {label} </label>
+              {required && <label> * </label>}
             </Grid>
 
             <TextField
+              id={field.name}
               className={classes.fieldStyles}
               variant="outlined"
               {...params}
@@ -50,7 +51,6 @@ const useStyles = makeStyles(theme => ({
   },
 
   fieldStyles: {
-    marginTop: "16px",
     marginBottom: "8px",
 
     fontFamily: "Roboto",
