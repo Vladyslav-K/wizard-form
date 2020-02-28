@@ -11,24 +11,17 @@ import {
 
 import { createTestUserList } from "../utils/helpers.js";
 
-import { AvatarForUserList } from "../components/AvatarForUserList.jsx";
-
 import { ReactComponent as DeleteIcon } from "../images/icons/Close.svg";
 import { ReactComponent as EditIcon } from "../images/icons/Edit.svg";
+import DefaultAvatarImage from "../images/icons/avatar.svg";
 
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import {
+  CircularProgress,
   IconButton,
   Container,
-  Paper,
-  Grid,
-  TableContainer,
-  TableHead,
-  TableBody,
-  TableCell,
-  TableRow,
-  Table,
-  CircularProgress
+  Avatar,
+  Grid
 } from "@material-ui/core";
 
 import { Pagination } from "@material-ui/lab";
@@ -39,7 +32,9 @@ const ConnectedListOfUsers = ({
   removeUserFromList,
   isLoading,
   userList,
-  total
+  total,
+
+  history
 }) => {
   const classes = useStyles();
 
@@ -62,7 +57,7 @@ const ConnectedListOfUsers = ({
   };
 
   return (
-    <Container maxWidth="md">
+    <div className={classes.mainContainer}>
       {isLoading ? (
         <Grid container justify="center" className={classes.circularContainer}>
           <CircularProgress className={classes.circular} size="8%" />
@@ -70,106 +65,130 @@ const ConnectedListOfUsers = ({
       ) : (
         <>
           <Grid className={classes.heading} container justify="center">
-            List of Users
+            <span>List of Users</span>
+          </Grid>
+
+          <Grid
+            className={classes.tableHeadRow}
+            justify="center"
+            direction="row"
+            container>
+            <Grid item xs={1} />
+
+            <Grid item xs={3}>
+              <span>name</span>
+            </Grid>
+
+            <Grid item xs={2}>
+              <span>company</span>
+            </Grid>
+
+            <Grid item xs={3}>
+              <span>contacts</span>
+            </Grid>
+
+            <Grid item xs={2}>
+              <span>last update</span>
+            </Grid>
+
+            <Grid item xs={1} />
           </Grid>
 
           {userList.length === 0 ? (
-            <>
-              <TableContainer
-                className={classes.tableContainer}
-                component={Paper}>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <StyledTableCell align="left">name </StyledTableCell>
-                      <StyledTableCell align="left">company</StyledTableCell>
-                      <StyledTableCell align="left">contacts</StyledTableCell>
-                      <StyledTableCell align="left">
-                        last update
-                      </StyledTableCell>
-                      <StyledTableCell align="left"> </StyledTableCell>
-                    </TableRow>
-                  </TableHead>
-                </Table>
-              </TableContainer>
-
-              <Container className={classes.heading} maxWidth="md">
-                <Grid container direction="column" justify="center">
-                  <Grid item className={classes.noUsersHeading}>
-                    No users here :(
-                  </Grid>
-
-                  <Grid item>
-                    <div className={classes.buttonContainer}>
-                      <Link to="/registration">
-                        <button className={classes.button} type="submit">
-                          Create new user
-                        </button>
-                      </Link>
-                    </div>
-                  </Grid>
+            <Container className={classes.heading} maxWidth="md">
+              <Grid container direction="column" justify="center">
+                <Grid item className={classes.noUsersHeading}>
+                  No users here :(
                 </Grid>
-              </Container>
-            </>
+
+                <Grid item>
+                  <div className={classes.buttonContainer}>
+                    <Link to="/registration">
+                      <button className={classes.button} type="submit">
+                        Create new user
+                      </button>
+                    </Link>
+                  </div>
+                </Grid>
+              </Grid>
+            </Container>
           ) : (
             <>
-              <TableContainer
-                className={classes.tableContainer}
-                component={Paper}>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <StyledTableCell align="left">name </StyledTableCell>
-                      <StyledTableCell align="left">company</StyledTableCell>
-                      <StyledTableCell align="left">contacts</StyledTableCell>
-                      <StyledTableCell align="left">
-                        last update
-                      </StyledTableCell>
-                      <StyledTableCell align="left"> </StyledTableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {userList.map(user => (
-                      <StyledTableRow key={user.id}>
-                        <StyledTableCell align="left">
-                          <AvatarForUserList
-                            firstName={user.firstName}
-                            lastName={user.lastName}
-                            username={user.username}
-                            avatar={user.avatar}
-                            id={user.id}
+              <Grid container direction="column">
+                {userList.map(
+                  ({
+                    updatedAt,
+                    firstName,
+                    lastName,
+                    username,
+                    company,
+                    phones,
+                    avatar,
+                    email,
+                    id
+                  }) => (
+                    <Grid
+                      className={classes.tableBodyRow}
+                      direction="row"
+                      container
+                      key={id}>
+                      <Grid container justify="center" item xs={1}>
+                        {avatar ? (
+                          <Avatar
+                            className={classes.userAvatar}
+                            alt="User avatar"
+                            src={avatar}
                           />
-                        </StyledTableCell>
+                        ) : (
+                          <Avatar
+                            className={classes.defaultAvatar}
+                            alt="Default avatar image"
+                            src={DefaultAvatarImage}
+                          />
+                        )}
+                      </Grid>
 
-                        <StyledTableCell align="left">
-                          {user.company}
-                        </StyledTableCell>
+                      <Grid
+                        style={{ cursor: "pointer" }}
+                        direction="column"
+                        container
+                        item
+                        xs={3}
+                        onClick={() =>
+                          history.push({ pathname: `/users/view/${id}` })
+                        }>
+                        <span> {`${firstName} ${lastName}`} </span>
 
-                        <StyledTableCell align="left">
-                          {user.phones[0] || user.email}
-                        </StyledTableCell>
+                        <span className={classes.usernameStyles}>username</span>
+                      </Grid>
 
-                        <StyledTableCell align="left">
-                          {DateTime.fromJSDate(user.updatedAt).toRelative()}
-                        </StyledTableCell>
+                      <Grid item xs={2}>
+                        <span> {company} </span>
+                      </Grid>
 
-                        <ButtonCell>
-                          <IconButton
-                            component={Link}
-                            to={`/users/edit/${user.id}`}>
-                            <EditIcon />
-                          </IconButton>
+                      <Grid item xs={3}>
+                        <span> {phones[0] || email} </span>
+                      </Grid>
 
-                          <IconButton
-                            onClick={() => removeUserFromList({ id: user.id })}>
-                            <DeleteIcon />
-                          </IconButton>
-                        </ButtonCell>
-                      </StyledTableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
+                      <Grid item xs={2}>
+                        <span>
+                          {DateTime.fromJSDate(updatedAt).toRelative()}
+                        </span>
+                      </Grid>
+
+                      <Grid item xs={1}>
+                        <IconButton component={Link} to={`/users/edit/${id}`}>
+                          <EditIcon />
+                        </IconButton>
+
+                        <IconButton onClick={() => removeUserFromList({ id })}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </Grid>
+                    </Grid>
+                  )
+                )}
+              </Grid>
 
               <Grid container justify="center" style={{ margin: "2rem 0" }}>
                 <Pagination
@@ -191,13 +210,45 @@ const ConnectedListOfUsers = ({
           </Grid>
         </>
       )}
-    </Container>
+    </div>
   );
 };
 
 const useStyles = makeStyles(theme => ({
-  tableContainer: {
-    boxShadow: "none"
+  mainContainer: {
+    width: "970px",
+    marginLeft: "auto",
+    marginRight: "auto"
+  },
+
+  tableBodyRow: {
+    alignItems: "center",
+
+    color: "#475666",
+    height: "93px",
+    fontSize: "14px",
+    fontStyle: "normal",
+    fontFamily: "Roboto",
+    fontWeight: "500",
+    lineHeight: "16px",
+
+    "&:nth-of-type(odd)": {
+      backgroundColor: "#E7F0FF"
+    }
+  },
+
+  tableHeadRow: {
+    backgroundColor: "#4E86E4",
+    color: "#FFFFFF",
+    fontFamily: "Roboto",
+
+    fontStyle: "normal",
+    lineHeight: "16px",
+    fontWeight: "500",
+    fontSize: "14px",
+
+    padding: "15px",
+    marginBottom: "29px"
   },
 
   heading: {
@@ -209,6 +260,11 @@ const useStyles = makeStyles(theme => ({
     fontWeight: "bold",
     lineHeight: "41px",
     fontSize: "35px"
+  },
+
+  usernameStyles: {
+    lineHeight: "11px",
+    fontSize: "9px"
   },
 
   buttonContainer: {
@@ -263,57 +319,33 @@ const useStyles = makeStyles(theme => ({
       fontFamily: "Roboto",
       color: "#475666"
     }
-  }
-}));
+  },
 
-const StyledTableCell = withStyles(theme => ({
-  head: {
-    fontFamily: "Roboto",
-    fontStyle: "normal",
-    fontWeight: "500",
-    fontSize: "14px",
-    lineHeight: "16px",
+  defaultAvatar: {
+    width: "40px",
+    height: "40px",
 
-    backgroundColor: "#4E86E4",
-    color: "#FFFFFF",
+    textAlign: "center",
+    border: "2px solid #5E97F3",
 
-    height: "45px",
-    minWidth: "150px",
+    "& img": {
+      width: "auto",
 
-    borderBottom: "30px solid white",
-
-    "&:last-of-type": {
-      minWidth: 0
+      transform: "translateY(5px)"
     }
   },
 
-  body: {
-    fontFamily: "Roboto",
-    fontStyle: "normal",
-    fontWeight: "500",
-    fontSize: "14px",
-    lineHeight: "16px",
+  userAvatar: {
+    height: "40px",
+    width: "40px",
 
-    color: "#475666",
+    textAlign: "center",
 
-    height: "93px"
-  }
-}))(TableCell);
-
-const ButtonCell = withStyles(theme => ({
-  body: {
-    display: "flex",
-    flexDirection: "row"
-  }
-}))(StyledTableCell);
-
-const StyledTableRow = withStyles(theme => ({
-  root: {
-    "&:nth-of-type(odd)": {
-      backgroundColor: "#E7F0FF"
+    "& img": {
+      width: "auto"
     }
   }
-}))(TableRow);
+}));
 
 export const ListOfUsers = connect(
   ({ listOfUsers: { isLoading, userList, total } }) => ({
