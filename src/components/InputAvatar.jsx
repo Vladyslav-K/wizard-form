@@ -56,8 +56,7 @@ export const InputAvatar = memo(({ field, form, errors }) => {
         <Button
           className={classes.button}
           startIcon={<Plus />}
-          component="span"
-          disableRipple>
+          component="span">
           add avatar
         </Button>
       </label>

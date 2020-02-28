@@ -31,23 +31,34 @@ import {
   CircularProgress
 } from "@material-ui/core";
 
+import { Pagination } from "@material-ui/lab";
+
 const ConnectedListOfUsers = ({
   getTestUsers,
   updateUserListFromDB,
   removeUserFromList,
   isLoading,
-  userList
+  userList,
+  total
 }) => {
   const classes = useStyles();
 
+  const [page, setPage] = React.useState(1);
+
   useEffect(() => {
-    updateUserListFromDB();
-  }, [updateUserListFromDB]);
+    updateUserListFromDB({ pageNumber: page, pageSize: 10 });
+  }, [updateUserListFromDB, page]);
+
+  const handleChange = (event, value) => {
+    setPage(value);
+  };
 
   const createTestUsers = () => {
     const testUserList = createTestUserList();
 
     getTestUsers(testUserList);
+
+    updateUserListFromDB({ pageNumber: 1, pageSize: 10 });
   };
 
   return (
@@ -87,7 +98,8 @@ const ConnectedListOfUsers = ({
                   <Grid item className={classes.noUsersHeading}>
                     No users here :(
                   </Grid>
-                  <Grid container direction="column" item>
+
+                  <Grid item>
                     <div className={classes.buttonContainer}>
                       <Link to="/registration">
                         <button className={classes.button} type="submit">
@@ -95,76 +107,88 @@ const ConnectedListOfUsers = ({
                         </button>
                       </Link>
                     </div>
-
-                    <div
-                      className={`${classes.buttonContainer} ${classes.testButton}`}>
-                      <button
-                        className={classes.button}
-                        onClick={createTestUsers}>
-                        Create 20 test users
-                      </button>
-                    </div>
                   </Grid>
                 </Grid>
               </Container>
             </>
           ) : (
-            <TableContainer
-              className={classes.tableContainer}
-              component={Paper}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <StyledTableCell align="left">name </StyledTableCell>
-                    <StyledTableCell align="left">company</StyledTableCell>
-                    <StyledTableCell align="left">contacts</StyledTableCell>
-                    <StyledTableCell align="left">last update</StyledTableCell>
-                    <StyledTableCell align="left"> </StyledTableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {userList.map(user => (
-                    <StyledTableRow key={user.id}>
+            <>
+              <TableContainer
+                className={classes.tableContainer}
+                component={Paper}>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <StyledTableCell align="left">name </StyledTableCell>
+                      <StyledTableCell align="left">company</StyledTableCell>
+                      <StyledTableCell align="left">contacts</StyledTableCell>
                       <StyledTableCell align="left">
-                        <AvatarForUserList
-                          firstName={user.firstName}
-                          lastName={user.lastName}
-                          username={user.username}
-                          avatar={user.avatar}
-                          id={user.id}
-                        />
+                        last update
                       </StyledTableCell>
+                      <StyledTableCell align="left"> </StyledTableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {userList.map(user => (
+                      <StyledTableRow key={user.id}>
+                        <StyledTableCell align="left">
+                          <AvatarForUserList
+                            firstName={user.firstName}
+                            lastName={user.lastName}
+                            username={user.username}
+                            avatar={user.avatar}
+                            id={user.id}
+                          />
+                        </StyledTableCell>
 
-                      <StyledTableCell align="left">
-                        {user.company}
-                      </StyledTableCell>
+                        <StyledTableCell align="left">
+                          {user.company}
+                        </StyledTableCell>
 
-                      <StyledTableCell align="left">
-                        {user.phones[0] || user.email}
-                      </StyledTableCell>
+                        <StyledTableCell align="left">
+                          {user.phones[0] || user.email}
+                        </StyledTableCell>
 
-                      <StyledTableCell align="left">
-                        {DateTime.fromJSDate(user.updatedAt).toRelative()}
-                      </StyledTableCell>
+                        <StyledTableCell align="left">
+                          {DateTime.fromJSDate(user.updatedAt).toRelative()}
+                        </StyledTableCell>
 
-                      <ButtonCell>
-                        <IconButton
-                          component={Link}
-                          to={`/users/edit/${user.id}`}>
-                          <EditIcon />
-                        </IconButton>
+                        <ButtonCell>
+                          <IconButton
+                            component={Link}
+                            to={`/users/edit/${user.id}`}>
+                            <EditIcon />
+                          </IconButton>
 
-                        <IconButton
-                          onClick={() => removeUserFromList({ id: user.id })}>
-                          <DeleteIcon />
-                        </IconButton>
-                      </ButtonCell>
-                    </StyledTableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+                          <IconButton
+                            onClick={() => removeUserFromList({ id: user.id })}>
+                            <DeleteIcon />
+                          </IconButton>
+                        </ButtonCell>
+                      </StyledTableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+
+              <Grid container justify="center" style={{ margin: "2rem 0" }}>
+                <Pagination
+                  className={classes.pagination}
+                  count={Math.ceil(total / 10)}
+                  onChange={handleChange}
+                  page={page}
+                />
+              </Grid>
+            </>
           )}
+
+          <Grid container justify="center">
+            <div className={classes.testButton}>
+              <button className={classes.button} onClick={createTestUsers}>
+                Create 20 test users
+              </button>
+            </div>
+          </Grid>
         </>
       )}
     </Container>
@@ -218,7 +242,7 @@ const useStyles = makeStyles(theme => ({
   },
 
   testButton: {
-    margin: "5vh 0"
+    marginBottom: "1rem"
   },
 
   noUsersHeading: {
@@ -232,6 +256,13 @@ const useStyles = makeStyles(theme => ({
 
   circular: {
     color: "#4E86E4"
+  },
+
+  pagination: {
+    "& button": {
+      fontFamily: "Roboto",
+      color: "#475666"
+    }
   }
 }));
 
@@ -285,7 +316,11 @@ const StyledTableRow = withStyles(theme => ({
 }))(TableRow);
 
 export const ListOfUsers = connect(
-  ({ listOfUsers: { userList, isLoading } }) => ({ userList, isLoading }),
+  ({ listOfUsers: { isLoading, userList, total } }) => ({
+    isLoading,
+    userList,
+    total
+  }),
   {
     getTestUsers,
     updateUserListFromDB,

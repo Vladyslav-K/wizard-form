@@ -25,8 +25,12 @@ export const putTemporaryUserToDB = (prevDBData, currentData) => {
   });
 };
 
-export const getUserListFromDB = () => {
-  return database.userList.orderBy("createdAt").toArray();
+export const getUserListFromDB = ({ pageNumber, pageSize }) => {
+  return database.userList
+    .orderBy("createdAt")
+    .offset((pageNumber * pageSize) / 2)
+    .limit(pageSize)
+    .toArray();
 };
 
 export const addUserToUserListFromDB = userData => {
@@ -43,6 +47,10 @@ export const updateUserListInDB = (userId, userData) => {
 
 export const deleteUserFromUserListInDB = userId => {
   return database.userList.delete(userId);
+};
+
+export const getUserListCount = () => {
+  return database.userList.count();
 };
 
 export const getCurrentUserFromDB = userId => {

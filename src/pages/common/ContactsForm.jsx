@@ -99,7 +99,6 @@ export const ContactsForm = memo(
                         <Button
                           className={classes.plusButtonStyles}
                           startIcon={<PlusIcon />}
-                          disableRipple
                           onClick={() => arrayHelpers.push("")}>
                           add phone number
                         </Button>

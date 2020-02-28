@@ -10,6 +10,7 @@ import {
   addUserToUserListFromDB,
   updateUserListInDB,
   getUserListFromDB,
+  getUserListCount,
   getCurrentUserFromDB,
   addTestUserToDB
 } from "../utils/database.js";
@@ -30,6 +31,7 @@ import {
   updateUserListFromDB,
   removeUserFromList,
   userListIsLoading,
+  setUserListTotal,
   addUserToList,
   getTestUsers
 } from "../domain/userListDomain/userListActions.js";
@@ -89,12 +91,21 @@ function* syncDatabaseTemporaryUserDataWithRedux(action) {
   yield call(() => putTemporaryUserToDB(currentData));
 }
 
-function* syncReduxUserListWithDatabase() {
+function* syncReduxUserListWithDatabase(action) {
   yield put(userListIsLoading());
 
   try {
-    const userListWithDB = yield call(() => getUserListFromDB());
+    const { pageNumber, pageSize } = action.payload;
+
+    const userListWithDB = yield call(() =>
+      getUserListFromDB({ pageNumber, pageSize })
+    );
+
     yield put(syncUserListWithDatabase(userListWithDB));
+
+    const userListCount = yield call(() => getUserListCount());
+
+    yield put(setUserListTotal(userListCount));
   } catch {
     yield put(userListFetchingError());
   }
@@ -109,7 +120,21 @@ function* putUserToDatabaseUserList() {
 function* removeUserFromDatabaseUserList(action) {
   const userId = action.payload.id;
 
-  yield call(() => deleteUserFromUserListInDB(userId));
+  try {
+    yield call(() => deleteUserFromUserListInDB(userId));
+
+    const userListWithDB = yield call(() =>
+      getUserListFromDB({ pageNumber: 1, pageSize: 10 })
+    );
+
+    yield put(syncUserListWithDatabase(userListWithDB));
+
+    const userListCount = yield call(() => getUserListCount());
+
+    yield put(setUserListTotal(userListCount));
+  } catch {
+    yield put(userListFetchingError());
+  }
 }
 
 function* getCurrentUserFromDatabase(action) {
@@ -138,8 +163,6 @@ function* putTestUserListToDatabase(action) {
   const testUserList = action.payload;
 
   yield call(() => testUserList.forEach(user => addTestUserToDB(user)));
-
-  yield call(() => syncReduxUserListWithDatabase());
 }
 
 export default function* rootSaga() {

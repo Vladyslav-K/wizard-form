@@ -5,13 +5,15 @@ import {
   userListFetchingError,
   removeUserFromList,
   userListIsLoading,
+  setUserListTotal,
   addUserToList
 } from "./userListActions.js";
 
 const initialState = {
   isLoading: false,
   isError: false,
-  userList: []
+  userList: [],
+  total: 0
 };
 
 export const userListReducers = createReducer(initialState, {
@@ -35,6 +37,10 @@ export const userListReducers = createReducer(initialState, {
   [userListIsLoading]: (state, action) => {
     state.isLoading = true;
     state.isError = false;
+  },
+
+  [setUserListTotal]: (state, action) => {
+    state.total = action.payload;
   },
 
   [addUserToList]: (state, action) => {

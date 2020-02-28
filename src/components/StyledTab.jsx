@@ -27,4 +27,4 @@ export const StyledTab = withStyles(theme => ({
     }
   },
   selected: {}
-}))(props => <Tab disableRipple {...props} />);
+}))(props => <Tab {...props} />);

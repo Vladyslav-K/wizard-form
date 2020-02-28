@@ -174,7 +174,7 @@ const ConnectedUserView = ({
                     </Grid>
 
                     <Grid className={classes.content} item xs={6}>
-                      <span> {password} </span>
+                      <span> {password.replace(/./gm, "*")} </span>
                     </Grid>
                   </Grid>
                 </Grid>
