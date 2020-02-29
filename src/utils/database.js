@@ -1,5 +1,4 @@
 import Dexie from "dexie";
-
 import { TEMPORARY_USER_ID } from "./constants.js";
 
 const database = new Dexie("UsersData");
@@ -68,9 +67,13 @@ export const addTestUserToDB = user => {
 
 export const filterUserList = keywords => {
   return database.userList
-    .where("firstName")
-    .startsWithIgnoreCase(keywords)
-    .or("lastName")
-    .startsWithIgnoreCase(keywords)
+    .orderBy("createdAt")
+    .reverse()
+    .filter(
+      user =>
+        user.firstName.toLowerCase().includes(keywords) ||
+        user.lastName.toLowerCase().includes(keywords)
+    )
+
     .toArray();
 };
