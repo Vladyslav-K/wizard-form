@@ -25,7 +25,7 @@ import { ContactsForm } from "./common/ContactsForm";
 import { ProfileForm } from "./common/ProfileForm";
 import { AccountForm } from "./common/AccountForm";
 
-import { SubmitButton } from "../components/SubmitButton.jsx";
+import { SaveButton } from "../components/SaveButton.jsx";
 import { StyledTab } from "../components/StyledTab.jsx";
 import { TabPanel } from "../components/TabPanel.jsx";
 
@@ -58,6 +58,8 @@ const ConnectedEditing = ({
   const [tabIndex, setTabIndex] = useState(0);
 
   const [visible, setVisible] = useState(false);
+
+  const [open, setOpen] = React.useState(false);
 
   const toggleVisibility = () => {
     setVisible(!visible);
@@ -98,14 +100,19 @@ const ConnectedEditing = ({
 
   const handleSubmit = () => {
     saveCurrentUserToList({ userData: userData, id: +match.params.id });
+    setOpen(true);
+  };
+
+  const handleMessageClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
   };
 
   const getButtons = () => {
-    return (
-      <>
-        <SubmitButton save />
-      </>
-    );
+    return <SaveButton handleMessageClose={handleMessageClose} open={open} />;
   };
 
   const handleClick = () => {
