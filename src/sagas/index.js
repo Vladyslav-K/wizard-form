@@ -1,4 +1,11 @@
-import { all, call, put, select, takeLatest } from "redux-saga/effects";
+import {
+  takeLatest,
+  takeEvery,
+  select,
+  call,
+  all,
+  put
+} from "redux-saga/effects";
 
 import { checkObjectPropsIsNotEmpty } from "../utils/helpers.js";
 
@@ -11,6 +18,7 @@ import {
   updateUserListInDB,
   getUserListFromDB,
   getUserListCount,
+  filterUserList,
   getCurrentUserFromDB,
   addTestUserToDB
 } from "../utils/database.js";
@@ -31,6 +39,7 @@ import {
   updateUserListFromDB,
   removeUserFromList,
   userListIsLoading,
+  searchUsersByName,
   setUserListTotal,
   addUserToList,
   getTestUsers
@@ -114,7 +123,21 @@ function* syncReduxUserListWithDatabase(action) {
 function* putUserToDatabaseUserList() {
   const userData = yield select(state => state.temporaryUserData.userData);
 
-  yield call(() => addUserToUserListFromDB(userData));
+  try {
+    yield call(() => addUserToUserListFromDB(userData));
+
+    const userListWithDB = yield call(() =>
+      getUserListFromDB({ pageNumber: 1, pageSize: 10 })
+    );
+
+    yield put(syncUserListWithDatabase(userListWithDB));
+
+    const userListCount = yield call(() => getUserListCount());
+
+    yield put(setUserListTotal(userListCount));
+  } catch {
+    yield put(userListFetchingError());
+  }
 }
 
 function* removeUserFromDatabaseUserList(action) {
@@ -154,15 +177,59 @@ function* changeUserDataAfterEditing(action) {
   const userId = action.payload.id;
   const userData = action.payload.userData;
 
-  yield call(() => updateUserListInDB(userId, userData));
+  try {
+    yield call(() => updateUserListInDB(userId, userData));
 
-  yield call(() => syncReduxUserListWithDatabase());
+    const userListWithDB = yield call(() =>
+      getUserListFromDB({ pageNumber: 1, pageSize: 10 })
+    );
+
+    yield put(syncUserListWithDatabase(userListWithDB));
+
+    const userListCount = yield call(() => getUserListCount());
+
+    yield put(setUserListTotal(userListCount));
+  } catch {
+    yield put(userListFetchingError());
+  }
 }
 
 function* putTestUserListToDatabase(action) {
   const testUserList = action.payload;
 
   yield call(() => testUserList.forEach(user => addTestUserToDB(user)));
+}
+
+function* getFilteredUserList(action) {
+  const keywords = action.payload;
+
+  if (keywords === "") {
+    try {
+      const userListWithDB = yield call(() =>
+        getUserListFromDB({ pageNumber: 1, pageSize: 10 })
+      );
+
+      yield put(syncUserListWithDatabase(userListWithDB));
+
+      const userListCount = yield call(() => getUserListCount());
+
+      yield put(setUserListTotal(userListCount));
+    } catch {
+      yield put(userListFetchingError());
+    }
+  } else {
+    try {
+      const userListWithDB = yield call(() => filterUserList(keywords));
+
+      yield put(syncUserListWithDatabase(userListWithDB));
+
+      const userListCount = userListWithDB.length;
+
+      yield put(setUserListTotal(userListCount));
+    } catch {
+      yield put(userListFetchingError());
+    }
+  }
 }
 
 export default function* rootSaga() {
@@ -185,12 +252,14 @@ export default function* rootSaga() {
 
     takeLatest(addUserToList.type, putUserToDatabaseUserList),
 
-    takeLatest(removeUserFromList.type, removeUserFromDatabaseUserList),
+    takeEvery(removeUserFromList.type, removeUserFromDatabaseUserList),
 
     takeLatest(saveCurrentUserToList.type, changeUserDataAfterEditing),
 
     takeLatest(getUserFromList.type, getCurrentUserFromDatabase),
 
-    takeLatest(getTestUsers.type, putTestUserListToDatabase)
+    takeLatest(getTestUsers.type, putTestUserListToDatabase),
+
+    takeLatest(searchUsersByName.type, getFilteredUserList)
   ]);
 }

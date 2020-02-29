@@ -48,16 +48,19 @@ export const createTestUserList = () => {
     users.push({
       passwordConfirmation: "testuser",
       password: "testuser",
-      username: "test_user",
+      username:
+        "test_user" + Math.floor(18 + Math.random() * (99999999 - 18 + 1)),
       avatar: "",
-      firstName: "Test",
-      lastName: "User",
+      firstName: "Test" + Math.floor(18 + Math.random() * (9999999 - 18 + 1)),
+      lastName: "User" + Math.floor(18 + Math.random() * (9999999 - 18 + 1)),
       birthDate: DateTime.local()
         .minus({ year: Math.floor(18 + Math.random() * (50 - 18 + 1)) })
         .toJSDate(),
       address: "Test st.",
       gender: "Male",
-      email: "test.user@gmail.com",
+      email:
+        Math.floor(18 + Math.random() * (9999999 - 18 + 1)) +
+        "test.user@gmail.com",
       mainLanguage: "Russian",
       facebookLink: "https://test-user.com",
       gitHubLink: "https://test-user.com",
@@ -77,10 +80,10 @@ export const createTestUserList = () => {
       skills: ["HTML", "CSS", "Javascript"],
       createdAt: DateTime.local()
         .minus({ days: 1, hours: Math.floor(Math.random() * Math.floor(24)) })
-        .toJSDate(),
+        .toMillis(),
       updatedAt: DateTime.local()
         .minus({ hours: Math.floor(Math.random() * Math.floor(24)) })
-        .toJSDate()
+        .toMillis()
     });
   }
 

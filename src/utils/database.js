@@ -6,7 +6,7 @@ const database = new Dexie("UsersData");
 
 database.version(1).stores({
   temporaryUserData: "++id",
-  userList: "++id, username, email, firstName, lastName, createdAt"
+  userList: "++id, &username, &email, firstName, lastName, createdAt"
 });
 
 export const getTemporaryUserFromDB = () => {
@@ -28,7 +28,8 @@ export const putTemporaryUserToDB = (prevDBData, currentData) => {
 export const getUserListFromDB = ({ pageNumber, pageSize }) => {
   return database.userList
     .orderBy("createdAt")
-    .offset((pageNumber * pageSize) / 2)
+    .reverse()
+    .offset(pageNumber * pageSize - pageSize)
     .limit(pageSize)
     .toArray();
 };
@@ -36,8 +37,8 @@ export const getUserListFromDB = ({ pageNumber, pageSize }) => {
 export const addUserToUserListFromDB = userData => {
   return database.userList.add({
     ...userData,
-    createdAt: new Date(),
-    updatedAt: new Date()
+    createdAt: new Date().getTime(),
+    updatedAt: new Date().getTime()
   });
 };
 
@@ -63,4 +64,13 @@ export const getFilteredCurrentUserFromDB = (keyPath, value = "") => {
 
 export const addTestUserToDB = user => {
   return database.userList.add({ ...user });
+};
+
+export const filterUserList = keywords => {
+  return database.userList
+    .where("firstName")
+    .startsWithIgnoreCase(keywords)
+    .or("lastName")
+    .startsWithIgnoreCase(keywords)
+    .toArray();
 };

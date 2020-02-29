@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
 import {
+  searchUsersByName,
   getTestUsers,
   updateUserListFromDB,
   removeUserFromList
@@ -14,6 +15,8 @@ import { createTestUserList } from "../utils/helpers.js";
 import { ReactComponent as DeleteIcon } from "../images/icons/Close.svg";
 import { ReactComponent as EditIcon } from "../images/icons/Edit.svg";
 import DefaultAvatarImage from "../images/icons/avatar.svg";
+
+import { SearchField } from "../components/SearchField.jsx";
 
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -27,6 +30,7 @@ import {
 import { Pagination } from "@material-ui/lab";
 
 const ConnectedListOfUsers = ({
+  searchUsersByName,
   getTestUsers,
   updateUserListFromDB,
   removeUserFromList,
@@ -56,8 +60,12 @@ const ConnectedListOfUsers = ({
     updateUserListFromDB({ pageNumber: 1, pageSize: 10 });
   };
 
+  const searchHandleChange = event => {
+    searchUsersByName(event.target.value);
+  };
+
   return (
-    <div className={classes.mainContainer}>
+    <Container maxWidth="md">
       {isLoading ? (
         <Grid container justify="center" className={classes.circularContainer}>
           <CircularProgress className={classes.circular} size="8%" />
@@ -68,12 +76,16 @@ const ConnectedListOfUsers = ({
             <span>List of Users</span>
           </Grid>
 
+          <Grid container item xs={3}>
+            <SearchField handleChange={searchHandleChange} />
+          </Grid>
+
           <Grid
             className={classes.tableHeadRow}
             justify="center"
             direction="row"
             container>
-            <Grid item xs={1} />
+            <Grid item xs />
 
             <Grid item xs={3}>
               <span>name</span>
@@ -131,7 +143,7 @@ const ConnectedListOfUsers = ({
                       className={classes.tableBodyRow}
                       direction="row"
                       container
-                      key={id}>
+                      key={`${username}-${id}`}>
                       <Grid container justify="center" item xs={1}>
                         {avatar ? (
                           <Avatar
@@ -172,16 +184,21 @@ const ConnectedListOfUsers = ({
 
                       <Grid item xs={2}>
                         <span>
-                          {DateTime.fromJSDate(updatedAt).toRelative()}
+                          {DateTime.fromMillis(updatedAt).toRelative()}
                         </span>
                       </Grid>
 
                       <Grid item xs={1}>
-                        <IconButton component={Link} to={`/users/edit/${id}`}>
+                        <IconButton
+                          component={Link}
+                          to={`/users/edit/${id}`}
+                          className={classes.iconButton}>
                           <EditIcon />
                         </IconButton>
 
-                        <IconButton onClick={() => removeUserFromList({ id })}>
+                        <IconButton
+                          onClick={() => removeUserFromList({ id })}
+                          className={classes.iconButton}>
                           <DeleteIcon />
                         </IconButton>
                       </Grid>
@@ -210,7 +227,7 @@ const ConnectedListOfUsers = ({
           </Grid>
         </>
       )}
-    </div>
+    </Container>
   );
 };
 
@@ -247,7 +264,7 @@ const useStyles = makeStyles(theme => ({
     fontWeight: "500",
     fontSize: "14px",
 
-    padding: "15px",
+    padding: "15px 0",
     marginBottom: "29px"
   },
 
@@ -299,6 +316,10 @@ const useStyles = makeStyles(theme => ({
 
   testButton: {
     marginBottom: "1rem"
+  },
+
+  iconButton: {
+    padding: "7px"
   },
 
   noUsersHeading: {
@@ -354,6 +375,7 @@ export const ListOfUsers = connect(
     total
   }),
   {
+    searchUsersByName,
     getTestUsers,
     updateUserListFromDB,
     removeUserFromList
