@@ -35,6 +35,7 @@ export const ContactsForm = memo(
             <Grid item xs={4}>
               <StyledForm>
                 <Field
+                  placeholder="Enter company"
                   errors={errors.company}
                   component={InputField}
                   label="Company"
@@ -42,6 +43,7 @@ export const ContactsForm = memo(
                 />
 
                 <Field
+                  placeholder="https://github.com/Vladyslav-K"
                   errors={errors.gitHubLink}
                   component={InputField}
                   label="GitHub link"
@@ -59,6 +61,7 @@ export const ContactsForm = memo(
                 />
 
                 <Field
+                  placeholder="Choose your main language"
                   errors={errors.mainLanguage}
                   component={InputAutocomplete}
                   label="Main language"
@@ -72,6 +75,7 @@ export const ContactsForm = memo(
             <Grid item xs={4}>
               <StyledForm>
                 <Field
+                  placeholder="Enter fax"
                   component={InputMask}
                   errors={errors.fax}
                   label="Fax"
@@ -86,12 +90,13 @@ export const ContactsForm = memo(
                       {values.phones.map((phone, index) => (
                         <div key={index}>
                           <Field
-                            index={index}
                             label={`Phone #${index + 1}`}
+                            placeholder="Enter phone"
                             name={`phones.${index}`}
-                            errors={errors.phones && errors.phones[index]}
-                            onClick={() => arrayHelpers.remove(index)}
                             component={InputMask}
+                            index={index}
+                            onClick={() => arrayHelpers.remove(index)}
+                            errors={errors.phones && errors.phones[index]}
                           />
                         </div>
                       ))}

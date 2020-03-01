@@ -6,7 +6,16 @@ import { TextField, Grid } from "@material-ui/core";
 import { InputError } from "./InputError";
 
 export const InputAutocomplete = memo(
-  ({ required, multiple, options, field, label, form, errors }) => {
+  ({
+    placeholder,
+    required,
+    multiple,
+    options,
+    field,
+    label,
+    form,
+    errors
+  }) => {
     const classes = useStyles();
 
     return (
@@ -25,10 +34,11 @@ export const InputAutocomplete = memo(
             </Grid>
 
             <TextField
+              className={classes.fieldStyles}
+              placeholder={placeholder}
+              variant="outlined"
               name={field.name}
               id={field.name}
-              className={classes.fieldStyles}
-              variant="outlined"
               {...params}
               fullWidth
             />

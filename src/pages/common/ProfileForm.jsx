@@ -36,6 +36,7 @@ export const ProfileForm = memo(
                 <StyledForm>
                   <Field
                     errors={errors.firstName}
+                    placeholder="First name"
                     component={InputField}
                     label="First name"
                     name="firstName"
@@ -44,6 +45,7 @@ export const ProfileForm = memo(
 
                   <Field
                     errors={errors.lastName}
+                    placeholder="Last name"
                     component={InputField}
                     label="Last name"
                     name="lastName"
@@ -61,6 +63,7 @@ export const ProfileForm = memo(
               <Grid item xs={4}>
                 <StyledForm>
                   <Field
+                    placeholder="Enter email"
                     component={InputField}
                     errors={errors.email}
                     label="Email"
@@ -70,6 +73,7 @@ export const ProfileForm = memo(
 
                   <Field
                     component={InputGooglePlacesAutocomplete}
+                    placeholder="Enter your address"
                     errors={errors.address}
                     label="Address"
                     name="address"

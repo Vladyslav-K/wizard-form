@@ -17,6 +17,7 @@ export const InputPasswordField = memo(
   ({
     passwordConfirmation,
     toggleVisibility,
+    placeholder,
     required,
     visible,
     errors,
@@ -48,6 +49,7 @@ export const InputPasswordField = memo(
             name={passwordConfirmation ? "passwordConfirmation" : "password"}
             type={visible ? "text" : "password"}
             className={classes.fieldStyles}
+            placeholder={placeholder}
             value={field.value}
             endAdornment={
               <InputAdornment position="end">

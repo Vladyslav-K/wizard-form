@@ -44,6 +44,7 @@ export const AccountForm = memo(
               <StyledForm>
                 <Field
                   errors={errors.username}
+                  placeholder="Enter user name"
                   component={InputField}
                   label="User name"
                   name="username"
@@ -54,6 +55,7 @@ export const AccountForm = memo(
                   toggleVisibility={toggleVisibility}
                   component={InputPasswordField}
                   errors={errors.password}
+                  placeholder="Enter your password"
                   visible={visible}
                   name="password"
                   required
@@ -62,6 +64,7 @@ export const AccountForm = memo(
                 <Field
                   errors={errors.passwordConfirmation}
                   toggleVisibility={toggleVisibility}
+                  placeholder={"Confirm password"}
                   component={InputPasswordField}
                   name="passwordConfirmation"
                   passwordConfirmation

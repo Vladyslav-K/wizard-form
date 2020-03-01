@@ -29,8 +29,9 @@ export const CapabilitiesForm = memo(
             <Grid item xs={4}>
               <StyledForm>
                 <Field
-                  errors={errors.skills}
+                  placeholder="Choose your skills"
                   component={InputAutocomplete}
+                  errors={errors.skills}
                   options={skillsList}
                   label="Skills"
                   name="skills"
@@ -39,6 +40,7 @@ export const CapabilitiesForm = memo(
                 />
 
                 <Field
+                  placeholder="You can write additional information here (maximum 300 characters)"
                   label="Additional information"
                   name="additionalInformation"
                   component={InputField}

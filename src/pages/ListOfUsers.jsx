@@ -184,7 +184,8 @@ const ConnectedListOfUsers = ({
 
                       <Grid item xs={2}>
                         <span>
-                          {DateTime.fromMillis(updatedAt).toRelative()}
+                          {updatedAt &&
+                            DateTime.fromMillis(updatedAt).toRelative()}
                         </span>
                       </Grid>
 

@@ -9,7 +9,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { FormControl, Grid, Button } from "@material-ui/core";
 
 export const InputMask = memo(
-  ({ field, form, label, required, errors, index, onClick }) => {
+  ({ placeholder, field, form, label, required, errors, index, onClick }) => {
     const classes = useStyles();
 
     return (
@@ -29,6 +29,7 @@ export const InputMask = memo(
                 }
                 className={classes.fieldStyles}
                 mask="+7 (999) 999-99-99"
+                placeholder={placeholder}
                 alwaysShowMask={false}
                 value={field.value}
                 maskChar="X"
@@ -49,6 +50,7 @@ export const InputMask = memo(
               }
               className={classes.fieldStyles}
               mask="+7 (999) 999-99-99"
+              placeholder={placeholder}
               alwaysShowMask={false}
               value={field.value}
               maskChar="X"

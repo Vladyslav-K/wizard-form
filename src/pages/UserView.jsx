@@ -281,21 +281,23 @@ const ConnectedUserView = ({
                     </Grid>
                   </Grid>
 
-                  <Grid
-                    className={classes.container}
-                    justify="space-between"
-                    direction="row"
-                    container
-                    xs={12}
-                    item>
-                    <Grid item xs={6}>
-                      <span> Gender: </span>
-                    </Grid>
+                  {gender && (
+                    <Grid
+                      className={classes.container}
+                      justify="space-between"
+                      direction="row"
+                      container
+                      xs={12}
+                      item>
+                      <Grid item xs={6}>
+                        <span> Gender: </span>
+                      </Grid>
 
-                    <Grid className={classes.content} item xs={6}>
-                      <span> {gender} </span>
+                      <Grid className={classes.content} item xs={6}>
+                        <span> {gender} </span>
+                      </Grid>
                     </Grid>
-                  </Grid>
+                  )}
                 </Grid>
               </Grid>
 
@@ -509,7 +511,7 @@ const ConnectedUserView = ({
                     </Grid>
                   )}
 
-                  {hobbies && (
+                  {hobbies.length > 0 && (
                     <Grid
                       className={classes.container}
                       justify="space-between"

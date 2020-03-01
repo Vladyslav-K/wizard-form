@@ -24,7 +24,7 @@ function loadScript(src, position, id) {
 const autocompleteService = { current: null };
 
 export const InputGooglePlacesAutocomplete = memo(
-  ({ required, field, label, form, errors }) => {
+  ({ placeholder, required, field, label, form, errors }) => {
     const classes = useStyles();
     const [inputValue, setInputValue] = React.useState("");
     const [options, setOptions] = React.useState([]);
@@ -106,6 +106,7 @@ export const InputGooglePlacesAutocomplete = memo(
 
             <TextField
               className={classes.fieldStyles}
+              placeholder={placeholder}
               onChange={handleChange}
               variant="outlined"
               name={field.name}
