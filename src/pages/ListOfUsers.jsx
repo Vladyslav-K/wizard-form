@@ -106,7 +106,7 @@ const ConnectedListOfUsers = ({
             <Grid item xs={1} />
           </Grid>
 
-          {userList.length === 0 ? (
+          {userList && userList.length === 0 ? (
             <Container className={classes.heading} maxWidth="md">
               <Grid container direction="column" justify="center">
                 <Grid item className={classes.noUsersHeading}>
