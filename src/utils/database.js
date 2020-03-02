@@ -74,6 +74,5 @@ export const filterUserList = keywords => {
         user.firstName.toLowerCase().includes(keywords) ||
         user.lastName.toLowerCase().includes(keywords)
     )
-
     .toArray();
 };

@@ -81,6 +81,53 @@ const ConnectedUserView = ({
     });
   };
 
+  const ListHead = ({ name, tabIndex, children }) => {
+    return (
+      <Grid
+        className={classes.container}
+        justify="space-around"
+        direction="row"
+        container
+        xs={12}
+        item>
+        <Grid item xs={3}>
+          <Grid container direction="row">
+            <span> {name} </span>
+            <IconButton
+              className={classes.editIcon}
+              onClick={() => linkHandleClick(tabIndex)}>
+              <EditIcon />
+            </IconButton>
+          </Grid>
+        </Grid>
+
+        <Grid container item xs={9}>
+          {children}
+        </Grid>
+      </Grid>
+    );
+  };
+
+  const ListRow = ({ name, value }) => {
+    return (
+      <Grid
+        className={classes.container}
+        justify="space-between"
+        direction="row"
+        container
+        xs={12}
+        item>
+        <Grid item xs={6}>
+          <span> {name}: </span>
+        </Grid>
+
+        <Grid className={classes.content} item xs={6}>
+          <span> {value} </span>
+        </Grid>
+      </Grid>
+    );
+  };
+
   return (
     <Container maxWidth="md">
       {isLoading ? (
@@ -127,409 +174,72 @@ const ConnectedUserView = ({
               container
               xs={8}
               item>
-              <Grid
-                className={classes.container}
-                justify="space-around"
-                direction="row"
-                container
-                xs={12}
-                item>
-                <Grid item xs={3}>
-                  <Grid container direction="row">
-                    <span> Account </span>
-                    <IconButton
-                      className={classes.editIcon}
-                      onClick={() => linkHandleClick(ACCOUNT_TAB_INDEX)}>
-                      <EditIcon />
-                    </IconButton>
-                  </Grid>
-                </Grid>
+              <ListHead name="Account" tabIndex={ACCOUNT_TAB_INDEX}>
+                <ListRow name="User name" value={username} />
 
-                <Grid container item xs={9}>
-                  <Grid
-                    className={classes.container}
-                    justify="space-between"
-                    direction="row"
-                    container
-                    xs={12}
-                    item>
-                    <Grid item xs={6}>
-                      <span> User name: </span>
-                    </Grid>
+                <ListRow name="Password" value={password.replace(/./gm, "*")} />
+              </ListHead>
 
-                    <Grid className={classes.content} item xs={6}>
-                      <span> {username} </span>
-                    </Grid>
-                  </Grid>
+              <ListHead name="Personal" tabIndex={PROFILE_TAB_INDEX}>
+                <ListRow name="First name" value={firstName} />
 
-                  <Grid
-                    className={classes.container}
-                    justify="space-between"
-                    direction="row"
-                    container
-                    xs={12}
-                    item>
-                    <Grid item xs={6}>
-                      <span> Password: </span>
-                    </Grid>
+                <ListRow name="Last name" value={lastName} />
 
-                    <Grid className={classes.content} item xs={6}>
-                      <span> {password.replace(/./gm, "*")} </span>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
+                <ListRow
+                  name="Birth date"
+                  value={DateTime.fromJSDate(birthDate).toFormat("dd.LL.yyyy")}
+                />
 
-              <Grid
-                className={classes.container}
-                justify="space-around"
-                direction="row"
-                container
-                xs={12}
-                item>
-                <Grid item xs={3}>
-                  <Grid container direction="row">
-                    <span> Personal </span>
-                    <IconButton
-                      className={classes.editIcon}
-                      onClick={() => linkHandleClick(PROFILE_TAB_INDEX)}>
-                      <EditIcon />
-                    </IconButton>
-                  </Grid>
-                </Grid>
+                <ListRow name="Email" value={email} />
 
-                <Grid container item xs={9}>
-                  <Grid
-                    className={classes.container}
-                    justify="space-between"
-                    direction="row"
-                    container
-                    xs={12}
-                    item>
-                    <Grid item xs={6}>
-                      <span> First name: </span>
-                    </Grid>
+                <ListRow name="Address" value={address} />
 
-                    <Grid className={classes.content} item xs={6}>
-                      <span> {firstName} </span>
-                    </Grid>
-                  </Grid>
+                {gender && <ListRow name="Gender" value={gender} />}
+              </ListHead>
 
-                  <Grid
-                    className={classes.container}
-                    justify="space-between"
-                    direction="row"
-                    container
-                    xs={12}
-                    item>
-                    <Grid item xs={6}>
-                      <span> Last name: </span>
-                    </Grid>
+              <ListHead name="Contacts" tabIndex={CONTACTS_TAB_INDEX}>
+                {phones[0] &&
+                  phones.map((phone, index) => (
+                    <ListRow
+                      name={`Phone#${index + 1}`}
+                      value={phone}
+                      key={index}
+                    />
+                  ))}
 
-                    <Grid className={classes.content} item xs={6}>
-                      <span> {lastName} </span>
-                    </Grid>
-                  </Grid>
+                <ListRow name="Fax" value={fax} />
 
-                  <Grid
-                    className={classes.container}
-                    justify="space-between"
-                    direction="row"
-                    container
-                    xs={12}
-                    item>
-                    <Grid item xs={6}>
-                      <span> Birth date: </span>
-                    </Grid>
+                {company && <ListRow name="Company" value={company} />}
 
-                    <Grid className={classes.content} item xs={6}>
-                      <span>
-                        {DateTime.fromJSDate(birthDate).toFormat("dd.LL.yyyy")}
-                      </span>
-                    </Grid>
-                  </Grid>
+                <ListRow name="Github link" value={gitHubLink} />
 
-                  <Grid
-                    className={classes.container}
-                    justify="space-between"
-                    direction="row"
-                    container
-                    xs={12}
-                    item>
-                    <Grid item xs={6}>
-                      <span> Email: </span>
-                    </Grid>
+                <ListRow name="Facebook link" value={facebookLink} />
 
-                    <Grid className={classes.content} item xs={6}>
-                      <span> {email} </span>
-                    </Grid>
-                  </Grid>
+                <ListRow name="Main language" value={mainLanguage} />
+              </ListHead>
 
-                  <Grid
-                    className={classes.container}
-                    justify="space-between"
-                    direction="row"
-                    container
-                    xs={12}
-                    item>
-                    <Grid item xs={6}>
-                      <span> Address: </span>
-                    </Grid>
+              <ListHead name="Capabilities" tabIndex={CAPABILITIES_TAB_INDEX}>
+                <ListRow
+                  name="Skills"
+                  value={String(skills.map(skill => " " + skill))}
+                />
 
-                    <Grid className={classes.content} item xs={6}>
-                      <span> {address} </span>
-                    </Grid>
-                  </Grid>
+                {additionalInformation && (
+                  <ListRow
+                    name="Additional information"
+                    value={additionalInformation}
+                  />
+                )}
 
-                  {gender && (
-                    <Grid
-                      className={classes.container}
-                      justify="space-between"
-                      direction="row"
-                      container
-                      xs={12}
-                      item>
-                      <Grid item xs={6}>
-                        <span> Gender: </span>
-                      </Grid>
-
-                      <Grid className={classes.content} item xs={6}>
-                        <span> {gender} </span>
-                      </Grid>
-                    </Grid>
-                  )}
-                </Grid>
-              </Grid>
-
-              <Grid
-                className={classes.container}
-                justify="space-around"
-                direction="row"
-                container
-                xs={12}
-                item>
-                <Grid item xs={3}>
-                  <Grid container direction="row">
-                    <span> Contacts </span>
-                    <IconButton
-                      className={classes.editIcon}
-                      onClick={() => linkHandleClick(CONTACTS_TAB_INDEX)}>
-                      <EditIcon />
-                    </IconButton>
-                  </Grid>
-                </Grid>
-
-                <Grid container item xs={9}>
-                  {phones[0] && (
-                    <Grid
-                      className={classes.container}
-                      justify="space-between"
-                      direction="row"
-                      container
-                      xs={12}
-                      item>
-                      <Grid item xs={6}>
-                        <span> Phone#1 </span>
-                      </Grid>
-
-                      <Grid className={classes.content} item xs={6}>
-                        <span> {phones[0]} </span>
-                      </Grid>
-                    </Grid>
-                  )}
-
-                  {phones[1] && (
-                    <Grid
-                      className={classes.container}
-                      justify="space-between"
-                      direction="row"
-                      container
-                      xs={12}
-                      item>
-                      <Grid item xs={6}>
-                        <span> Phone#1 </span>
-                      </Grid>
-
-                      <Grid className={classes.content} item xs={6}>
-                        <span> {phones[1]} </span>
-                      </Grid>
-                    </Grid>
-                  )}
-
-                  {phones[2] && (
-                    <Grid
-                      className={classes.container}
-                      justify="space-between"
-                      direction="row"
-                      container
-                      xs={12}
-                      item>
-                      <Grid item xs={6}>
-                        <span> Phone#1 </span>
-                      </Grid>
-
-                      <Grid className={classes.content} item xs={6}>
-                        <span> {phones[2]} </span>
-                      </Grid>
-                    </Grid>
-                  )}
-
-                  <Grid
-                    className={classes.container}
-                    justify="space-between"
-                    direction="row"
-                    container
-                    xs={12}
-                    item>
-                    <Grid item xs={6}>
-                      <span> Fax: </span>
-                    </Grid>
-
-                    <Grid className={classes.content} item xs={6}>
-                      <span> {fax} </span>
-                    </Grid>
-                  </Grid>
-
-                  {company && (
-                    <Grid
-                      className={classes.container}
-                      justify="space-between"
-                      direction="row"
-                      container
-                      xs={12}
-                      item>
-                      <Grid item xs={6}>
-                        <span> Company: </span>
-                      </Grid>
-
-                      <Grid className={classes.content} item xs={6}>
-                        <span>{company}</span>
-                      </Grid>
-                    </Grid>
-                  )}
-
-                  <Grid
-                    className={classes.container}
-                    justify="space-between"
-                    direction="row"
-                    container
-                    xs={12}
-                    item>
-                    <Grid item xs={6}>
-                      <span> Github link: </span>
-                    </Grid>
-
-                    <Grid className={classes.content} item xs={6}>
-                      <span> {gitHubLink} </span>
-                    </Grid>
-                  </Grid>
-
-                  <Grid
-                    className={classes.container}
-                    justify="space-between"
-                    direction="row"
-                    container
-                    xs={12}
-                    item>
-                    <Grid item xs={6}>
-                      <span> Facebook link: </span>
-                    </Grid>
-
-                    <Grid className={classes.content} item xs={6}>
-                      <span> {facebookLink} </span>
-                    </Grid>
-                  </Grid>
-
-                  <Grid
-                    className={classes.container}
-                    justify="space-between"
-                    direction="row"
-                    container
-                    xs={12}
-                    item>
-                    <Grid item xs={6}>
-                      <span> Main language: </span>
-                    </Grid>
-
-                    <Grid className={classes.content} item xs={6}>
-                      <span> {mainLanguage} </span>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
-
-              <Grid
-                className={classes.container}
-                justify="space-around"
-                direction="row"
-                container
-                xs={12}
-                item>
-                <Grid item xs={3}>
-                  <Grid container direction="row">
-                    <span> Capabilities </span>
-                    <IconButton
-                      className={classes.editIcon}
-                      onClick={() => linkHandleClick(CAPABILITIES_TAB_INDEX)}>
-                      <EditIcon />
-                    </IconButton>
-                  </Grid>
-                </Grid>
-
-                <Grid container item xs={9}>
-                  <Grid
-                    className={classes.container}
-                    justify="space-between"
-                    direction="row"
-                    container
-                    xs={12}
-                    item>
-                    <Grid item xs={6}>
-                      <span> Skills: </span>
-                    </Grid>
-
-                    <Grid className={classes.content} item xs={6}>
-                      <span> {String(skills.map(skill => " " + skill))} </span>
-                    </Grid>
-                  </Grid>
-
-                  {additionalInformation && (
-                    <Grid
-                      className={classes.container}
-                      justify="space-between"
-                      direction="row"
-                      container
-                      xs={12}
-                      item>
-                      <Grid item xs={6}>
-                        <span> Additional information: </span>
-                      </Grid>
-
-                      <Grid className={classes.content} item xs={6}>
-                        <span> {additionalInformation} </span>
-                      </Grid>
-                    </Grid>
-                  )}
-
-                  {hobbies.length > 0 && (
-                    <Grid
-                      className={classes.container}
-                      justify="space-between"
-                      direction="row"
-                      container
-                      xs={12}
-                      item>
-                      <Grid item xs={6}>
-                        <span> Hobbies: </span>
-                      </Grid>
-
-                      <Grid className={classes.content} item xs={6}>
-                        <span> {hobbies} </span>
-                      </Grid>
-                    </Grid>
-                  )}
-                </Grid>
-              </Grid>
+                {hobbies.length > 0 &&
+                  hobbies.map((hobbie, index) => (
+                    <ListRow
+                      name={index === 0 ? "Hobbies" : null}
+                      value={hobbie}
+                      key={index}
+                    />
+                  ))}
+              </ListHead>
             </Grid>
           </Grid>
         </Grid>
@@ -540,7 +250,7 @@ const ConnectedUserView = ({
 
 const useStyles = makeStyles(theme => ({
   container: {
-    marginBottom: "20px"
+    marginBottom: "10px"
   },
 
   heading: {
@@ -561,10 +271,7 @@ const useStyles = makeStyles(theme => ({
     fontWeight: "normal",
     fontSize: "14px",
     lineHeight: "16px",
-
-    "& span": {
-      marginBottom: "16px"
-    }
+    marginBottom: "10px"
   },
 
   headers: {
