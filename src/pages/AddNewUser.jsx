@@ -61,7 +61,7 @@ const ConnectedAddNewUser = ({
 
   databaseHasUserData
 }) => {
-  const classes = useStyles();
+  const classes = useStyles({ isLoading });
 
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -159,6 +159,7 @@ const ConnectedAddNewUser = ({
       </Grid>
       <Tabs
         classes={{ indicator: classes.tabIncticator }}
+        className={classes.mainContainer}
         aria-label="Registration"
         onChange={handleChange}
         variant="fullWidth"
@@ -191,30 +192,27 @@ const ConnectedAddNewUser = ({
         />
       )}
 
+      {isLoading && (
+        <Grid container justify="center" className={classes.circularContainer}>
+          <CircularProgress className={classes.circular} size="8%" />
+        </Grid>
+      )}
+
       <TabPanel value={tabIndex} index={0}>
-        {isLoading ? (
-          <Grid
-            container
-            justify="center"
-            className={classes.circularContainer}>
-            <CircularProgress className={classes.circular} size="8%" />
-          </Grid>
-        ) : (
-          <AccountForm
-            saveChangeToRedux={saveChangeToRedux}
-            initialData={accountData}
-            getButtons={getButtons}
-            visible={visible}
-            toggleVisibility={toggleVisibility}
-            handleSubmit={() => {
-              setDisabledTabs(prevState => ({
-                ...prevState,
-                profileTab: false
-              }));
-              setQueryString({ queryName: "tab", queryValue: "profile" });
-            }}
-          />
-        )}
+        <AccountForm
+          saveChangeToRedux={saveChangeToRedux}
+          initialData={accountData}
+          getButtons={getButtons}
+          visible={visible}
+          toggleVisibility={toggleVisibility}
+          handleSubmit={() => {
+            setDisabledTabs(prevState => ({
+              ...prevState,
+              profileTab: false
+            }));
+            setQueryString({ queryName: "tab", queryValue: "profile" });
+          }}
+        />
       </TabPanel>
 
       <TabPanel value={tabIndex} index={1}>
@@ -268,6 +266,10 @@ function a11yProps(index) {
 }
 
 const useStyles = makeStyles(theme => ({
+  mainContainer: {
+    filter: props => (props.isLoading ? "blur(4px)" : "none")
+  },
+
   heading: {
     padding: "3rem 0",
 
@@ -313,7 +315,10 @@ const useStyles = makeStyles(theme => ({
   },
 
   circularContainer: {
-    marginTop: "10vh"
+    display: "block",
+    position: "fixed",
+    top: "50%",
+    left: "50%"
   },
 
   circular: {

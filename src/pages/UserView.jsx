@@ -38,7 +38,7 @@ const ConnectedUserView = ({
   history,
   match
 }) => {
-  const classes = useStyles();
+  const classes = useStyles({ isLoading });
 
   const {
     password,
@@ -129,12 +129,14 @@ const ConnectedUserView = ({
   };
 
   return (
-    <Container maxWidth="md">
-      {isLoading ? (
+    <>
+      {isLoading && (
         <Grid container justify="center" className={classes.circularContainer}>
           <CircularProgress className={classes.circular} size="8%" />
         </Grid>
-      ) : (
+      )}
+
+      <Container maxWidth="md" className={classes.mainContainer}>
         <Grid container justify="center">
           <Grid container justify="space-between">
             <Grid item xs={3}>
@@ -243,12 +245,16 @@ const ConnectedUserView = ({
             </Grid>
           </Grid>
         </Grid>
-      )}
-    </Container>
+      </Container>
+    </>
   );
 };
 
 const useStyles = makeStyles(theme => ({
+  mainContainer: {
+    filter: props => (props.isLoading ? "blur(4px)" : "none")
+  },
+
   container: {
     marginBottom: "10px"
   },
@@ -329,7 +335,10 @@ const useStyles = makeStyles(theme => ({
   },
 
   circularContainer: {
-    marginTop: "35vh"
+    display: "block",
+    position: "fixed",
+    top: "50%",
+    left: "50%"
   },
 
   circular: {

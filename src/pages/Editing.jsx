@@ -53,7 +53,7 @@ const ConnectedEditing = ({
   history,
   match
 }) => {
-  const classes = useStyles();
+  const classes = useStyles({ isLoading });
 
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -128,78 +128,79 @@ const ConnectedEditing = ({
   );
 
   return (
-    <Container maxWidth="md">
-      {isLoading ? (
+    <>
+      {isLoading && (
         <Grid container justify="center" className={classes.circularContainer}>
           <CircularProgress className={classes.circular} size="8%" />
         </Grid>
-      ) : (
-        <>
-          <Grid container justify="space-between">
-            <Grid item xs={3}>
-              <IconButton onClick={handleClick}>
-                <ArrowIcon />
-              </IconButton>
-
-              <Button className={classes.linkToUsers} onClick={handleClick}>
-                User Profile
-              </Button>
-            </Grid>
-            <Grid className={classes.heading} item xs={7}>
-              Editing
-            </Grid>
-          </Grid>
-          <Tabs
-            classes={{ indicator: classes.tabIncticator }}
-            aria-label="Registration"
-            onChange={handleChange}
-            variant="fullWidth"
-            value={tabIndex}>
-            <StyledTab label="1. Account" {...a11yProps(0)} />
-
-            <StyledTab label="2. Profile" {...a11yProps(1)} />
-
-            <StyledTab label="3. Contacts" {...a11yProps(2)} />
-
-            <StyledTab label="4. Capabilities" {...a11yProps(3)} />
-          </Tabs>
-          <TabPanel value={tabIndex} index={0}>
-            <AccountForm
-              saveChangeToRedux={saveChangeToRedux}
-              toggleVisibility={toggleVisibility}
-              handleSubmit={handleSubmit}
-              initialData={accountData}
-              getButtons={getButtons}
-              visible={visible}
-            />
-          </TabPanel>
-          <TabPanel value={tabIndex} index={1}>
-            <ProfileForm
-              saveChangeToRedux={saveChangeToRedux}
-              handleSubmit={handleSubmit}
-              initialData={profileData}
-              getButtons={getButtons}
-            />
-          </TabPanel>
-          <TabPanel value={tabIndex} index={2}>
-            <ContactsForm
-              saveChangeToRedux={saveChangeToRedux}
-              handleSubmit={handleSubmit}
-              initialData={contactsData}
-              getButtons={getButtons}
-            />
-          </TabPanel>
-          <TabPanel value={tabIndex} index={3}>
-            <CapabilitiesForm
-              saveChangeToRedux={saveChangeToRedux}
-              initialData={capabilitiesData}
-              handleSubmit={handleSubmit}
-              getButtons={getButtons}
-            />
-          </TabPanel>
-        </>
       )}
-    </Container>
+      <Container maxWidth="md">
+        <Grid container justify="space-between">
+          <Grid item xs={3}>
+            <IconButton onClick={handleClick}>
+              <ArrowIcon />
+            </IconButton>
+
+            <Button className={classes.linkToUsers} onClick={handleClick}>
+              User Profile
+            </Button>
+          </Grid>
+          <Grid className={classes.heading} item xs={7}>
+            Editing
+          </Grid>
+        </Grid>
+        <Tabs
+          classes={{ indicator: classes.tabIncticator }}
+          className={classes.mainContainer}
+          aria-label="Registration"
+          onChange={handleChange}
+          variant="fullWidth"
+          value={tabIndex}>
+          <StyledTab label="1. Account" {...a11yProps(0)} />
+
+          <StyledTab label="2. Profile" {...a11yProps(1)} />
+
+          <StyledTab label="3. Contacts" {...a11yProps(2)} />
+
+          <StyledTab label="4. Capabilities" {...a11yProps(3)} />
+        </Tabs>
+        <TabPanel value={tabIndex} index={0}>
+          <AccountForm
+            saveChangeToRedux={saveChangeToRedux}
+            toggleVisibility={toggleVisibility}
+            handleSubmit={handleSubmit}
+            initialData={accountData}
+            getButtons={getButtons}
+            visible={visible}
+          />
+        </TabPanel>
+        <TabPanel value={tabIndex} index={1}>
+          <ProfileForm
+            saveChangeToRedux={saveChangeToRedux}
+            handleSubmit={handleSubmit}
+            initialData={profileData}
+            getButtons={getButtons}
+          />
+        </TabPanel>
+        <TabPanel value={tabIndex} index={2}>
+          <ContactsForm
+            saveChangeToRedux={saveChangeToRedux}
+            handleSubmit={handleSubmit}
+            initialData={contactsData}
+            getButtons={getButtons}
+          />
+        </TabPanel>
+        <TabPanel value={tabIndex} index={3}>
+          <CapabilitiesForm
+            saveChangeToRedux={saveChangeToRedux}
+            initialData={capabilitiesData}
+            handleSubmit={handleSubmit}
+            getButtons={getButtons}
+          />
+        </TabPanel>
+        )}
+      </Container>
+    </>
   );
 };
 
@@ -211,6 +212,10 @@ function a11yProps(index) {
 }
 
 const useStyles = makeStyles(theme => ({
+  mainContainer: {
+    filter: props => (props.isLoading ? "blur(4px)" : "none")
+  },
+
   heading: {
     margin: "3rem 0",
 
@@ -271,7 +276,10 @@ const useStyles = makeStyles(theme => ({
   },
 
   circularContainer: {
-    marginTop: "35vh"
+    display: "block",
+    position: "fixed",
+    top: "50%",
+    left: "50%"
   },
 
   circular: {

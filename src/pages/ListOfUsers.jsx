@@ -354,8 +354,10 @@ const useStyles = makeStyles(theme => ({
   },
 
   circularContainer: {
+    display: "block",
     position: "fixed",
-    top: "55%"
+    top: "55%",
+    left: "50%"
   },
 
   circular: {
