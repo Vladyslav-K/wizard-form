@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from "react";
+import React, { memo, useMemo, useEffect, useState, useRef } from "react";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
@@ -26,9 +26,9 @@ const autocompleteService = { current: null };
 export const InputGooglePlacesAutocomplete = memo(
   ({ placeholder, required, field, label, form, errors }) => {
     const classes = useStyles();
-    const [inputValue, setInputValue] = React.useState("");
-    const [options, setOptions] = React.useState([]);
-    const loaded = React.useRef(false);
+    const [inputValue, setInputValue] = useState("");
+    const [options, setOptions] = useState([]);
+    const loaded = useRef(false);
 
     if (typeof window !== "undefined" && !loaded.current) {
       if (!document.querySelector("#google-maps")) {
@@ -54,7 +54,7 @@ export const InputGooglePlacesAutocomplete = memo(
       []
     );
 
-    React.useEffect(() => {
+    useEffect(() => {
       let active = true;
 
       if (!autocompleteService.current && window.google) {

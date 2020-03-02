@@ -10,7 +10,11 @@ import {
   removeUserFromList
 } from "../domain/userListDomain/userListActions.js";
 
-import { createTestUserList } from "../utils/helpers.js";
+import {
+  getQueryStringValue,
+  createTestUserList,
+  setQueryString
+} from "../utils/helpers.js";
 
 import { ReactComponent as DeleteIcon } from "../images/icons/Close.svg";
 import { ReactComponent as EditIcon } from "../images/icons/Edit.svg";
@@ -38,18 +42,34 @@ const ConnectedListOfUsers = ({
   userList,
   total,
 
-  history
+  history,
+  location
 }) => {
-  const classes = useStyles();
-
-  const [page, setPage] = React.useState(1);
+  const classes = useStyles({ isLoading });
 
   useEffect(() => {
-    updateUserListFromDB({ pageNumber: page, pageSize: 10 });
-  }, [updateUserListFromDB, page]);
+    const queryPage = getQueryStringValue({
+      queryName: "page",
+      location: location.search
+    });
+
+    if (!queryPage) {
+      setQueryString({ queryName: "page", queryValue: 1 });
+    }
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    const queryPage = getQueryStringValue({
+      queryName: "page",
+      location: location.search
+    });
+
+    updateUserListFromDB({ pageNumber: +queryPage, pageSize: 10 });
+  }, [location.search, updateUserListFromDB]);
 
   const handleChange = (event, value) => {
-    setPage(value);
+    setQueryString({ queryName: "page", queryValue: +value });
   };
 
   const createTestUsers = () => {
@@ -65,160 +85,167 @@ const ConnectedListOfUsers = ({
   };
 
   return (
-    <Container maxWidth="md">
-      {isLoading ? (
+    <>
+      {isLoading && (
         <Grid container justify="center" className={classes.circularContainer}>
           <CircularProgress className={classes.circular} size="8%" />
         </Grid>
-      ) : (
-        <>
-          <Grid className={classes.heading} container justify="center">
-            <span>List of Users</span>
+      )}
+
+      <Container maxWidth="md" className={classes.mainContainer}>
+        <Grid className={classes.heading} container justify="center">
+          <span>List of Users</span>
+        </Grid>
+
+        <Grid container item xs={3}>
+          <SearchField handleChange={searchHandleChange} />
+        </Grid>
+
+        <Grid
+          className={classes.tableHeadRow}
+          justify="center"
+          direction="row"
+          container>
+          <Grid item xs />
+
+          <Grid item xs={3}>
+            <span>name</span>
           </Grid>
 
-          <Grid container item xs={3}>
-            <SearchField handleChange={searchHandleChange} />
+          <Grid item xs={2}>
+            <span>company</span>
           </Grid>
 
-          <Grid
-            className={classes.tableHeadRow}
-            justify="center"
-            direction="row"
-            container>
-            <Grid item xs />
-
-            <Grid item xs={3}>
-              <span>name</span>
-            </Grid>
-
-            <Grid item xs={2}>
-              <span>company</span>
-            </Grid>
-
-            <Grid item xs={3}>
-              <span>contacts</span>
-            </Grid>
-
-            <Grid item xs={2}>
-              <span>last update</span>
-            </Grid>
-
-            <Grid item xs={1} />
+          <Grid item xs={3}>
+            <span>contacts</span>
           </Grid>
 
-          {userList && userList.length === 0 ? (
-            <Container className={classes.heading} maxWidth="md">
-              <Grid container direction="column" justify="center">
-                <Grid item className={classes.noUsersHeading}>
-                  No users here :(
-                </Grid>
+          <Grid item xs={2}>
+            <span>last update</span>
+          </Grid>
 
-                <Grid item>
-                  <div className={classes.buttonContainer}>
-                    <Link to="/registration">
-                      <button className={classes.button} type="submit">
-                        Create new user
-                      </button>
-                    </Link>
-                  </div>
-                </Grid>
+          <Grid item xs={1} />
+        </Grid>
+
+        {userList && userList.length === 0 && !isLoading ? (
+          <Container className={classes.heading} maxWidth="md">
+            <Grid container direction="column" justify="center">
+              <Grid item className={classes.noUsersHeading}>
+                No users here :(
               </Grid>
-            </Container>
-          ) : (
-            <>
-              <Grid container direction="column">
-                {userList.map(
-                  ({
-                    updatedAt,
-                    firstName,
-                    lastName,
-                    username,
-                    company,
-                    phones,
-                    avatar,
-                    email,
-                    id
-                  }) => (
-                    <Grid
-                      className={classes.tableBodyRow}
-                      direction="row"
-                      container
-                      key={`${username}-${id}`}>
-                      <Grid container justify="center" item xs={1}>
-                        {avatar ? (
-                          <Avatar
-                            className={classes.userAvatar}
-                            alt="User avatar"
-                            src={avatar}
-                          />
-                        ) : (
-                          <Avatar
-                            className={classes.defaultAvatar}
-                            alt="Default avatar image"
-                            src={DefaultAvatarImage}
-                          />
-                        )}
-                      </Grid>
 
-                      <Grid
-                        style={{ cursor: "pointer" }}
-                        direction="column"
-                        container
-                        item
-                        xs={3}
-                        onClick={() =>
-                          history.push({ pathname: `/users/view/${id}` })
-                        }>
-                        <span> {`${firstName} ${lastName}`} </span>
-
-                        <span className={classes.usernameStyles}>username</span>
-                      </Grid>
-
-                      <Grid item xs={2}>
-                        <span> {company} </span>
-                      </Grid>
-
-                      <Grid item xs={3}>
-                        <span> {phones[0] || email} </span>
-                      </Grid>
-
-                      <Grid item xs={2}>
-                        <span>
-                          {updatedAt &&
-                            DateTime.fromMillis(updatedAt).toRelative()}
-                        </span>
-                      </Grid>
-
-                      <Grid item xs={1}>
-                        <IconButton
-                          component={Link}
-                          to={`/users/edit/${id}`}
-                          className={classes.iconButton}>
-                          <EditIcon />
-                        </IconButton>
-
-                        <IconButton
-                          onClick={() => removeUserFromList({ id })}
-                          className={classes.iconButton}>
-                          <DeleteIcon />
-                        </IconButton>
-                      </Grid>
+              <Grid item>
+                <div className={classes.buttonContainer}>
+                  <Link to="/registration">
+                    <button className={classes.button} type="submit">
+                      Create new user
+                    </button>
+                  </Link>
+                </div>
+              </Grid>
+            </Grid>
+          </Container>
+        ) : (
+          <>
+            <Grid container direction="column">
+              {userList.map(
+                ({
+                  updatedAt,
+                  firstName,
+                  lastName,
+                  username,
+                  company,
+                  phones,
+                  avatar,
+                  email,
+                  id
+                }) => (
+                  <Grid
+                    className={classes.tableBodyRow}
+                    direction="row"
+                    container
+                    key={`${username}-${id}`}>
+                    <Grid container justify="center" item xs={1}>
+                      {avatar ? (
+                        <Avatar
+                          className={classes.userAvatar}
+                          alt="User avatar"
+                          src={avatar}
+                        />
+                      ) : (
+                        <Avatar
+                          className={classes.defaultAvatar}
+                          alt="Default avatar image"
+                          src={DefaultAvatarImage}
+                        />
+                      )}
                     </Grid>
-                  )
-                )}
-              </Grid>
 
-              <Grid container justify="center" style={{ margin: "2rem 0" }}>
-                <Pagination
-                  className={classes.pagination}
-                  count={Math.ceil(total / 10)}
-                  onChange={handleChange}
-                  page={page}
-                />
-              </Grid>
-            </>
-          )}
+                    <Grid
+                      style={{ cursor: "pointer" }}
+                      direction="column"
+                      container
+                      item
+                      xs={3}
+                      onClick={() =>
+                        history.push({ pathname: `/users/view/${id}` })
+                      }>
+                      <span> {`${firstName} ${lastName}`} </span>
 
+                      <span className={classes.usernameStyles}>username</span>
+                    </Grid>
+
+                    <Grid item xs={2}>
+                      <span> {company} </span>
+                    </Grid>
+
+                    <Grid item xs={3}>
+                      <span> {phones[0] || email} </span>
+                    </Grid>
+
+                    <Grid item xs={2}>
+                      <span>
+                        {updatedAt &&
+                          DateTime.fromMillis(updatedAt).toRelative()}
+                      </span>
+                    </Grid>
+
+                    <Grid item xs={1}>
+                      <IconButton
+                        component={Link}
+                        to={`/users/edit/${id}`}
+                        className={classes.iconButton}>
+                        <EditIcon />
+                      </IconButton>
+
+                      <IconButton
+                        onClick={() => removeUserFromList({ id })}
+                        className={classes.iconButton}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </Grid>
+                  </Grid>
+                )
+              )}
+            </Grid>
+
+            <Grid container justify="center" style={{ margin: "2rem 0" }}>
+              <Pagination
+                className={classes.pagination}
+                count={Math.ceil(total / 10)}
+                onChange={handleChange}
+                page={
+                  +getQueryStringValue({
+                    queryName: "page",
+                    location: location.search
+                  })
+                }
+              />
+            </Grid>
+          </>
+        )}
+
+        {!isLoading && (
           <Grid container justify="center">
             <div className={classes.testButton}>
               <button className={classes.button} onClick={createTestUsers}>
@@ -226,17 +253,15 @@ const ConnectedListOfUsers = ({
               </button>
             </div>
           </Grid>
-        </>
-      )}
-    </Container>
+        )}
+      </Container>
+    </>
   );
 };
 
 const useStyles = makeStyles(theme => ({
   mainContainer: {
-    width: "970px",
-    marginLeft: "auto",
-    marginRight: "auto"
+    filter: props => (props.isLoading ? "blur(4px)" : "none")
   },
 
   tableBodyRow: {
@@ -329,7 +354,8 @@ const useStyles = makeStyles(theme => ({
   },
 
   circularContainer: {
-    marginTop: "35vh"
+    position: "fixed",
+    top: "55%"
   },
 
   circular: {

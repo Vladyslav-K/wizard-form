@@ -29,7 +29,7 @@ export const Header = memo(() => {
 
         <Button
           component={Link}
-          to="/users"
+          to="/users?page=1"
           color="inherit"
           className={classes.button}
           startIcon={<ListOfUsersIcon />}>
