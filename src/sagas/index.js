@@ -2,6 +2,7 @@ import {
   takeLatest,
   takeEvery,
   select,
+  delay,
   call,
   all,
   put
@@ -150,11 +151,11 @@ function* removeUserFromDatabaseUserList(action) {
       getUserListFromDB({ pageNumber: 1, pageSize: 10 })
     );
 
-    yield put(syncUserListWithDatabase(userListWithDB));
-
     const userListCount = yield call(() => getUserListCount());
 
     yield put(setUserListTotal(userListCount));
+
+    yield put(syncUserListWithDatabase(userListWithDB));
   } catch {
     yield put(userListFetchingError());
   }
@@ -184,11 +185,11 @@ function* changeUserDataAfterEditing(action) {
       getUserListFromDB({ pageNumber: 1, pageSize: 10 })
     );
 
-    yield put(syncUserListWithDatabase(userListWithDB));
-
     const userListCount = yield call(() => getUserListCount());
 
     yield put(setUserListTotal(userListCount));
+
+    yield put(syncUserListWithDatabase(userListWithDB));
   } catch {
     yield put(userListFetchingError());
   }
@@ -201,34 +202,22 @@ function* putTestUserListToDatabase(action) {
 }
 
 function* getFilteredUserList(action) {
-  const keywords = action.payload;
+  const { keywords, pageNumber, pageSize } = action.payload;
 
-  if (keywords === "") {
-    try {
-      const userListWithDB = yield call(() =>
-        getUserListFromDB({ pageNumber: 1, pageSize: 10 })
-      );
+  yield delay(500);
 
-      yield put(syncUserListWithDatabase(userListWithDB));
+  yield put(userListIsLoading());
 
-      const userListCount = yield call(() => getUserListCount());
+  try {
+    const { userList, userListCount } = yield call(() =>
+      filterUserList({ keywords, pageNumber, pageSize })
+    );
 
-      yield put(setUserListTotal(userListCount));
-    } catch {
-      yield put(userListFetchingError());
-    }
-  } else {
-    try {
-      const userListWithDB = yield call(() => filterUserList(keywords));
+    yield put(setUserListTotal(userListCount));
 
-      yield put(syncUserListWithDatabase(userListWithDB));
-
-      const userListCount = userListWithDB.length;
-
-      yield put(setUserListTotal(userListCount));
-    } catch {
-      yield put(userListFetchingError());
-    }
+    yield put(syncUserListWithDatabase(userList));
+  } catch {
+    yield put(userListFetchingError());
   }
 }
 

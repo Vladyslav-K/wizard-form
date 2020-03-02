@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { DateTime } from "luxon";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
@@ -7,7 +7,8 @@ import {
   searchUsersByName,
   getTestUsers,
   updateUserListFromDB,
-  removeUserFromList
+  removeUserFromList,
+  userListIsLoading
 } from "../domain/userListDomain/userListActions.js";
 
 import {
@@ -38,6 +39,7 @@ const ConnectedListOfUsers = ({
   getTestUsers,
   updateUserListFromDB,
   removeUserFromList,
+  userListIsLoading,
   isLoading,
   userList,
   total,
@@ -47,29 +49,50 @@ const ConnectedListOfUsers = ({
 }) => {
   const classes = useStyles({ isLoading });
 
+  const [page, setPage] = useState(1);
+
+  const [searchValue, setSearchValue] = useState("");
+
   useEffect(() => {
+    userListIsLoading();
+
     const queryPage = getQueryStringValue({
       queryName: "page",
       location: location.search
     });
 
-    if (!queryPage) {
+    const queryFilter = getQueryStringValue({
+      queryName: "filter",
+      location: location.search
+    });
+
+    if (!queryPage && !queryFilter) {
       setQueryString({ queryName: "page", queryValue: 1 });
+      updateUserListFromDB({ pageNumber: 1, pageSize: 10 });
     }
+
+    if (queryFilter && queryPage) {
+      setSearchValue(queryFilter);
+
+      searchUsersByName({
+        keywords: queryFilter,
+        pageNumber: queryPage,
+        pageSize: 10
+      });
+    }
+
+    if (queryPage && !queryFilter) {
+      setPage(+queryPage);
+      updateUserListFromDB({ pageNumber: +queryPage, pageSize: 10 });
+    }
+
     // eslint-disable-next-line
   }, []);
 
-  useEffect(() => {
-    const queryPage = getQueryStringValue({
-      queryName: "page",
-      location: location.search
-    });
-
-    updateUserListFromDB({ pageNumber: +queryPage, pageSize: 10 });
-  }, [location.search, updateUserListFromDB]);
-
   const handleChange = (event, value) => {
     setQueryString({ queryName: "page", queryValue: +value });
+    setPage(+value);
+    updateUserListFromDB({ pageNumber: +value, pageSize: 10 });
   };
 
   const createTestUsers = () => {
@@ -81,7 +104,19 @@ const ConnectedListOfUsers = ({
   };
 
   const searchHandleChange = event => {
-    searchUsersByName(event.target.value);
+    const keywords = event.target.value;
+
+    setSearchValue(keywords);
+
+    searchUsersByName({
+      pageNumber: page,
+      pageSize: 10,
+      keywords
+    });
+
+    history.push({
+      search: keywords ? `?page=${page}&filter=${keywords}` : `?page=${page}`
+    });
   };
 
   return (
@@ -98,7 +133,7 @@ const ConnectedListOfUsers = ({
         </Grid>
 
         <Grid container item xs={3}>
-          <SearchField handleChange={searchHandleChange} />
+          <SearchField value={searchValue} handleChange={searchHandleChange} />
         </Grid>
 
         <Grid
@@ -234,12 +269,7 @@ const ConnectedListOfUsers = ({
                 className={classes.pagination}
                 count={Math.ceil(total / 10)}
                 onChange={handleChange}
-                page={
-                  +getQueryStringValue({
-                    queryName: "page",
-                    location: location.search
-                  })
-                }
+                page={page}
               />
             </Grid>
           </>
@@ -407,6 +437,7 @@ export const ListOfUsers = connect(
     searchUsersByName,
     getTestUsers,
     updateUserListFromDB,
-    removeUserFromList
+    removeUserFromList,
+    userListIsLoading
   }
 )(ConnectedListOfUsers);

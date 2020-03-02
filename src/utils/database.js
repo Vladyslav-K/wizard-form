@@ -65,14 +65,35 @@ export const addTestUserToDB = user => {
   return database.userList.add({ ...user });
 };
 
-export const filterUserList = keywords => {
-  return database.userList
-    .orderBy("createdAt")
-    .reverse()
-    .filter(
-      user =>
-        user.firstName.toLowerCase().includes(keywords) ||
-        user.lastName.toLowerCase().includes(keywords)
-    )
-    .toArray();
+export const filterUserList = async ({ keywords, pageNumber, pageSize }) => {
+  if (!keywords) {
+    return {
+      userList: await getUserListFromDB({ pageNumber, pageSize }),
+      userListCount: await getUserListCount()
+    };
+  }
+
+  return {
+    userList: await database.userList
+      .orderBy("createdAt")
+      .reverse()
+      .filter(
+        user =>
+          user.firstName.toLowerCase().includes(keywords) ||
+          user.lastName.toLowerCase().includes(keywords)
+      )
+      .offset(pageNumber * pageSize - pageSize)
+      .limit(pageSize)
+      .toArray(),
+
+    userListCount: await database.userList
+      .orderBy("createdAt")
+      .reverse()
+      .filter(
+        user =>
+          user.firstName.toLowerCase().includes(keywords) ||
+          user.lastName.toLowerCase().includes(keywords)
+      )
+      .count()
+  };
 };

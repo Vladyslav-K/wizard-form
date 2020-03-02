@@ -134,7 +134,7 @@ const ConnectedEditing = ({
           <CircularProgress className={classes.circular} size="8%" />
         </Grid>
       )}
-      <Container maxWidth="md">
+      <Container maxWidth="md" className={classes.mainContainer}>
         <Grid container justify="space-between">
           <Grid item xs={3}>
             <IconButton onClick={handleClick}>
@@ -151,7 +151,6 @@ const ConnectedEditing = ({
         </Grid>
         <Tabs
           classes={{ indicator: classes.tabIncticator }}
-          className={classes.mainContainer}
           aria-label="Registration"
           onChange={handleChange}
           variant="fullWidth"
