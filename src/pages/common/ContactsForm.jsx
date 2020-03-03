@@ -86,20 +86,20 @@ export const ContactsForm = memo(
                 <FieldArray
                   name="phones"
                   render={arrayHelpers => (
-                    <div>
+                    <>
                       {values.phones.map((phone, index) => (
-                        <div key={index}>
-                          <Field
-                            label={`Phone #${index + 1}`}
-                            placeholder="Enter phone"
-                            name={`phones.${index}`}
-                            component={InputMask}
-                            index={index}
-                            onClick={() => arrayHelpers.remove(index)}
-                            errors={errors.phones && errors.phones[index]}
-                          />
-                        </div>
+                        <Field
+                          key={index}
+                          label={`Phone #${index + 1}`}
+                          placeholder="Enter phone"
+                          name={`phones.${index}`}
+                          component={InputMask}
+                          index={values.phones.length}
+                          onClick={() => arrayHelpers.remove(index)}
+                          errors={errors.phones && errors.phones[index]}
+                        />
                       ))}
+
                       {values.phones.length < 3 && (
                         <Button
                           className={classes.plusButtonStyles}
@@ -108,7 +108,7 @@ export const ContactsForm = memo(
                           add phone number
                         </Button>
                       )}
-                    </div>
+                    </>
                   )}
                 />
 

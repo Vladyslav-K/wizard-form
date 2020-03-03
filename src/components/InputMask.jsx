@@ -14,35 +14,17 @@ export const InputMask = memo(
 
     return (
       <Grid container direction="column">
-        <FormControl variant="outlined" margin="normal" size="small" fullWidth>
-          <Grid container justify="space-between">
+        <FormControl variant="outlined" margin="normal" size="small">
+          <Grid
+            container
+            justify="space-between"
+            className={classes.labelContainer}>
             <label htmlFor={field.name}> {label} </label>
+
             {required && <label> * </label>}
           </Grid>
 
-          {index && index > 0 ? (
-            <Grid container direction="row">
-              <ReactInputMask
-                id={field.name}
-                onChange={event =>
-                  form.setFieldValue(field.name, event.target.value)
-                }
-                className={classes.fieldStyles}
-                mask="+7 (999) 999-99-99"
-                placeholder={placeholder}
-                alwaysShowMask={false}
-                value={field.value}
-                maskChar="X"
-                type="input"
-              />
-
-              {index > 0 && (
-                <Button className={classes.minusButtonStyles} onClick={onClick}>
-                  <MinusIcon />
-                </Button>
-              )}
-            </Grid>
-          ) : (
+          <Grid container direction="row">
             <ReactInputMask
               id={field.name}
               onChange={event =>
@@ -56,7 +38,13 @@ export const InputMask = memo(
               maskChar="X"
               type="input"
             />
-          )}
+
+            {index > 1 && (
+              <Button className={classes.minusButtonStyles} onClick={onClick}>
+                <MinusIcon />
+              </Button>
+            )}
+          </Grid>
         </FormControl>
         {errors && <InputError value={errors} />}
       </Grid>
@@ -75,12 +63,16 @@ const useStyles = makeStyles(theme => ({
     cursor: "text",
     height: "1.1875em",
 
-    minWidth: "80%",
+    width: "80%",
 
     margin: 0,
     padding: "9px 6px",
     borderRadius: "4px",
     border: "1px solid lightgrey"
+  },
+
+  labelContainer: {
+    width: "85%"
   },
 
   minusButtonStyles: {

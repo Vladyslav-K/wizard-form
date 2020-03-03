@@ -208,14 +208,16 @@ const ConnectedListOfUsers = ({
               ))}
             </Grid>
 
-            <Grid container justify="center" style={{ margin: "2rem 0" }}>
-              <Pagination
-                className={classes.pagination}
-                count={Math.ceil(total / 10)}
-                onChange={handleChange}
-                page={page}
-              />
-            </Grid>
+            {Math.ceil(total / 10) > 1 && (
+              <Grid container justify="center" style={{ margin: "2rem 0" }}>
+                <Pagination
+                  className={classes.pagination}
+                  count={Math.ceil(total / 10)}
+                  onChange={handleChange}
+                  page={page}
+                />
+              </Grid>
+            )}
           </>
         )}
 

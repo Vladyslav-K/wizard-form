@@ -197,7 +197,6 @@ const ConnectedEditing = ({
             getButtons={getButtons}
           />
         </TabPanel>
-        )}
       </Container>
     </>
   );
