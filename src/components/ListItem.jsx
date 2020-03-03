@@ -38,8 +38,7 @@ export const ListItem = memo(
         className={`${classes.tableBodyRow} ${id === shiftedComponent &&
           classes.transformContainer}`}
         direction="row"
-        container
-        key={id}>
+        container>
         <Grid container justify="center" item xs={1}>
           {avatar ? (
             <Avatar

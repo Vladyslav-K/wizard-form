@@ -202,6 +202,7 @@ const ConnectedListOfUsers = ({
                   shiftedComponent={shiftedComponent}
                   onShiftComponent={onShiftComponent}
                   onLinkClick={onLinkClick}
+                  key={user.id}
                   user={user}
                 />
               ))}
