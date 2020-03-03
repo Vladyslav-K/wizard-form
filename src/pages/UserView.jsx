@@ -119,7 +119,7 @@ const ConnectedUserView = ({
         xs={12}
         item>
         <Grid item xs={6}>
-          <span> {name}: </span>
+          <span> {name} </span>
         </Grid>
 
         <Grid className={classes.content} item xs={6}>
@@ -149,6 +149,26 @@ const ConnectedUserView = ({
             onClick={event => event.preventDefault()}>
             {link}
           </Link>
+        </Grid>
+      </Grid>
+    );
+  };
+
+  const HobbiesRow = ({ name, value }) => {
+    return (
+      <Grid
+        className={classes.container}
+        justify="space-between"
+        direction="row"
+        container
+        xs={12}
+        item>
+        <Grid item xs={6}>
+          <span> {name} </span>
+        </Grid>
+
+        <Grid className={classes.hobbies} item xs={6}>
+          <span> {value} </span>
         </Grid>
       </Grid>
     );
@@ -203,24 +223,27 @@ const ConnectedUserView = ({
               xs={8}
               item>
               <ListHead name="Account" tabIndex={ACCOUNT_TAB_INDEX}>
-                <ListRow name="User name" value={username} />
+                <ListRow name="User name:" value={username} />
 
-                <ListRow name="Password" value={password.replace(/./gm, "*")} />
+                <ListRow
+                  name="Password:"
+                  value={password.replace(/./gm, "*")}
+                />
               </ListHead>
 
               <ListHead name="Personal" tabIndex={PROFILE_TAB_INDEX}>
-                <ListRow name="First name" value={firstName} />
+                <ListRow name="First name:" value={firstName} />
 
-                <ListRow name="Last name" value={lastName} />
+                <ListRow name="Last name:" value={lastName} />
 
                 <ListRow
-                  name="Birth date"
+                  name="Birth date:"
                   value={DateTime.fromJSDate(birthDate).toFormat("dd.LL.yyyy")}
                 />
 
-                <ListRow name="Email" value={email} />
+                <ListRow name="Email:" value={email} />
 
-                <ListRow name="Address" value={address} />
+                <ListRow name="Address:" value={address} />
 
                 {gender && <ListRow name="Gender" value={gender} />}
               </ListHead>
@@ -229,44 +252,60 @@ const ConnectedUserView = ({
                 {phones[0] &&
                   phones.map((phone, index) => (
                     <ListRow
-                      name={`Phone#${index + 1}`}
+                      name={`Phone#${index + 1}:`}
                       value={phone}
                       key={index}
                     />
                   ))}
 
-                <ListRow name="Fax" value={fax} />
+                <ListRow name="Fax:" value={fax} />
 
-                {company && <ListRow name="Company" value={company} />}
+                {company && <ListRow name="Company:" value={company} />}
 
-                <ListRowLink name="Github link" link={gitHubLink} />
+                <ListRowLink name="Github link:" link={gitHubLink} />
 
-                <ListRowLink name="Facebook link" link={facebookLink} />
+                <ListRowLink name="Facebook link:" link={facebookLink} />
 
-                <ListRow name="Main language" value={mainLanguage} />
+                <ListRow name="Main language:" value={mainLanguage} />
               </ListHead>
 
-              <ListHead name="Capabilities" tabIndex={CAPABILITIES_TAB_INDEX}>
+              <ListHead name="Capabilities:" tabIndex={CAPABILITIES_TAB_INDEX}>
                 <ListRow
-                  name="Skills"
+                  name="Skills:"
                   value={String(skills.map(skill => " " + skill))}
                 />
 
                 {additionalInformation && (
-                  <ListRow
-                    name="Additional information"
-                    value={additionalInformation}
-                  />
+                  <Grid
+                    className={classes.container}
+                    justify="space-between"
+                    direction="row"
+                    container
+                    xs={12}
+                    item>
+                    <Grid item xs={6}>
+                      <span> Additional information: </span>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                      <pre
+                        className={`${classes.headers} ${classes.additionalInfo}`}>
+                        {additionalInformation}
+                      </pre>
+                    </Grid>
+                  </Grid>
                 )}
 
                 {hobbies.length > 0 &&
-                  hobbies.map((hobbie, index) => (
-                    <ListRow
-                      name={index === 0 ? "Hobbies" : null}
-                      value={hobbie}
-                      key={index}
-                    />
-                  ))}
+                  hobbies
+                    .filter(hobbie => hobbie !== undefined)
+                    .map((hobbie, index) => (
+                      <HobbiesRow
+                        name={index === 0 ? "Hobbies:" : null}
+                        value={hobbie}
+                        key={index}
+                      />
+                    ))}
               </ListHead>
             </Grid>
           </Grid>
@@ -298,12 +337,11 @@ const useStyles = makeStyles(theme => ({
 
   content: {
     color: "#657C9A",
-    fontFamily: "Roboto",
-    fontStyle: "normal",
-    fontWeight: "normal",
-    fontSize: "14px",
-    lineHeight: "16px",
     marginBottom: "10px"
+  },
+
+  hobbies: {
+    color: "#657C9A"
   },
 
   headers: {
@@ -313,6 +351,11 @@ const useStyles = makeStyles(theme => ({
     fontWeight: "500",
     fontSize: "14px",
     lineHeight: "16px"
+  },
+
+  additionalInfo: {
+    margin: 0,
+    color: "#657C9A"
   },
 
   linkToUsers: {
