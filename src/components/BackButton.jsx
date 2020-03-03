@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     justifyContent: "flex-end",
 
-    marginTop: "20vh"
+    marginTop: "10vh"
   },
 
   button: {
