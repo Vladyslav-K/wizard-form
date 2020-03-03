@@ -2,8 +2,6 @@ import * as Yup from "yup";
 import { DateTime } from "luxon";
 import { getFilteredCurrentUserFromDB } from "../utils/database.js";
 
-const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
-
 const PHONE_AND_FAX_REGEXP = /^\+7\s\(\d{3}\)\s\d{3}-\d{2}-\d{2}$/;
 
 export const accountFormValidationSchema = Yup.object().shape({
@@ -23,24 +21,7 @@ export const accountFormValidationSchema = Yup.object().shape({
 
   passwordConfirmation: Yup.string()
     .oneOf([Yup.ref("password")], "Passwords are not the same!")
-    .required("Password confirmation is required!"),
-
-  avatar: Yup.mixed()
-    .notRequired()
-    .when("fileSize", {
-      is: true,
-      then: Yup.mixed().test(
-        "fileSize",
-        "Image must be 1 MB or less!",
-        image => image.size <= 1000000
-      )
-    })
-    .when("fileType", {
-      is: true,
-      then: Yup.mixed().test("fileType", "Unsupported File Format!", image =>
-        SUPPORTED_FORMATS.includes(image.type)
-      )
-    })
+    .required("Password confirmation is required!")
 });
 
 export const profileFormValidationSchema = Yup.object().shape({

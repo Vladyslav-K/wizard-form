@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useState } from "react";
 
 import { ReactComponent as Plus } from "../images/icons/add.svg";
 import DefaultAvatarImage from "../images/icons/avatar.svg";
@@ -10,6 +10,8 @@ import { Avatar, Button } from "@material-ui/core";
 export const InputAvatar = memo(({ field, form, errors }) => {
   const classes = useStyles();
 
+  const [imageError, setImageError] = useState(false);
+
   const handleImageChange = event => {
     event.preventDefault();
 
@@ -18,7 +20,12 @@ export const InputAvatar = memo(({ field, form, errors }) => {
     const file = event.target.files[0];
 
     reader.onload = () => {
-      form.setFieldValue(field.name, reader.result);
+      if (file.size < 1000000) {
+        form.setFieldValue(field.name, reader.result);
+        setImageError(false);
+      } else {
+        setImageError(true);
+      }
     };
 
     reader.readAsDataURL(file);
@@ -61,7 +68,7 @@ export const InputAvatar = memo(({ field, form, errors }) => {
         </Button>
       </label>
 
-      {errors && <InputError value="Maximum image size 1 mb" />}
+      {(imageError || errors) && <InputError value="Maximum image size 1 mb" />}
     </div>
   );
 });
