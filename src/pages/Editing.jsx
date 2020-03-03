@@ -5,6 +5,7 @@ import lodashPick from "lodash.pick";
 
 import { useDebouncedCallback } from "use-debounce";
 
+// helpers functions
 import {
   getQueryStringValue,
   setQueryString,
@@ -14,21 +15,25 @@ import {
 
 import { fields } from "../utils/constants.js";
 
+// store current user actions
 import {
-  saveCurrentUserToList,
+  saveCurrentUser,
   setCurrentUserData,
   getUserFromList
-} from "../domain/currentUserDomain/currentUserActions.js";
+} from "../store/currentUserModule.js";
 
+// tab forms
 import { CapabilitiesForm } from "./common/CapabilitiesForm";
 import { ContactsForm } from "./common/ContactsForm";
 import { ProfileForm } from "./common/ProfileForm";
 import { AccountForm } from "./common/AccountForm";
 
+// separate components
 import { SaveButton } from "../components/SaveButton.jsx";
 import { StyledTab } from "../components/StyledTab.jsx";
 import { TabPanel } from "../components/TabPanel.jsx";
 
+// icon
 import { ReactComponent as ArrowIcon } from "../images/icons/Rectangle.svg";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -42,7 +47,7 @@ import {
 } from "@material-ui/core";
 
 const ConnectedEditing = ({
-  saveCurrentUserToList,
+  saveCurrentUser,
   setCurrentUserData,
   getUserFromList,
   isLoading,
@@ -99,7 +104,7 @@ const ConnectedEditing = ({
   }, 250);
 
   const handleSubmit = () => {
-    saveCurrentUserToList({ userData: userData, id: +match.params.id });
+    saveCurrentUser({ userData: userData, id: +match.params.id });
     setOpen(true);
   };
 
@@ -286,16 +291,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const Editing = connect(
-  ({
-    currentUserData: { isLoading, userData },
-    listOfUsers: { userList }
-  }) => ({
-    isLoading,
-    userData,
-    userList
+  state => ({
+    isLoading: state.currentUserData.isLoading,
+    userData: state.currentUserData.userData,
+    userList: state.listOfUsers.userList
   }),
   {
-    saveCurrentUserToList,
+    saveCurrentUser,
     setCurrentUserData,
     getUserFromList
   }

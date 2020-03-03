@@ -8,18 +8,19 @@ import * as serviceWorker from "./serviceWorker";
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import createSagaMiddleware from "redux-saga";
 
-import { temporaryUserReducers } from "./domain/temporaryUserDomain/temporaryUserReducers.js";
-import { currentUserReducers } from "./domain/currentUserDomain/currentUserReducers.js";
-import { userListReducers } from "./domain/userListDomain/userListReducers.js";
+// store reducers
+import temporaryUserReducer from "./store/temporaryUserModule.js";
+import currentUserReducer from "./store/currentUserModule.js";
+import userListReducer from "./store/userListModule.js";
 
-import rootSaga from "./sagas";
+import rootSaga from "./sagas/rootSaga.js";
 
 import App from "./pages/App";
 
 const reducer = {
-  temporaryUserData: temporaryUserReducers,
-  currentUserData: currentUserReducers,
-  listOfUsers: userListReducers
+  temporaryUserData: temporaryUserReducer,
+  currentUserData: currentUserReducer,
+  listOfUsers: userListReducer
 };
 
 const sagaMiddleware = createSagaMiddleware();

@@ -2,12 +2,16 @@ import React, { useEffect } from "react";
 import { DateTime } from "luxon";
 import { connect } from "react-redux";
 
-import { getUserFromList } from "../domain/currentUserDomain/currentUserActions.js";
+// store current user actions
+import { getUserFromList } from "../store/currentUserModule.js";
 
-import { updateUserListFromDB } from "../domain/userListDomain/userListActions.js";
+// store user list actions
+import { updateUser } from "../store/userListModule.js";
 
+// helpers functions
 import { getTabKeyByValue, setQueryString } from "../utils/helpers.js";
 
+// constants
 import {
   CAPABILITIES_TAB_INDEX,
   CONTACTS_TAB_INDEX,
@@ -15,6 +19,7 @@ import {
   ACCOUNT_TAB_INDEX
 } from "../utils/constants.js";
 
+// icons and default avatar image
 import { ReactComponent as EditIcon } from "../images/icons/Edit2.svg";
 import { ReactComponent as ArrowIcon } from "../images/icons/Rectangle.svg";
 import DefaultAvatarImage from "../images/icons/avatar.svg";
@@ -31,8 +36,8 @@ import {
 } from "@material-ui/core";
 
 const ConnectedUserView = ({
-  updateUserListFromDB,
   getUserFromList,
+  updateUser,
   isLoading,
   userData,
   userList,
@@ -416,13 +421,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const UserView = connect(
-  ({
-    currentUserData: { isLoading, userData },
-    listOfUsers: { userList }
-  }) => ({
-    isLoading,
-    userData,
-    userList
+  state => ({
+    isLoading: state.currentUserData.isLoading,
+    userData: state.currentUserData.userData,
+    userList: state.listOfUsers.userList
   }),
-  { updateUserListFromDB, getUserFromList }
+  { updateUser, getUserFromList }
 )(ConnectedUserView);

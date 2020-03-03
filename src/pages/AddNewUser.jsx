@@ -6,6 +6,7 @@ import lodashPick from "lodash.pick";
 
 import { useDebouncedCallback } from "use-debounce";
 
+// helpers functions
 import {
   checkObjectPropsIsNotEmpty,
   getQueryStringValue,
@@ -16,21 +17,25 @@ import {
 
 import { fields } from "../utils/constants.js";
 
+// store temporary user actions
 import {
-  getTemporaryUserDataWithDatabase,
-  removeTemporaryUserData,
-  setTemporaryUserData
-} from "../domain/temporaryUserDomain/temporaryUserActions.js";
+  syncTemporaryUserDataWithDB,
+  setTemporaryUserData,
+  deleteTemporaryUser
+} from "../store/temporaryUserModule.js";
 
-import { addUserToList } from "../domain/userListDomain/userListActions.js";
+// store user list actions
+import { addUserToList } from "../store/userListModule.js";
 
+// tab forms
 import { CapabilitiesForm } from "./common/CapabilitiesForm";
 import { ContactsForm } from "./common/ContactsForm";
 import { AccountForm } from "./common/AccountForm";
 import { ProfileForm } from "./common/ProfileForm";
-import { FormMessage } from "../components/FormMessage.jsx";
 
+// separate components
 import { SubmitButton } from "../components/SubmitButton.jsx";
+import { FormMessage } from "../components/FormMessage.jsx";
 import { BackButton } from "../components/BackButton.jsx";
 import { StyledTab } from "../components/StyledTab.jsx";
 import { TabPanel } from "../components/TabPanel.jsx";
@@ -39,27 +44,18 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Container, Tabs, Grid, CircularProgress } from "@material-ui/core";
 
 const ConnectedAddNewUser = ({
-  history,
-  location,
-
-  getTemporaryUserDataWithDatabase,
-  removeTemporaryUserData,
+  syncTemporaryUserDataWithDB,
   setTemporaryUserData,
-
-  setContactsAsSubmitted,
-  setProfileAsSubmitted,
-  setAccountAsSubmitted,
+  deleteTemporaryUser,
+  databaseHasUserData,
 
   addUserToList,
-
-  contactsIsSubmitted,
-  profileIsSubmitted,
-  accountIsSubmitted,
 
   userData,
   isLoading,
 
-  databaseHasUserData
+  location,
+  history
 }) => {
   const classes = useStyles({ isLoading });
 
@@ -128,7 +124,7 @@ const ConnectedAddNewUser = ({
       profileTab: true
     });
 
-    removeTemporaryUserData();
+    deleteTemporaryUser();
   };
 
   const accountData = lodashPick(userData, Object.keys(fields.account));
@@ -187,8 +183,8 @@ const ConnectedAddNewUser = ({
 
       {databaseHasUserData && (
         <FormMessage
-          getTemporaryUserDataWithDatabase={getTemporaryUserDataWithDatabase}
-          removeTemporaryUserData={removeTemporaryUserData}
+          syncTemporaryUserDataWithDB={syncTemporaryUserDataWithDB}
+          deleteTemporaryUser={deleteTemporaryUser}
         />
       )}
 
@@ -327,15 +323,15 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const AddNewUser = connect(
-  ({ temporaryUserData: { databaseHasUserData, isLoading, userData } }) => ({
-    databaseHasUserData,
-    isLoading,
-    userData
+  state => ({
+    databaseHasUserData: state.temporaryUserData.databaseHasUserData,
+    isLoading: state.temporaryUserData.isLoading,
+    userData: state.temporaryUserData.userData
   }),
   {
-    getTemporaryUserDataWithDatabase,
-    removeTemporaryUserData,
+    syncTemporaryUserDataWithDB,
     setTemporaryUserData,
+    deleteTemporaryUser,
 
     addUserToList
   }

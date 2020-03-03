@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { IconButton, Button } from "@material-ui/core";
 
 export const FormMessage = memo(
-  ({ getTemporaryUserDataWithDatabase, removeTemporaryUserData }) => {
+  ({ syncTemporaryUserDataWithDB, deleteTemporaryUser }) => {
     const classes = useStyles();
 
     return (
@@ -17,12 +17,12 @@ export const FormMessage = memo(
           </span>
           <Button
             className={classes.queryButton}
-            onClick={getTemporaryUserDataWithDatabase}>
+            onClick={syncTemporaryUserDataWithDB}>
             Continue
           </Button>
         </div>
 
-        <IconButton onClick={removeTemporaryUserData}>
+        <IconButton onClick={deleteTemporaryUser}>
           <CloseIcon />
         </IconButton>
       </div>

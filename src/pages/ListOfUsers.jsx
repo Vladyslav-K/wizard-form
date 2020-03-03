@@ -2,20 +2,23 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
+// store user list actions
 import {
+  deleteUserFromList,
   searchUsersByName,
   getTestUsers,
-  updateUserListFromDB,
-  removeUserFromList,
-  userListIsLoading
-} from "../domain/userListDomain/userListActions.js";
+  updateUser,
+  setLoading
+} from "../store/userListModule.js";
 
+// helpers functions
 import {
   getQueryStringValue,
   createTestUserList,
   setQueryString
 } from "../utils/helpers.js";
 
+// separate components
 import { SearchField } from "../components/SearchField.jsx";
 import { ListItem } from "../components/ListItem.jsx";
 
@@ -25,11 +28,11 @@ import { CircularProgress, Container, Grid } from "@material-ui/core";
 import { Pagination } from "@material-ui/lab";
 
 const ConnectedListOfUsers = ({
+  deleteUserFromList,
   searchUsersByName,
   getTestUsers,
-  updateUserListFromDB,
-  removeUserFromList,
-  userListIsLoading,
+  updateUser,
+  setLoading,
   isLoading,
   userList,
   total,
@@ -46,7 +49,7 @@ const ConnectedListOfUsers = ({
   const [shiftedComponent, setShiftedComponent] = useState(undefined);
 
   useEffect(() => {
-    userListIsLoading();
+    setLoading();
 
     const queryPage = getQueryStringValue({
       queryName: "page",
@@ -60,7 +63,7 @@ const ConnectedListOfUsers = ({
 
     if (!queryPage && !queryFilter) {
       setQueryString({ queryName: "page", queryValue: 1 });
-      updateUserListFromDB({ pageNumber: 1, pageSize: 10 });
+      updateUser({ pageNumber: 1, pageSize: 10 });
     }
 
     if (queryFilter && queryPage) {
@@ -75,7 +78,7 @@ const ConnectedListOfUsers = ({
 
     if (queryPage && !queryFilter) {
       setPage(+queryPage);
-      updateUserListFromDB({ pageNumber: +queryPage, pageSize: 10 });
+      updateUser({ pageNumber: +queryPage, pageSize: 10 });
     }
 
     // eslint-disable-next-line
@@ -96,7 +99,7 @@ const ConnectedListOfUsers = ({
   const handleChange = (event, value) => {
     setQueryString({ queryName: "page", queryValue: +value });
     setPage(+value);
-    updateUserListFromDB({ pageNumber: +value, pageSize: 10 });
+    updateUser({ pageNumber: +value, pageSize: 10 });
   };
 
   const createTestUsers = () => {
@@ -104,7 +107,7 @@ const ConnectedListOfUsers = ({
 
     getTestUsers(testUserList);
 
-    updateUserListFromDB({ pageNumber: 1, pageSize: 10 });
+    updateUser({ pageNumber: 1, pageSize: 10 });
   };
 
   const searchHandleChange = event => {
@@ -198,7 +201,7 @@ const ConnectedListOfUsers = ({
               {userList.map(user => (
                 <ListItem
                   setShiftedComponent={setShiftedComponent}
-                  removeUserFromList={removeUserFromList}
+                  deleteUserFromList={deleteUserFromList}
                   shiftedComponent={shiftedComponent}
                   onShiftComponent={onShiftComponent}
                   onLinkClick={onLinkClick}
@@ -325,16 +328,16 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const ListOfUsers = connect(
-  ({ listOfUsers: { isLoading, userList, total } }) => ({
-    isLoading,
-    userList,
-    total
+  state => ({
+    isLoading: state.listOfUsers.isLoading,
+    userList: state.listOfUsers.userList,
+    total: state.listOfUsers.total
   }),
   {
+    deleteUserFromList,
     searchUsersByName,
     getTestUsers,
-    updateUserListFromDB,
-    removeUserFromList,
-    userListIsLoading
+    updateUser,
+    setLoading
   }
 )(ConnectedListOfUsers);

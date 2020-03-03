@@ -9,7 +9,11 @@ database.version(1).stores({
 });
 
 export const getTemporaryUserFromDB = () => {
-  return database.temporaryUserData.get(TEMPORARY_USER_ID);
+  const temporaryUser = database.temporaryUserData.get(TEMPORARY_USER_ID);
+
+  delete temporaryUser.id;
+
+  return temporaryUser;
 };
 
 export const deleteTemporaryUserFromDB = () => {
