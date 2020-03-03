@@ -6,6 +6,7 @@ import {
   Route
 } from "react-router-dom";
 
+import { PageNotFound } from "./PageNotFound";
 import { ListOfUsers } from "./ListOfUsers";
 import { AddNewUser } from "./AddNewUser";
 import { UserView } from "./UserView.jsx";
@@ -26,6 +27,7 @@ function App() {
         <Route path="/users" exact component={ListOfUsers} />
         <Route path="/users/edit/:id" exact component={Editing} />
         <Route path="/users/view/:id" exact component={UserView} />
+        <Route component={PageNotFound} />
       </Switch>
     </Router>
   );

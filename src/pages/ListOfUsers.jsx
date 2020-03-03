@@ -222,7 +222,7 @@ const ConnectedListOfUsers = ({
                       shiftedComponent && classes.transformContainer}`}
                     direction="row"
                     container
-                    key={`${username}-${id}`}>
+                    key={id}>
                     <Grid container justify="center" item xs={1}>
                       {avatar ? (
                         <Avatar
