@@ -23,11 +23,17 @@ const useStyles = makeStyles(theme => ({
   fieldStyles: {
     fontFamily: "Roboto",
     fontStyle: "normal",
+    lineHeight: "16px",
     fontWeight: "500",
     fontSize: "14px",
-    lineHeight: "16px",
 
-    border: "2px solid #4E86E4",
+    "& input": {
+      border: "2px solid rgba(78, 134, 228, .4)"
+    },
+
+    "& input:focus": {
+      border: "2px solid rgba(78, 134, 228, 1)"
+    },
 
     "& fieldset": {
       border: "none"
