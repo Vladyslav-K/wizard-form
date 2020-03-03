@@ -75,11 +75,15 @@ export const contactsFormValidationSchema = Yup.object().shape({
 
   gitHubLink: Yup.string()
     .required("Github link is required!")
-    .url("Invalid link!"),
+    .test("checkGithubLink", "Invalid link!", value => {
+      return value.includes("github");
+    }),
 
   facebookLink: Yup.string()
     .required("Facebook link is required!")
-    .url("Invalid link!"),
+    .test("checkFacebookLink", "Invalid link!", value => {
+      return value.includes("facebook");
+    }),
 
   mainLanguage: Yup.string().required("Main language is required!")
 });
