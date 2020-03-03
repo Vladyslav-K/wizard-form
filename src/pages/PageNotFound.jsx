@@ -1,10 +1,10 @@
-import React from "react";
+import React, { memo } from "react";
 import { Link } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Container } from "@material-ui/core";
 
-export const PageNotFound = () => {
+export const PageNotFound = memo(() => {
   const classes = useStyles();
 
   return (
@@ -29,7 +29,7 @@ export const PageNotFound = () => {
       </Grid>
     </Container>
   );
-};
+});
 
 const useStyles = makeStyles(theme => ({
   mainContainer: {
