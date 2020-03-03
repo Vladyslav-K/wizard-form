@@ -26,7 +26,8 @@ import {
   Container,
   Avatar,
   Button,
-  Grid
+  Grid,
+  Link
 } from "@material-ui/core";
 
 const ConnectedUserView = ({
@@ -128,6 +129,31 @@ const ConnectedUserView = ({
     );
   };
 
+  const ListRowLink = ({ name, link }) => {
+    return (
+      <Grid
+        className={classes.container}
+        justify="space-between"
+        direction="row"
+        container
+        xs={12}
+        item>
+        <Grid item xs={6}>
+          <span> {name}: </span>
+        </Grid>
+
+        <Grid className={classes.content} item xs={6}>
+          <Link
+            href={link}
+            color="inherit"
+            onClick={event => event.preventDefault()}>
+            {link}
+          </Link>
+        </Grid>
+      </Grid>
+    );
+  };
+
   return (
     <>
       {isLoading && (
@@ -213,9 +239,9 @@ const ConnectedUserView = ({
 
                 {company && <ListRow name="Company" value={company} />}
 
-                <ListRow name="Github link" value={gitHubLink} />
+                <ListRowLink name="Github link" link={gitHubLink} />
 
-                <ListRow name="Facebook link" value={facebookLink} />
+                <ListRowLink name="Facebook link" link={facebookLink} />
 
                 <ListRow name="Main language" value={mainLanguage} />
               </ListHead>
