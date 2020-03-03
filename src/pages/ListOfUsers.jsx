@@ -17,6 +17,7 @@ import {
   setQueryString
 } from "../utils/helpers.js";
 
+import { ReactComponent as ConfirmDeleteIcon } from "../images/icons/Close_confirm.svg";
 import { ReactComponent as DeleteIcon } from "../images/icons/Close.svg";
 import { ReactComponent as EditIcon } from "../images/icons/Edit.svg";
 import DefaultAvatarImage from "../images/icons/avatar.svg";
@@ -52,6 +53,8 @@ const ConnectedListOfUsers = ({
   const [page, setPage] = useState(1);
 
   const [searchValue, setSearchValue] = useState("");
+
+  const [shiftedComponent, setShiftedComponent] = useState(undefined);
 
   useEffect(() => {
     userListIsLoading();
@@ -89,6 +92,18 @@ const ConnectedListOfUsers = ({
     // eslint-disable-next-line
   }, []);
 
+  useEffect(() => {
+    document.addEventListener("keydown", keydownListener);
+
+    return () => document.removeEventListener("keydown", keydownListener);
+  }, []);
+
+  const keydownListener = event => {
+    if (event.keyCode === 27) {
+      setShiftedComponent(0);
+    }
+  };
+
   const handleChange = (event, value) => {
     setQueryString({ queryName: "page", queryValue: +value });
     setPage(+value);
@@ -117,6 +132,10 @@ const ConnectedListOfUsers = ({
     history.push({
       search: keywords ? `?page=${page}&filter=${keywords}` : `?page=${page}`
     });
+  };
+
+  const onShiftComponent = (event, id) => {
+    setShiftedComponent(id);
   };
 
   return (
@@ -184,19 +203,23 @@ const ConnectedListOfUsers = ({
           <>
             <Grid container direction="column">
               {userList.map(
-                ({
-                  updatedAt,
-                  firstName,
-                  lastName,
-                  username,
-                  company,
-                  phones,
-                  avatar,
-                  email,
-                  id
-                }) => (
+                (
+                  {
+                    updatedAt,
+                    firstName,
+                    lastName,
+                    username,
+                    company,
+                    phones,
+                    avatar,
+                    email,
+                    id
+                  },
+                  index
+                ) => (
                   <Grid
-                    className={classes.tableBodyRow}
+                    className={`${classes.tableBodyRow} ${id ===
+                      shiftedComponent && classes.transformContainer}`}
                     direction="row"
                     container
                     key={`${username}-${id}`}>
@@ -254,9 +277,23 @@ const ConnectedListOfUsers = ({
                       </IconButton>
 
                       <IconButton
-                        onClick={() => removeUserFromList({ id })}
+                        onClick={event => onShiftComponent(event, id)}
                         className={classes.iconButton}>
                         <DeleteIcon />
+                      </IconButton>
+                    </Grid>
+
+                    <Grid
+                      item
+                      xs={1}
+                      className={
+                        id === shiftedComponent
+                          ? classes.confirmButton
+                          : classes.hidden
+                      }>
+                      <IconButton onClick={() => removeUserFromList({ id })}>
+                        <ConfirmDeleteIcon />
+                        <span> delete </span>
                       </IconButton>
                     </Grid>
                   </Grid>
@@ -290,11 +327,51 @@ const ConnectedListOfUsers = ({
 };
 
 const useStyles = makeStyles(theme => ({
+  confirmButton: {
+    display: "flex !important",
+    transform: "translateX(100px)",
+
+    "& button": {
+      fontSize: "14px",
+      color: "#FF8989"
+    }
+  },
+
+  hidden: {
+    display: "none"
+  },
+
+  transformContainer: {
+    overflow: "visible !important",
+    transform: "translateX(-100px)",
+    transitionDuration: ".3s",
+
+    "& div:not(:last-child)": {
+      opacity: ".5",
+
+      "& button": {
+        display: "none"
+      }
+    },
+
+    "& a": {
+      display: "none"
+    },
+
+    "& div:last-child": {
+      display: "flex",
+      opacity: 1
+    }
+  },
+
   mainContainer: {
     filter: props => (props.isLoading ? "blur(4px)" : "none")
   },
 
   tableBodyRow: {
+    overflow: "hidden",
+    flexWrap: "nowrap",
+    transitionDuration: ".3s",
     alignItems: "center",
 
     color: "#475666",
