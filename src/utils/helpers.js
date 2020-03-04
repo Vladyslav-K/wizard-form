@@ -9,12 +9,20 @@ import {
   tabs
 } from "./constants.js";
 
-export const setQueryString = ({ queryName, queryValue, pathname }) => {
+export const setQueryString = ({
+  queryName,
+  queryValue,
+  additionalName,
+  additionalValue,
+  pathname
+}) => {
   const history = createHashHistory();
 
   history.push({
     pathname: pathname || history.location.pathname,
-    search: `?${queryName}=${queryValue}`
+    search: additionalValue
+      ? `?${queryName}=${queryValue}&${additionalName}=${additionalValue}`
+      : `?${queryName}=${queryValue}`
   });
 };
 

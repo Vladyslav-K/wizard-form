@@ -62,12 +62,26 @@ const ConnectedListOfUsers = ({
       location: location.search
     });
 
+    checkQueryStringPageAndFilter({ queryPage, queryFilter });
+
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener("keydown", keydownListener);
+
+    return () => document.removeEventListener("keydown", keydownListener);
+  }, []);
+
+  const checkQueryStringPageAndFilter = ({ queryPage, queryFilter }) => {
     if (!queryPage && !queryFilter) {
       setQueryString({ queryName: "page", queryValue: 1 });
       updateUser({ pageNumber: 1, pageSize: 10 });
     }
 
     if (queryFilter && queryPage) {
+      setPage(+queryPage);
+
       setSearchValue(queryFilter);
 
       searchUsersByName({
@@ -81,15 +95,7 @@ const ConnectedListOfUsers = ({
       setPage(+queryPage);
       updateUser({ pageNumber: +queryPage, pageSize: 10 });
     }
-
-    // eslint-disable-next-line
-  }, []);
-
-  useEffect(() => {
-    document.addEventListener("keydown", keydownListener);
-
-    return () => document.removeEventListener("keydown", keydownListener);
-  }, []);
+  };
 
   const keydownListener = event => {
     if (event.keyCode === 27) {
@@ -98,9 +104,24 @@ const ConnectedListOfUsers = ({
   };
 
   const handleChange = (event, value) => {
-    setQueryString({ queryName: "page", queryValue: +value });
-    setPage(+value);
-    updateUser({ pageNumber: +value, pageSize: 10 });
+    const pageNumber = +value;
+
+    setPage(pageNumber);
+
+    setQueryString({
+      queryName: "page",
+      queryValue: pageNumber,
+      additionalName: "filter",
+      additionalValue: searchValue
+    });
+
+    searchValue
+      ? searchUsersByName({
+          keywords: searchValue,
+          pageNumber: pageNumber,
+          pageSize: 10
+        })
+      : updateUser({ pageNumber: pageNumber, pageSize: 10 });
   };
 
   const createTestUsers = () => {
@@ -108,22 +129,33 @@ const ConnectedListOfUsers = ({
 
     getTestUsers(testUserList);
 
+    setSearchValue("");
+
     updateUser({ pageNumber: 1, pageSize: 10 });
+
+    setQueryString({
+      queryName: "page",
+      queryValue: 1
+    });
+
+    setPage(1);
   };
 
   const searchHandleChange = event => {
     const keywords = event.target.value;
 
+    setPage(1);
+
     setSearchValue(keywords);
 
-    searchUsersByName({
-      pageNumber: page,
-      pageSize: 10,
-      keywords
-    });
+    searchUsersByName({ keywords, pageNumber: 1, pageSize: 10 });
 
-    history.push({
-      search: keywords ? `?page=${page}&filter=${keywords}` : `?page=${page}`
+    setQueryString({
+      queryName: "page",
+      queryValue: 1,
+
+      additionalName: "filter",
+      additionalValue: keywords
     });
   };
 
@@ -141,7 +173,14 @@ const ConnectedListOfUsers = ({
 
       deleteUserFromList({ pageNumber: page - 1, pageSize: 10, id });
 
-      setQueryString({ queryName: "page", queryValue: page - 1 });
+      setQueryString({
+        queryName: "page",
+        queryValue: page - 1,
+
+        additionalName: "filter",
+        additionalValue: searchValue
+      });
+
       setPage(page - 1);
     } else {
       deleteUserFromList({ pageNumber: page, pageSize: 10, id });

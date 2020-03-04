@@ -72,7 +72,7 @@ export const addTestUserToDB = user => {
 export const filterUserList = async ({ keywords, pageNumber, pageSize }) => {
   if (!keywords) {
     return {
-      userList: await getUserListFromDB({ pageNumber, pageSize }),
+      userList: await getUserListFromDB({ pageNumber: 1, pageSize: 10 }),
       userListCount: await getUserListCount()
     };
   }
