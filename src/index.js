@@ -12,6 +12,7 @@ import createSagaMiddleware from "redux-saga";
 import temporaryUserReducer from "./store/temporaryUserModule.js";
 import currentUserReducer from "./store/currentUserModule.js";
 import userListReducer from "./store/userListModule.js";
+import UIModule from "./store/UIModule.js";
 
 import rootSaga from "./sagas/rootSaga.js";
 
@@ -20,7 +21,8 @@ import App from "./pages/App";
 const reducer = {
   temporaryUserData: temporaryUserReducer,
   currentUserData: currentUserReducer,
-  listOfUsers: userListReducer
+  listOfUsers: userListReducer,
+  UIModule
 };
 
 const sagaMiddleware = createSagaMiddleware();

@@ -10,15 +10,15 @@ import {
 import {
   setCurrentUserData,
   getUserFromList,
-  saveCurrentUser,
-  setLoading,
-  setError
+  saveCurrentUser
 } from "../store/currentUserModule.js";
+
+import { setLoading, setError } from "../store/UIModule.js";
 
 import { getUsersWithDB, setTotal } from "../store/userListModule.js";
 
 function* getCurrentUser(action) {
-  yield put(setLoading());
+  yield put(setLoading(true));
 
   const userID = action.payload.id;
 
@@ -26,7 +26,7 @@ function* getCurrentUser(action) {
     const userData = yield call(() => getCurrentUserFromDB(userID));
     yield put(setCurrentUserData(userData));
   } catch {
-    yield put(setError());
+    yield put(setError(true));
   }
 }
 
@@ -47,7 +47,7 @@ function* updateUserAfterEditing(action) {
 
     yield put(getUsersWithDB(userListWithDB));
   } catch {
-    yield put(setError());
+    yield put(setError(true));
   }
 }
 

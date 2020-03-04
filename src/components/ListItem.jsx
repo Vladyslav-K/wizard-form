@@ -1,5 +1,7 @@
 import React, { memo } from "react";
 import { Link } from "react-router-dom";
+
+import OutsideClickHandler from "react-outside-click-handler";
 import { DateTime } from "luxon";
 
 import { ReactComponent as ConfirmDeleteIcon } from "../images/icons/Close_confirm.svg";
@@ -11,14 +13,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { IconButton, Avatar, Grid } from "@material-ui/core";
 
 export const ListItem = memo(
-  ({
-    setShiftedComponent,
-    shiftedComponent,
-    onShiftComponent,
-    onLinkClick,
-    deleteUser,
-    user
-  }) => {
+  ({ shiftedComponent, onShiftComponent, onLinkClick, deleteUser, user }) => {
     const classes = useStyles();
 
     const {
@@ -34,80 +29,82 @@ export const ListItem = memo(
     } = user;
 
     return (
-      <Grid
-        className={`${classes.tableBodyRow} ${id === shiftedComponent &&
-          classes.transformContainer}`}
-        direction="row"
-        container>
-        <Grid container justify="center" item xs={1}>
-          {avatar ? (
-            <Avatar
-              className={classes.userAvatar}
-              alt="User avatar"
-              src={avatar}
-            />
-          ) : (
-            <Avatar
-              className={classes.defaultAvatar}
-              alt="Default avatar image"
-              src={DefaultAvatarImage}
-            />
-          )}
-        </Grid>
-
+      <OutsideClickHandler onOutsideClick={() => onShiftComponent(0)}>
         <Grid
-          style={{ cursor: "pointer" }}
-          direction="column"
-          container
-          item
-          xs={3}
-          onClick={() => onLinkClick(id)}>
-          <span> {`${firstName} ${lastName}`} </span>
+          className={`${classes.tableBodyRow} ${id === shiftedComponent &&
+            classes.transformContainer}`}
+          direction="row"
+          container>
+          <Grid container justify="center" item xs={1}>
+            {avatar ? (
+              <Avatar
+                className={classes.userAvatar}
+                alt="User avatar"
+                src={avatar}
+              />
+            ) : (
+              <Avatar
+                className={classes.defaultAvatar}
+                alt="Default avatar image"
+                src={DefaultAvatarImage}
+              />
+            )}
+          </Grid>
 
-          <span className={classes.usernameStyles}>{username}</span>
+          <Grid
+            style={{ cursor: "pointer" }}
+            direction="column"
+            container
+            item
+            xs={3}
+            onClick={() => onLinkClick(id)}>
+            <span> {`${firstName} ${lastName}`} </span>
+
+            <span className={classes.usernameStyles}>{username}</span>
+          </Grid>
+
+          <Grid item xs={2}>
+            <span> {company} </span>
+          </Grid>
+
+          <Grid item xs={3}>
+            <span> {phones[0] || email} </span>
+          </Grid>
+
+          <Grid item xs={2}>
+            <span>
+              {updatedAt && DateTime.fromMillis(updatedAt).toRelative()}
+            </span>
+          </Grid>
+
+          <Grid item xs={1}>
+            <IconButton
+              component={Link}
+              to={`/users/edit/${id}`}
+              className={classes.iconButton}>
+              <EditIcon />
+            </IconButton>
+
+            <IconButton
+              onClick={() => onShiftComponent(id)}
+              className={classes.iconButton}>
+              <DeleteIcon />
+            </IconButton>
+          </Grid>
+
+          <Grid
+            item
+            xs={1}
+            className={
+              id === shiftedComponent ? classes.confirmButton : classes.hidden
+            }>
+            <IconButton onClick={() => deleteUser({ id })}>
+              <ConfirmDeleteIcon />
+              <span> delete </span>
+            </IconButton>
+          </Grid>
         </Grid>
-
-        <Grid item xs={2}>
-          <span> {company} </span>
-        </Grid>
-
-        <Grid item xs={3}>
-          <span> {phones[0] || email} </span>
-        </Grid>
-
-        <Grid item xs={2}>
-          <span>
-            {updatedAt && DateTime.fromMillis(updatedAt).toRelative()}
-          </span>
-        </Grid>
-
-        <Grid item xs={1}>
-          <IconButton
-            component={Link}
-            to={`/users/edit/${id}`}
-            className={classes.iconButton}>
-            <EditIcon />
-          </IconButton>
-
-          <IconButton
-            onClick={event => onShiftComponent(event, id)}
-            className={classes.iconButton}>
-            <DeleteIcon />
-          </IconButton>
-        </Grid>
-
-        <Grid
-          item
-          xs={1}
-          className={
-            id === shiftedComponent ? classes.confirmButton : classes.hidden
-          }>
-          <IconButton onClick={() => deleteUser({ id })}>
-            <ConfirmDeleteIcon />
-            <span> delete </span>
-          </IconButton>
-        </Grid>
-      </Grid>
+      </OutsideClickHandler>
     );
   }
 );
@@ -115,9 +112,10 @@ export const ListItem = memo(
 const useStyles = makeStyles(theme => ({
   confirmButton: {
     display: "flex !important",
-    transform: "translateX(100px)",
+    transform: "translateX(90px)",
 
     "& button": {
+      borderRadius: "10%",
       fontSize: "14px",
       color: "#FF8989"
     }

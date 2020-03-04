@@ -20,6 +20,7 @@ import { fields } from "../utils/constants.js";
 // store temporary user actions
 import {
   syncTemporaryUserDataWithDB,
+  checkTemporaryUserData,
   setTemporaryUserData,
   deleteTemporaryUser
 } from "../store/temporaryUserModule.js";
@@ -45,6 +46,7 @@ import { Container, Tabs, Grid, CircularProgress } from "@material-ui/core";
 
 const ConnectedAddNewUser = ({
   syncTemporaryUserDataWithDB,
+  checkTemporaryUserData,
   setTemporaryUserData,
   deleteTemporaryUser,
   databaseHasUserData,
@@ -79,9 +81,38 @@ const ConnectedAddNewUser = ({
   }, [location.search]);
 
   useEffect(() => {
+    checkTemporaryUserData();
+
     setQueryString({ queryName: "tab", queryValue: "account" });
     // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    const {
+      capabilitiesTab,
+      contactsTab,
+      profileTab,
+      tabName
+    } = checkDataInTabsAfterReload({
+      capabilitiesData,
+      contactsData,
+      profileData
+    });
+
+    setDisabledTabs(prevState => ({
+      ...prevState,
+      capabilitiesTab,
+      contactsTab,
+      profileTab
+    }));
+
+    setQueryString({
+      queryName: "tab",
+      queryValue: tabName
+    });
+
+    // eslint-disable-next-line
+  }, [userData]);
 
   const toggleVisibility = () => {
     setVisible(!visible);
@@ -132,26 +163,13 @@ const ConnectedAddNewUser = ({
     Object.keys(fields.capabilities)
   );
 
-  useEffect(() => {
-    checkDataInTabsAfterReload({
-      setDisabledTabs,
-      setTabIndex,
-      capabilitiesData,
-      contactsData,
-      profileData
-    });
-
-    // eslint-disable-next-line
-  }, [userData]);
-
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="md" className={classes.mainContainer}>
       <Grid className={classes.heading} container justify="center">
         Adding new user
       </Grid>
       <Tabs
         classes={{ indicator: classes.tabIncticator }}
-        className={classes.mainContainer}
         aria-label="Registration"
         onChange={handleChange}
         variant="fullWidth"
@@ -321,11 +339,12 @@ const useStyles = makeStyles(theme => ({
 export const AddNewUser = connect(
   state => ({
     databaseHasUserData: state.temporaryUserData.databaseHasUserData,
-    isLoading: state.temporaryUserData.isLoading,
-    userData: state.temporaryUserData.userData
+    userData: state.temporaryUserData.userData,
+    isLoading: state.UIModule.isLoading
   }),
   {
     syncTemporaryUserDataWithDB,
+    checkTemporaryUserData,
     setTemporaryUserData,
     deleteTemporaryUser,
 

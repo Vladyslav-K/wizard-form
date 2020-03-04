@@ -25,15 +25,15 @@ import {
   addUserToList,
   getTestUsers,
   updateUser,
-  setLoading,
-  setTotal,
-  setError
+  setTotal
 } from "../store/userListModule.js";
+
+import { setLoading, setError } from "../store/UIModule.js";
 
 import { databaseHasTemporaryUser } from "../store/temporaryUserModule.js";
 
 function* getUserListWithDB(action) {
-  yield put(setLoading());
+  yield put(setLoading(true));
 
   try {
     const { pageNumber, pageSize } = action.payload;
@@ -47,8 +47,10 @@ function* getUserListWithDB(action) {
     const userListCount = yield call(() => getUserListCount());
 
     yield put(setTotal(userListCount));
+
+    yield put(setLoading(false));
   } catch {
-    yield put(setError());
+    yield put(setError(true));
   }
 }
 
@@ -72,7 +74,7 @@ function* addUserToDatabaseList() {
 
     yield put(databaseHasTemporaryUser(false));
   } catch {
-    yield put(setError());
+    yield put(setError(true));
   }
 }
 
@@ -92,7 +94,7 @@ function* deleteUserFromDB(action) {
 
     yield put(setTotal(userListCount));
   } catch {
-    yield put(setError());
+    yield put(setError(true));
   }
 }
 
@@ -101,7 +103,7 @@ function* getFilteredUserList(action) {
 
   yield delay(500);
 
-  yield put(setLoading());
+  yield put(setLoading(true));
 
   try {
     const { userList, userListCount } = yield call(() =>
@@ -111,8 +113,10 @@ function* getFilteredUserList(action) {
     yield put(setTotal(userListCount));
 
     yield put(getUsersWithDB(userList));
+
+    yield put(setLoading(false));
   } catch {
-    yield put(setError());
+    yield put(setError(true));
   }
 }
 

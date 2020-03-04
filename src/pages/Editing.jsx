@@ -292,9 +292,9 @@ const useStyles = makeStyles(theme => ({
 
 export const Editing = connect(
   state => ({
-    isLoading: state.currentUserData.isLoading,
     userData: state.currentUserData.userData,
-    userList: state.listOfUsers.userList
+    userList: state.listOfUsers.userList,
+    isLoading: state.UIModule.isLoading
   }),
   {
     saveCurrentUser,

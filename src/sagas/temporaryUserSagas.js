@@ -3,27 +3,32 @@ import { takeLatest, select, call, all, put } from "redux-saga/effects";
 import { checkObjectPropsIsNotEmpty } from "../utils/helpers.js";
 
 import {
-  syncTemporaryUserDataWithDB,
-  databaseHasTemporaryUser,
-  getTemporaryUserWithDB,
-  setTemporaryUserData,
-  deleteTemporaryUser,
-  setLoading,
-  setError
-} from "../store/temporaryUserModule.js";
-
-import {
   deleteTemporaryUserFromDB,
   getTemporaryUserFromDB,
   putTemporaryUserToDB
 } from "../utils/database.js";
 
+import {
+  syncTemporaryUserDataWithDB,
+  databaseHasTemporaryUser,
+  checkTemporaryUserData,
+  getTemporaryUserWithDB,
+  setTemporaryUserData,
+  deleteTemporaryUser
+} from "../store/temporaryUserModule.js";
+
+import { setLoading, setError } from "../store/UIModule.js";
+
 function* checkTemporaryUserDataInDB() {
+  yield put(setLoading(true));
+
   const temporaryUser = yield call(() => getTemporaryUserFromDB());
 
-  if (checkObjectPropsIsNotEmpty(temporaryUser)) {
+  if (temporaryUser && checkObjectPropsIsNotEmpty(temporaryUser)) {
     yield put(databaseHasTemporaryUser(true));
   }
+
+  yield put(setLoading(false));
 }
 
 function* removeTemporaryUser() {
@@ -34,14 +39,16 @@ function* removeTemporaryUser() {
 
 function* getTemporaryUser() {
   yield put(databaseHasTemporaryUser(false));
-  yield put(setLoading());
+  yield put(setLoading(true));
 
   try {
     const temporaryUser = yield call(() => getTemporaryUserFromDB());
 
     yield put(getTemporaryUserWithDB(temporaryUser));
+
+    yield put(setLoading(false));
   } catch {
-    yield put(setError());
+    yield put(setError(true));
   }
 }
 
@@ -61,7 +68,7 @@ function* syncTemporaryUserWithDB(action) {
 
 export default function* temporaryUserSagas() {
   yield all([
-    call(() => checkTemporaryUserDataInDB()),
+    takeLatest(checkTemporaryUserData.type, checkTemporaryUserDataInDB),
 
     takeLatest(setTemporaryUserData.type, syncTemporaryUserWithDB),
 

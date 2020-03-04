@@ -1,13 +1,7 @@
 import { createHashHistory } from "history";
 import { DateTime } from "luxon";
 
-import {
-  CAPABILITIES_TAB_INDEX,
-  CONTACTS_TAB_INDEX,
-  PROFILE_TAB_INDEX,
-  ACCOUNT_TAB_INDEX,
-  tabs
-} from "./constants.js";
+import { ACCOUNT_TAB_INDEX, tabs } from "./constants.js";
 
 export const setQueryString = ({
   queryName,
@@ -56,44 +50,32 @@ export const getTabValueByKey = key => {
 };
 
 export const checkDataInTabsAfterReload = ({
-  setDisabledTabs,
-  setTabIndex,
   capabilitiesData,
   contactsData,
   profileData
 }) => {
+  let tabName = "account";
+
+  let capabilitiesTab = true;
+  let contactsTab = true;
+  let profileTab = true;
+
   if (checkObjectPropsIsNotEmpty(profileData)) {
-    setDisabledTabs(prevState => ({ ...prevState, profileTab: false }));
-
-    setTabIndex(PROFILE_TAB_INDEX);
-
-    setQueryString({
-      queryName: "tab",
-      queryValue: getTabKeyByValue(PROFILE_TAB_INDEX)
-    });
+    tabName = "profile";
+    profileTab = false;
   }
 
   if (checkObjectPropsIsNotEmpty(contactsData)) {
-    setDisabledTabs(prevState => ({ ...prevState, contactsTab: false }));
-
-    setTabIndex(CONTACTS_TAB_INDEX);
-
-    setQueryString({
-      queryName: "tab",
-      queryValue: getTabKeyByValue(CONTACTS_TAB_INDEX)
-    });
+    contactsTab = false;
+    tabName = "contacts";
   }
 
   if (checkObjectPropsIsNotEmpty(capabilitiesData)) {
-    setDisabledTabs(prevState => ({ ...prevState, capabilitiesTab: false }));
-
-    setTabIndex(CAPABILITIES_TAB_INDEX);
-
-    setQueryString({
-      queryName: "tab",
-      queryValue: getTabKeyByValue(CAPABILITIES_TAB_INDEX)
-    });
+    capabilitiesTab = false;
+    tabName = "capabilities";
   }
+
+  return { capabilitiesTab, contactsTab, profileTab, tabName };
 };
 
 export const calculatePaginationCount = total => {
@@ -121,8 +103,8 @@ export const createTestUserList = () => {
         Math.floor(18 + Math.random() * (9999999 - 18 + 1)) +
         "test.user@gmail.com",
       mainLanguage: "Russian",
-      facebookLink: "https://test-user.com",
-      gitHubLink: "https://test-user.com",
+      facebookLink: "https://www.facebook.com",
+      gitHubLink: "https://github.com",
       company: "Test company",
       phones: [
         "+7 (123) 123-12-31",

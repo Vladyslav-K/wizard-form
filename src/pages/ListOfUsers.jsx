@@ -7,9 +7,10 @@ import {
   deleteUserFromList,
   searchUsersByName,
   getTestUsers,
-  updateUser,
-  setLoading
+  updateUser
 } from "../store/userListModule.js";
+
+import { setLoading } from "../store/UIModule.js";
 
 // helpers functions
 import {
@@ -50,7 +51,7 @@ const ConnectedListOfUsers = ({
   const [shiftedComponent, setShiftedComponent] = useState(undefined);
 
   useEffect(() => {
-    setLoading();
+    setLoading(true);
 
     const queryPage = getQueryStringValue({
       queryName: "page",
@@ -159,7 +160,7 @@ const ConnectedListOfUsers = ({
     });
   };
 
-  const onShiftComponent = (event, id) => {
+  const onShiftComponent = id => {
     setShiftedComponent(id);
   };
 
@@ -253,7 +254,6 @@ const ConnectedListOfUsers = ({
             <Grid container direction="column">
               {userList.map((user, index) => (
                 <ListItem
-                  setShiftedComponent={setShiftedComponent}
                   shiftedComponent={shiftedComponent}
                   onShiftComponent={onShiftComponent}
                   onLinkClick={onLinkClick}
@@ -382,8 +382,8 @@ const useStyles = makeStyles(theme => ({
 
 export const ListOfUsers = connect(
   state => ({
-    isLoading: state.listOfUsers.isLoading,
     userList: state.listOfUsers.userList,
+    isLoading: state.UIModule.isLoading,
     total: state.listOfUsers.total
   }),
   {
