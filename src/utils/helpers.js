@@ -1,7 +1,13 @@
 import { createHashHistory } from "history";
 import { DateTime } from "luxon";
 
-import { tabs, ACCOUNT_TAB_INDEX } from "./constants.js";
+import {
+  CAPABILITIES_TAB_INDEX,
+  CONTACTS_TAB_INDEX,
+  PROFILE_TAB_INDEX,
+  ACCOUNT_TAB_INDEX,
+  tabs
+} from "./constants.js";
 
 export const setQueryString = ({ queryName, queryValue, pathname }) => {
   const history = createHashHistory();
@@ -39,6 +45,47 @@ export const getTabKeyByValue = value => {
 
 export const getTabValueByKey = key => {
   return tabs[key] || ACCOUNT_TAB_INDEX;
+};
+
+export const checkDataInTabsAfterReload = ({
+  setDisabledTabs,
+  setTabIndex,
+  capabilitiesData,
+  contactsData,
+  profileData
+}) => {
+  if (checkObjectPropsIsNotEmpty(profileData)) {
+    setDisabledTabs(prevState => ({ ...prevState, profileTab: false }));
+
+    setTabIndex(PROFILE_TAB_INDEX);
+
+    setQueryString({
+      queryName: "tab",
+      queryValue: getTabKeyByValue(PROFILE_TAB_INDEX)
+    });
+  }
+
+  if (checkObjectPropsIsNotEmpty(contactsData)) {
+    setDisabledTabs(prevState => ({ ...prevState, contactsTab: false }));
+
+    setTabIndex(CONTACTS_TAB_INDEX);
+
+    setQueryString({
+      queryName: "tab",
+      queryValue: getTabKeyByValue(CONTACTS_TAB_INDEX)
+    });
+  }
+
+  if (checkObjectPropsIsNotEmpty(capabilitiesData)) {
+    setDisabledTabs(prevState => ({ ...prevState, capabilitiesTab: false }));
+
+    setTabIndex(CAPABILITIES_TAB_INDEX);
+
+    setQueryString({
+      queryName: "tab",
+      queryValue: getTabKeyByValue(CAPABILITIES_TAB_INDEX)
+    });
+  }
 };
 
 export const createTestUserList = () => {

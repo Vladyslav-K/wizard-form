@@ -8,13 +8,14 @@ import { useDebouncedCallback } from "use-debounce";
 
 // helpers functions
 import {
-  checkObjectPropsIsNotEmpty,
+  checkDataInTabsAfterReload,
   getQueryStringValue,
-  setQueryString,
   getTabKeyByValue,
-  getTabValueByKey
+  getTabValueByKey,
+  setQueryString
 } from "../utils/helpers.js";
 
+// constants
 import { fields } from "../utils/constants.js";
 
 // store temporary user actions
@@ -136,14 +137,13 @@ const ConnectedAddNewUser = ({
   );
 
   useEffect(() => {
-    checkObjectPropsIsNotEmpty(profileData) &&
-      setDisabledTabs(prevState => ({ ...prevState, profileTab: false }));
-
-    checkObjectPropsIsNotEmpty(contactsData) &&
-      setDisabledTabs(prevState => ({ ...prevState, contactsTab: false }));
-
-    checkObjectPropsIsNotEmpty(capabilitiesData) &&
-      setDisabledTabs(prevState => ({ ...prevState, capabilitiesTab: false }));
+    checkDataInTabsAfterReload({
+      setDisabledTabs,
+      setTabIndex,
+      capabilitiesData,
+      contactsData,
+      profileData
+    });
 
     // eslint-disable-next-line
   }, [userData]);
