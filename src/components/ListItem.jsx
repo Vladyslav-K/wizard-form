@@ -13,10 +13,10 @@ import { IconButton, Avatar, Grid } from "@material-ui/core";
 export const ListItem = memo(
   ({
     setShiftedComponent,
-    removeUserFromList,
     shiftedComponent,
     onShiftComponent,
     onLinkClick,
+    deleteUser,
     user
   }) => {
     const classes = useStyles();
@@ -102,7 +102,7 @@ export const ListItem = memo(
           className={
             id === shiftedComponent ? classes.confirmButton : classes.hidden
           }>
-          <IconButton onClick={() => removeUserFromList({ id })}>
+          <IconButton onClick={() => deleteUser({ id })}>
             <ConfirmDeleteIcon />
             <span> delete </span>
           </IconButton>

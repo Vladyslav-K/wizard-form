@@ -88,6 +88,10 @@ export const checkDataInTabsAfterReload = ({
   }
 };
 
+export const calculatePaginationCount = total => {
+  return Math.ceil(total / 10);
+};
+
 export const createTestUserList = () => {
   const users = [];
 

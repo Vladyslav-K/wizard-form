@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { createHashHistory } from "history";
 import { connect } from "react-redux";
 import isEqual from "lodash.isequal";
 import lodashPick from "lodash.pick";
@@ -80,7 +79,7 @@ const ConnectedAddNewUser = ({
   }, [location.search]);
 
   useEffect(() => {
-    history.push({ search: "?tab=account" });
+    setQueryString({ queryName: "tab", queryValue: "account" });
     // eslint-disable-next-line
   }, []);
 
@@ -116,16 +115,13 @@ const ConnectedAddNewUser = ({
   const capabilitiesHandleSubmit = () => {
     addUserToList(userData);
 
-    const history = createHashHistory();
-    history.push("/users");
+    setQueryString({ queryName: "page", queryValue: "1", pathname: "/users" });
 
     setDisabledTabs({
       capabilitiesTab: true,
       contactsTab: true,
       profileTab: true
     });
-
-    deleteTemporaryUser();
   };
 
   const accountData = lodashPick(userData, Object.keys(fields.account));
