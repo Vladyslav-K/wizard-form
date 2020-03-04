@@ -13,6 +13,7 @@ import {
 
 // helpers functions
 import {
+  calculatePaginationCount,
   getQueryStringValue,
   createTestUserList,
   setQueryString
@@ -134,6 +135,19 @@ const ConnectedListOfUsers = ({
     history.push({ pathname: `/users/view/${id}` });
   };
 
+  const deleteUser = ({ id }) => {
+    if (userList.length === 1 && page > 1) {
+      setLoading();
+
+      deleteUserFromList({ pageNumber: page - 1, pageSize: 10, id });
+
+      setQueryString({ queryName: "page", queryValue: page - 1 });
+      setPage(page - 1);
+    } else {
+      deleteUserFromList({ pageNumber: page, pageSize: 10, id });
+    }
+  };
+
   return (
     <>
       {isLoading && (
@@ -198,24 +212,24 @@ const ConnectedListOfUsers = ({
         ) : (
           <>
             <Grid container direction="column">
-              {userList.map(user => (
+              {userList.map((user, index) => (
                 <ListItem
                   setShiftedComponent={setShiftedComponent}
-                  deleteUserFromList={deleteUserFromList}
                   shiftedComponent={shiftedComponent}
                   onShiftComponent={onShiftComponent}
                   onLinkClick={onLinkClick}
-                  key={user.id}
+                  deleteUser={deleteUser}
+                  key={user.id || index}
                   user={user}
                 />
               ))}
             </Grid>
 
-            {Math.ceil(total / 10) > 1 && (
+            {calculatePaginationCount(total) > 1 && (
               <Grid container justify="center" style={{ margin: "2rem 0" }}>
                 <Pagination
                   className={classes.pagination}
-                  count={Math.ceil(total / 10)}
+                  count={calculatePaginationCount(total)}
                   onChange={handleChange}
                   page={page}
                 />

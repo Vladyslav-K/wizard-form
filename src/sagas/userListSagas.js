@@ -10,6 +10,7 @@ import {
 
 import {
   deleteUserFromUserListInDB,
+  deleteTemporaryUserFromDB,
   addUserToUserListFromDB,
   getUserListFromDB,
   getUserListCount,
@@ -28,6 +29,8 @@ import {
   setTotal,
   setError
 } from "../store/userListModule.js";
+
+import { databaseHasTemporaryUser } from "../store/temporaryUserModule.js";
 
 function* getUserListWithDB(action) {
   yield put(setLoading());
@@ -64,26 +67,30 @@ function* addUserToDatabaseList() {
     const userListCount = yield call(() => getUserListCount());
 
     yield put(setTotal(userListCount));
+
+    yield call(() => deleteTemporaryUserFromDB());
+
+    yield put(databaseHasTemporaryUser(false));
   } catch {
     yield put(setError());
   }
 }
 
 function* deleteUserFromDB(action) {
-  const userID = action.payload.id;
+  const { pageNumber, pageSize, id } = action.payload;
 
   try {
-    yield call(() => deleteUserFromUserListInDB(userID));
+    yield call(() => deleteUserFromUserListInDB(id));
 
     const userList = yield call(() =>
-      getUserListFromDB({ pageNumber: 1, pageSize: 10 })
+      getUserListFromDB({ pageNumber, pageSize })
     );
+
+    yield put(getUsersWithDB(userList));
 
     const userListCount = yield call(() => getUserListCount());
 
     yield put(setTotal(userListCount));
-
-    yield put(getUsersWithDB(userList));
   } catch {
     yield put(setError());
   }
