@@ -24,7 +24,10 @@ function* getCurrentUser(action) {
 
   try {
     const userData = yield call(() => getCurrentUserFromDB(userID));
+
     yield put(setCurrentUserData(userData));
+
+    yield put(setLoading(false));
   } catch {
     yield put(setError(true));
   }

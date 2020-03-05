@@ -8,6 +8,8 @@ export const PROFILE_TAB_INDEX = 1;
 
 export const ACCOUNT_TAB_INDEX = 0;
 
+export const MAX_AVATAR_IMAGE_SIZE = 1000000;
+
 export const fields = {
   account: {
     passwordConfirmation: "",
@@ -47,4 +49,3 @@ export const tabs = {
   profile: PROFILE_TAB_INDEX,
   account: ACCOUNT_TAB_INDEX
 };
-
