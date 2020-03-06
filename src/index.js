@@ -2,11 +2,10 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 
-import "./normalize.css";
-import * as serviceWorker from "./serviceWorker";
-
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import createSagaMiddleware from "redux-saga";
+
+import "./normalize.css";
 
 // store reducers
 import temporaryUserReducer from "./store/temporaryUserModule.js";
@@ -48,5 +47,3 @@ ReactDOM.render(
 
   document.getElementById("root")
 );
-
-serviceWorker.register();

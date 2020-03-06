@@ -46,7 +46,7 @@ import {
   Grid
 } from "@material-ui/core";
 
-const ConnectedEditing = ({
+const Editing = ({
   saveCurrentUser,
   setCurrentUserData,
   getUserFromList,
@@ -302,7 +302,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export const Editing = connect(
+export default connect(
   state => ({
     userData: state.currentUserData.userData,
     userList: state.listOfUsers.userList,
@@ -313,4 +313,4 @@ export const Editing = connect(
     setCurrentUserData,
     getUserFromList
   }
-)(ConnectedEditing);
+)(Editing);

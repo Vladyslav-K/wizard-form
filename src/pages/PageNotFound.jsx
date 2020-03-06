@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Container } from "@material-ui/core";
 
-export const PageNotFound = memo(() => {
+const PageNotFound = () => {
   const classes = useStyles();
 
   return (
@@ -29,7 +29,7 @@ export const PageNotFound = memo(() => {
       </Grid>
     </Container>
   );
-});
+};
 
 const useStyles = makeStyles(theme => ({
   mainContainer: {
@@ -82,3 +82,5 @@ const useStyles = makeStyles(theme => ({
     marginBottom: "16px"
   }
 }));
+
+export default memo(PageNotFound);

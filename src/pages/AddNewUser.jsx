@@ -44,7 +44,7 @@ import { TabPanel } from "../components/TabPanel.jsx";
 import { makeStyles } from "@material-ui/core/styles";
 import { Container, Tabs, Grid, CircularProgress } from "@material-ui/core";
 
-const ConnectedAddNewUser = ({
+const AddNewUser = ({
   syncTemporaryUserDataWithDB,
   checkTemporaryUserData,
   setTemporaryUserData,
@@ -338,7 +338,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export const AddNewUser = connect(
+export default connect(
   state => ({
     databaseHasUserData: state.temporaryUserData.databaseHasUserData,
     userData: state.temporaryUserData.userData,
@@ -352,4 +352,4 @@ export const AddNewUser = connect(
 
     addUserToList
   }
-)(ConnectedAddNewUser);
+)(AddNewUser);

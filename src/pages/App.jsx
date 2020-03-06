@@ -6,14 +6,15 @@ import {
   Route
 } from "react-router-dom";
 
-import { PageNotFound } from "./PageNotFound";
-import { ListOfUsers } from "./ListOfUsers";
-import { AddNewUser } from "./AddNewUser";
-import { UserView } from "./UserView.jsx";
-import { Header } from "./common/Header";
-import { Editing } from "./Editing.jsx";
+import PageNotFound from "./PageNotFound.jsx";
+import Header from "./common/Header.jsx";
 
-function App() {
+import ListOfUsers from "./ListOfUsers.jsx";
+import AddNewUser from "./AddNewUser.jsx";
+import UserView from "./UserView.jsx";
+import Editing from "./Editing.jsx";
+
+const App = () => {
   return (
     <Router>
       <Header />
@@ -31,6 +32,6 @@ function App() {
       </Switch>
     </Router>
   );
-}
+};
 
 export default App;

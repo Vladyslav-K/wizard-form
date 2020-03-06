@@ -29,7 +29,7 @@ import { CircularProgress, Container, Grid } from "@material-ui/core";
 
 import { Pagination } from "@material-ui/lab";
 
-const ConnectedListOfUsers = ({
+const ListOfUsers = ({
   deleteUserFromList,
   searchUsersByName,
   getTestUsers,
@@ -380,7 +380,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export const ListOfUsers = connect(
+export default connect(
   state => ({
     userList: state.listOfUsers.userList,
     isLoading: state.UIModule.isLoading,
@@ -393,4 +393,4 @@ export const ListOfUsers = connect(
     updateUser,
     setLoading
   }
-)(ConnectedListOfUsers);
+)(ListOfUsers);

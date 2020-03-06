@@ -11,84 +11,86 @@ import { StyledForm } from "../../components/StyledForm";
 
 import { Grid } from "@material-ui/core";
 
-export const ProfileForm = memo(
-  ({ saveChangeToRedux, handleSubmit, getButtons, initialData }) => {
-    return (
-      <div>
-        <Formik
-          validationSchema={profileFormValidationSchema}
-          validateOnChange={false}
-          validateOnBlur={false}
-          enableReinitialize
-          initialValues={{
-            ...initialData,
-            birthDate: initialData.birthDate || new Date()
-          }}
-          onSubmit={handleSubmit}>
-          {({ values, errors }) => (
-            <Grid
-              container
-              justify="space-around"
-              style={{ marginTop: "2rem" }}>
-              {saveChangeToRedux(values, initialData)}
+const ProfileForm = ({
+  saveChangeToRedux,
+  handleSubmit,
+  getButtons,
+  initialData
+}) => {
+  return (
+    <div>
+      <Formik
+        validationSchema={profileFormValidationSchema}
+        validateOnChange={false}
+        validateOnBlur={false}
+        enableReinitialize
+        initialValues={{
+          ...initialData,
+          birthDate: initialData.birthDate || new Date()
+        }}
+        onSubmit={handleSubmit}>
+        {({ values, errors }) => (
+          <Grid container justify="space-around" style={{ marginTop: "2rem" }}>
+            {saveChangeToRedux(values, initialData)}
 
-              <Grid item xs={4}>
-                <StyledForm>
-                  <Field
-                    errors={errors.firstName}
-                    placeholder="First name"
-                    component={InputField}
-                    label="First name"
-                    name="firstName"
-                    required
-                  />
+            <Grid item xs={4}>
+              <StyledForm>
+                <Field
+                  errors={errors.firstName}
+                  placeholder="First name"
+                  component={InputField}
+                  label="First name"
+                  name="firstName"
+                  required
+                />
 
-                  <Field
-                    errors={errors.lastName}
-                    placeholder="Last name"
-                    component={InputField}
-                    label="Last name"
-                    name="lastName"
-                    required
-                  />
+                <Field
+                  errors={errors.lastName}
+                  placeholder="Last name"
+                  component={InputField}
+                  label="Last name"
+                  name="lastName"
+                  required
+                />
 
-                  <Field
-                    errors={errors.birthDate}
-                    component={DatePicker}
-                    name="birthDate"
-                  />
-                </StyledForm>
-              </Grid>
-
-              <Grid item xs={4}>
-                <StyledForm>
-                  <Field
-                    placeholder="Enter email"
-                    component={InputField}
-                    errors={errors.email}
-                    label="Email"
-                    name="email"
-                    required
-                  />
-
-                  <Field
-                    component={InputGooglePlacesAutocomplete}
-                    placeholder="Enter your address"
-                    errors={errors.address}
-                    label="Address"
-                    name="address"
-                    required
-                  />
-
-                  <Field component={GenderRadio} name="gender" />
-
-                  {getButtons({ getBackButton: true, errors: { ...errors } })}
-                </StyledForm>
-              </Grid>
+                <Field
+                  errors={errors.birthDate}
+                  component={DatePicker}
+                  name="birthDate"
+                />
+              </StyledForm>
             </Grid>
-          )}
-        </Formik>
-      </div>
-    );
-  }
-);
+
+            <Grid item xs={4}>
+              <StyledForm>
+                <Field
+                  placeholder="Enter email"
+                  component={InputField}
+                  errors={errors.email}
+                  label="Email"
+                  name="email"
+                  required
+                />
+
+                <Field
+                  component={InputGooglePlacesAutocomplete}
+                  placeholder="Enter your address"
+                  errors={errors.address}
+                  label="Address"
+                  name="address"
+                  required
+                />
+
+                <Field component={GenderRadio} name="gender" />
+
+                {getButtons({ getBackButton: true, errors: { ...errors } })}
+              </StyledForm>
+            </Grid>
+          </Grid>
+        )}
+      </Formik>
+    </div>
+  );
+};
+
+export default memo(ProfileForm);

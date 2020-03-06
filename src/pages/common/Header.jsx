@@ -8,7 +8,7 @@ import { ReactComponent as LogoIcon } from "../../images/icons/Logo.svg";
 import { makeStyles } from "@material-ui/core/styles";
 import { Toolbar, AppBar, Button, Container } from "@material-ui/core";
 
-export const Header = memo(() => {
+const Header = () => {
   const classes = useStyles();
 
   return (
@@ -40,7 +40,7 @@ export const Header = memo(() => {
       </Container>
     </AppBar>
   );
-});
+};
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -62,3 +62,5 @@ const useStyles = makeStyles(theme => ({
     textTransform: "none"
   }
 }));
+
+export default memo(Header);

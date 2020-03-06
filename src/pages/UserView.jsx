@@ -35,7 +35,7 @@ import {
   Link
 } from "@material-ui/core";
 
-const ConnectedUserView = ({
+const UserView = ({
   getUserFromList,
   updateUser,
   isLoading,
@@ -420,11 +420,11 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export const UserView = connect(
+export default connect(
   state => ({
     userData: state.currentUserData.userData,
     userList: state.listOfUsers.userList,
     isLoading: state.UIModule.isLoading
   }),
   { updateUser, getUserFromList }
-)(ConnectedUserView);
+)(UserView);
