@@ -1,27 +1,27 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "7975e9488a47436ee13df063648f3b3f",
+    "revision": "8a9f881ff34af1d9fcb4eea29085ec28",
     "url": "/wizard-form/index.html"
   },
   {
-    "revision": "42eebb7dc2533f4b5fa3",
+    "revision": "79aa865a78ae6499ae11",
     "url": "/wizard-form/static/css/2.2fcdc29a.chunk.css"
   },
   {
-    "revision": "1d333a222e349558c9ac",
+    "revision": "450638715c728ab9f6ec",
     "url": "/wizard-form/static/css/main.cf96ccdd.chunk.css"
   },
   {
-    "revision": "42eebb7dc2533f4b5fa3",
-    "url": "/wizard-form/static/js/2.55e52c13.chunk.js"
+    "revision": "79aa865a78ae6499ae11",
+    "url": "/wizard-form/static/js/2.79b4d475.chunk.js"
   },
   {
     "revision": "e8ccc7cf4c855a56e3a7079a2b405db4",
-    "url": "/wizard-form/static/js/2.55e52c13.chunk.js.LICENSE.txt"
+    "url": "/wizard-form/static/js/2.79b4d475.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "1d333a222e349558c9ac",
-    "url": "/wizard-form/static/js/main.f39735b9.chunk.js"
+    "revision": "450638715c728ab9f6ec",
+    "url": "/wizard-form/static/js/main.39d561d2.chunk.js"
   },
   {
     "revision": "269186651428275abd2c",
