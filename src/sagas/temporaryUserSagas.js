@@ -2,6 +2,8 @@ import { takeLatest, select, call, all, put } from "redux-saga/effects";
 
 import { checkObjectPropsIsNotEmpty } from "../utils/helpers.js";
 
+import isEqual from "lodash.isequal";
+
 import {
   deleteTemporaryUserFromDB,
   getTemporaryUserFromDB,
@@ -24,7 +26,15 @@ function* checkTemporaryUserDataInDB() {
 
   const temporaryUser = yield call(() => getTemporaryUserFromDB());
 
-  if (temporaryUser && checkObjectPropsIsNotEmpty(temporaryUser)) {
+  const localTemporaryUser = yield select(
+    state => state.temporaryUserData.userData
+  );
+
+  if (
+    temporaryUser &&
+    checkObjectPropsIsNotEmpty(temporaryUser) &&
+    !isEqual(temporaryUser, localTemporaryUser)
+  ) {
     yield put(databaseHasTemporaryUser(true));
   }
 
