@@ -1,4 +1,4 @@
-import { createSlice, createAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 import { fields } from "../utils/constants.js";
 
@@ -28,26 +28,26 @@ const temporaryUserModule = createSlice({
       state.userData = { ...state.userData, ...action.payload };
     },
 
-    deleteTemporaryUser: () => {
-      return initialState;
+    deleteTemporaryUser: (state, action) => {
+      state.userData = initialState.userData;
     },
 
     databaseHasTemporaryUser: (state, action) => {
       state.databaseHasUserData = action.payload;
-    }
+    },
+
+    syncTemporaryUserDataWithDB() {},
+
+    checkTemporaryUserData() {}
   }
 });
-
-export const syncTemporaryUserDataWithDB = createAction(
-  "SYNC_TEMPORARY_USER_DATA_WITH_DB"
-);
-
-export const checkTemporaryUserData = createAction("CHECK_TEMPORARY_USER_DATA");
 
 const { actions, reducer } = temporaryUserModule;
 
 export const {
+  syncTemporaryUserDataWithDB,
   databaseHasTemporaryUser,
+  checkTemporaryUserData,
   getTemporaryUserWithDB,
   setTemporaryUserData,
   deleteTemporaryUser

@@ -1,4 +1,4 @@
-import { createSlice, createAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const temporaryUserModule = createSlice({
   name: "userList",
@@ -25,20 +25,25 @@ const temporaryUserModule = createSlice({
 
     setTotal: (state, action) => {
       state.total = action.payload;
-    }
+    },
+
+    searchUsersByName() {},
+
+    getTestUsers() {},
+
+    updateUser() {}
   }
 });
-
-export const searchUsersByName = createAction("SEARCH_USERS_BY_NAME");
-export const getTestUsers = createAction("GET_TEST_USERS");
-export const updateUser = createAction("UPDATE_USER");
 
 const { actions, reducer } = temporaryUserModule;
 
 export const {
   deleteUserFromList,
+  searchUsersByName,
   getUsersWithDB,
   addUserToList,
+  getTestUsers,
+  updateUser,
   setTotal
 } = actions;
 

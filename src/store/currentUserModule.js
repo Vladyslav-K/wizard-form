@@ -1,4 +1,4 @@
-import { createSlice, createAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 import { fields } from "../utils/constants.js";
 
@@ -19,15 +19,16 @@ const currentUserModule = createSlice({
   reducers: {
     setCurrentUserData: (state, action) => {
       state.userData = { ...state.userData, ...action.payload };
-    }
+    },
+
+    getUserFromList() {},
+
+    saveCurrentUser() {}
   }
 });
 
-export const getUserFromList = createAction("GET_USER_FROM_LIST");
-export const saveCurrentUser = createAction("SAVE_CURRENT_USER");
-
 const { actions, reducer } = currentUserModule;
 
-export const { setCurrentUserData } = actions;
+export const { setCurrentUserData, getUserFromList, saveCurrentUser } = actions;
 
 export default reducer;
