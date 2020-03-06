@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "8a9f881ff34af1d9fcb4eea29085ec28",
+    "revision": "744705b66c8e5d0a7865341ad124c380",
     "url": "/wizard-form/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/wizard-form/static/css/2.2fcdc29a.chunk.css"
   },
   {
-    "revision": "450638715c728ab9f6ec",
+    "revision": "8d39a2e48dd345a29227",
     "url": "/wizard-form/static/css/main.cf96ccdd.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/wizard-form/static/js/2.79b4d475.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "450638715c728ab9f6ec",
-    "url": "/wizard-form/static/js/main.39d561d2.chunk.js"
+    "revision": "8d39a2e48dd345a29227",
+    "url": "/wizard-form/static/js/main.9f41c28f.chunk.js"
   },
   {
     "revision": "269186651428275abd2c",
