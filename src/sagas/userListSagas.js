@@ -30,7 +30,7 @@ import {
 
 import { setLoading, setError } from "../store/UIModule.js";
 
-import { databaseHasTemporaryUser } from "../store/temporaryUserModule.js";
+import { removeTemporaryUser } from "./temporaryUserSagas.js";
 
 function* getUserListWithDB(action) {
   yield put(setLoading(true));
@@ -70,9 +70,7 @@ function* addUserToDatabaseList() {
 
     yield put(setTotal(userListCount));
 
-    yield call(() => deleteTemporaryUserFromDB());
-
-    yield put(databaseHasTemporaryUser(false));
+    yield call(() => removeTemporaryUser());
   } catch {
     yield put(setError(true));
   }

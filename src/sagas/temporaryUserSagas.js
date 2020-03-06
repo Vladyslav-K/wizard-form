@@ -31,7 +31,7 @@ function* checkTemporaryUserDataInDB() {
   yield put(setLoading(false));
 }
 
-function* removeTemporaryUser() {
+export function* removeTemporaryUser() {
   yield call(() => deleteTemporaryUserFromDB());
 
   yield put(databaseHasTemporaryUser(false));

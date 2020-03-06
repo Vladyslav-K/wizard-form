@@ -153,6 +153,8 @@ const ConnectedAddNewUser = ({
       contactsTab: true,
       profileTab: true
     });
+
+    deleteTemporaryUser();
   };
 
   const accountData = lodashPick(userData, Object.keys(fields.account));
