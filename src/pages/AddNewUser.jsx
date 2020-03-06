@@ -29,10 +29,10 @@ import {
 import { addUserToList } from "../store/userListModule.js";
 
 // tab forms
-import { CapabilitiesForm } from "./common/CapabilitiesForm";
-import { ContactsForm } from "./common/ContactsForm";
-import { AccountForm } from "./common/AccountForm";
-import { ProfileForm } from "./common/ProfileForm";
+import CapabilitiesForm from "./common/CapabilitiesForm";
+import ContactsForm from "./common/ContactsForm";
+import AccountForm from "./common/AccountForm";
+import ProfileForm from "./common/ProfileForm";
 
 // separate components
 import { SubmitButton } from "../components/SubmitButton.jsx";

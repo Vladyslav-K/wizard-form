@@ -23,10 +23,10 @@ import {
 } from "../store/currentUserModule.js";
 
 // tab forms
-import { CapabilitiesForm } from "./common/CapabilitiesForm";
-import { ContactsForm } from "./common/ContactsForm";
-import { ProfileForm } from "./common/ProfileForm";
-import { AccountForm } from "./common/AccountForm";
+import CapabilitiesForm from "./common/CapabilitiesForm";
+import ContactsForm from "./common/ContactsForm";
+import ProfileForm from "./common/ProfileForm";
+import AccountForm from "./common/AccountForm";
 
 // separate components
 import { SaveButton } from "../components/SaveButton.jsx";
