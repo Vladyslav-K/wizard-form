@@ -10,7 +10,6 @@ import {
 
 import {
   deleteUserFromUserListInDB,
-  deleteTemporaryUserFromDB,
   addUserToUserListFromDB,
   getUserListFromDB,
   getUserListCount,

@@ -82,7 +82,7 @@ export const ProfileForm = memo(
 
                   <Field component={GenderRadio} name="gender" />
 
-                  {getButtons("getBackButton")}
+                  {getButtons({ getBackButton: true, errors: { ...errors } })}
                 </StyledForm>
               </Grid>
             </Grid>

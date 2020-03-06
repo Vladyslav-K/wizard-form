@@ -8,8 +8,10 @@ const Alert = props => {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 };
 
-export const SaveButton = memo(({ handleMessageClose, open }) => {
+export const SaveButton = memo(({ handleMessageClose, open, errors }) => {
   const classes = useStyles();
+
+  const noErrors = () => Object.keys(errors).length === 0;
 
   return (
     <>
@@ -19,18 +21,20 @@ export const SaveButton = memo(({ handleMessageClose, open }) => {
         </button>
       </div>
 
-      <Snackbar
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left"
-        }}
-        onClose={handleMessageClose}
-        autoHideDuration={3000}
-        open={open}>
-        <Alert onClose={handleMessageClose} severity="success">
-          Data saved!
-        </Alert>
-      </Snackbar>
+      {noErrors && (
+        <Snackbar
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "left"
+          }}
+          onClose={handleMessageClose}
+          autoHideDuration={1500}
+          open={open}>
+          <Alert onClose={handleMessageClose} severity="success">
+            Data saved!
+          </Alert>
+        </Snackbar>
+      )}
     </>
   );
 });
@@ -44,15 +48,15 @@ const useStyles = makeStyles(theme => ({
   },
 
   button: {
+    textTransform: "none",
     fontFamily: "Roboto",
     fontStyle: "normal",
+    lineHeight: "16px",
     fontWeight: "500",
     fontSize: "14px",
-    lineHeight: "16px",
-    textTransform: "none",
 
     color: "white",
-    background: props => (props.finish ? "#4EE4A5" : "#4E86E4"),
+    background: "#4E86E4",
 
     minWidth: "104px",
     padding: "12px 24px",

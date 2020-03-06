@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 import { DateTime } from "luxon";
-import { getFilteredCurrentUserFromDB } from "../utils/database.js";
+import { validateEditedUser } from "../utils/database.js";
 
 const PHONE_AND_FAX_REGEXP = /^\+7\s\(\d{3}\)\s\d{3}-\d{2}-\d{2}$/;
 
@@ -10,8 +10,7 @@ export const accountFormValidationSchema = Yup.object().shape({
     .min(2, "Username must be more than two characters!")
     .max(20, "Username must be less than 20 characters!")
     .test("checkUsername", "User name already used", async value => {
-      const user = await getFilteredCurrentUserFromDB("username", value);
-      return !user;
+      return await validateEditedUser("username", value);
     }),
 
   password: Yup.string()
@@ -51,8 +50,7 @@ export const profileFormValidationSchema = Yup.object().shape({
     .email("Invalid email")
     .required("Email is required!")
     .test("checkEmail", "Email already used!", async value => {
-      const user = await getFilteredCurrentUserFromDB("email", value);
-      return !user;
+      return await validateEditedUser("email", value);
     }),
 
   address: Yup.string().required("Address is required!")

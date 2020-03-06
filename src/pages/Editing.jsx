@@ -116,8 +116,14 @@ const ConnectedEditing = ({
     setOpen(false);
   };
 
-  const getButtons = () => {
-    return <SaveButton handleMessageClose={handleMessageClose} open={open} />;
+  const getButtons = ({ errors, ...other }) => {
+    return (
+      <SaveButton
+        handleMessageClose={handleMessageClose}
+        errors={errors}
+        open={open}
+      />
+    );
   };
 
   const handleClick = () => {
@@ -139,6 +145,7 @@ const ConnectedEditing = ({
           <CircularProgress className={classes.circular} size="8%" />
         </Grid>
       )}
+
       <Container maxWidth="md" className={classes.mainContainer}>
         <Grid container justify="space-between">
           <Grid item xs={3}>
@@ -154,6 +161,7 @@ const ConnectedEditing = ({
             Editing
           </Grid>
         </Grid>
+
         <Tabs
           classes={{ indicator: classes.tabIncticator }}
           aria-label="Registration"
@@ -168,6 +176,7 @@ const ConnectedEditing = ({
 
           <StyledTab label="4. Capabilities" {...a11yProps(3)} />
         </Tabs>
+
         <TabPanel value={tabIndex} index={0}>
           <AccountForm
             saveChangeToRedux={saveChangeToRedux}
@@ -178,6 +187,7 @@ const ConnectedEditing = ({
             visible={visible}
           />
         </TabPanel>
+
         <TabPanel value={tabIndex} index={1}>
           <ProfileForm
             saveChangeToRedux={saveChangeToRedux}
@@ -186,6 +196,7 @@ const ConnectedEditing = ({
             getButtons={getButtons}
           />
         </TabPanel>
+
         <TabPanel value={tabIndex} index={2}>
           <ContactsForm
             saveChangeToRedux={saveChangeToRedux}
@@ -194,6 +205,7 @@ const ConnectedEditing = ({
             getButtons={getButtons}
           />
         </TabPanel>
+
         <TabPanel value={tabIndex} index={3}>
           <CapabilitiesForm
             saveChangeToRedux={saveChangeToRedux}

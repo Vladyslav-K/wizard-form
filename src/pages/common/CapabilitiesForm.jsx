@@ -65,7 +65,11 @@ export const CapabilitiesForm = memo(
                   )}
                 />
 
-                {getButtons("getBackButton", "getFinishButton")}
+                {getButtons({
+                  backButton: true,
+                  finishButton: true,
+                  errors: { ...errors }
+                })}
               </StyledForm>
             </Grid>
           </Grid>

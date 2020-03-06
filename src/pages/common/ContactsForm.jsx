@@ -112,7 +112,7 @@ export const ContactsForm = memo(
                   )}
                 />
 
-                {getButtons("getBackButton")}
+                {getButtons({ backButton: true, errors: { ...errors } })}
               </StyledForm>
             </Grid>
           </Grid>

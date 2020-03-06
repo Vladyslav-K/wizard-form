@@ -1,4 +1,5 @@
 import Dexie from "dexie";
+import { store } from "../index.js";
 import { TEMPORARY_USER_ID } from "./constants.js";
 
 const database = new Dexie("UsersData");
@@ -61,8 +62,18 @@ export const getCurrentUserFromDB = userId => {
   return database.userList.get(userId);
 };
 
-export const getFilteredCurrentUserFromDB = (keyPath, value = "") => {
-  return database.userList.where({ [keyPath]: value }).first();
+export const validateEditedUser = async (keyPath, value = "") => {
+  const currentUser = store.getState().currentUserData.userData;
+
+  const editeduser = await database.userList
+    .where({ [keyPath]: value })
+    .first();
+
+  return editeduser && currentUser.id === editeduser.id
+    ? true
+    : editeduser
+    ? false
+    : true;
 };
 
 export const addTestUserToDB = user => {

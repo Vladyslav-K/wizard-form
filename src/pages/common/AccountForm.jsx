@@ -72,7 +72,7 @@ export const AccountForm = memo(
                   required
                 />
 
-                {getButtons()}
+                {getButtons({ errors: { ...errors } })}
               </StyledForm>
             </Grid>
           </Grid>
