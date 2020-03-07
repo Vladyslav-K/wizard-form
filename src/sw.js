@@ -9,8 +9,6 @@ if ("function" === typeof importScripts) {
     /* injection point for manifest files.  */
     workbox.precaching.precacheAndRoute(self.__WB_MANIFEST);
 
-    workbox.core.skipWaiting();
-
     /* custom cache rules*/
     workbox.routing.registerNavigationRoute("/index.html", {
       blacklist: [/^\/_/, /\/[^\/]+\.[^\/]+$/]
@@ -18,7 +16,7 @@ if ("function" === typeof importScripts) {
 
     workbox.routing.registerRoute(
       /\.(?:png|gif|jpg|jpeg)$/,
-      workbox.strategies.cacheFirst({
+      workbox.strategies.networkFirst({
         cacheName: "images",
         plugins: [
           new workbox.expiration.Plugin({

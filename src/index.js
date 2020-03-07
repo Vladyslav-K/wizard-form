@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 
+import * as serviceWorker from "./serviceWorker";
+
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import createSagaMiddleware from "redux-saga";
 
@@ -47,3 +49,5 @@ ReactDOM.render(
 
   document.getElementById("root")
 );
+
+serviceWorker.register();
