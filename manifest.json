@@ -1,0 +1,15 @@
+{
+  "short_name": "Wizard form",
+  "name": "Wizard form. Created at React",
+  "icons": [
+    {
+      "src": "./favicon.ico",
+      "sizes": "16x16",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
