@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import isEqual from "lodash.isequal";
 import lodashPick from "lodash.pick";
-
-import { useDebouncedCallback } from "use-debounce";
 
 // helpers functions
 import {
@@ -22,7 +19,9 @@ import {
   syncTemporaryUserDataWithDB,
   checkTemporaryUserData,
   setTemporaryUserData,
-  deleteTemporaryUser
+  deleteTemporaryUser,
+  pushPhoneNumber,
+  pushHobbie
 } from "../store/temporaryUserModule.js";
 
 // store user list actions
@@ -50,6 +49,8 @@ const AddNewUser = ({
   setTemporaryUserData,
   deleteTemporaryUser,
   databaseHasUserData,
+  pushPhoneNumber,
+  pushHobbie,
 
   addUserToList,
 
@@ -122,11 +123,9 @@ const AddNewUser = ({
     setQueryString({ queryName: "tab", queryValue: getTabKeyByValue(value) });
   };
 
-  const [saveChangeToRedux] = useDebouncedCallback((formikValues, userData) => {
-    if (!isEqual(formikValues, userData)) {
-      setTemporaryUserData(formikValues);
-    }
-  }, 250);
+  const handleBlur = value => {
+    setTemporaryUserData(value);
+  };
 
   const getButtons = ({ backButton, finishButton }) => {
     return (
@@ -212,8 +211,8 @@ const AddNewUser = ({
 
       <TabPanel value={tabIndex} index={0}>
         <AccountForm
-          saveChangeToRedux={saveChangeToRedux}
           initialData={accountData}
+          handleBlur={handleBlur}
           getButtons={getButtons}
           visible={visible}
           toggleVisibility={toggleVisibility}
@@ -229,8 +228,8 @@ const AddNewUser = ({
 
       <TabPanel value={tabIndex} index={1}>
         <ProfileForm
-          saveChangeToRedux={saveChangeToRedux}
           initialData={profileData}
+          handleBlur={handleBlur}
           getButtons={getButtons}
           handleSubmit={() => {
             setDisabledTabs(prevState => ({
@@ -244,8 +243,9 @@ const AddNewUser = ({
 
       <TabPanel value={tabIndex} index={2}>
         <ContactsForm
-          saveChangeToRedux={saveChangeToRedux}
+          pushPhoneNumber={pushPhoneNumber}
           initialData={contactsData}
+          handleBlur={handleBlur}
           getButtons={getButtons}
           handleSubmit={() => {
             setDisabledTabs(prevState => ({
@@ -259,11 +259,12 @@ const AddNewUser = ({
 
       <TabPanel value={tabIndex} index={3}>
         <CapabilitiesForm
-          saveChangeToRedux={saveChangeToRedux}
           initialData={capabilitiesData}
           userData={userData}
+          handleSubmit={capabilitiesHandleSubmit}
+          handleBlur={handleBlur}
+          pushHobbie={pushHobbie}
           getButtons={getButtons}
-          handleSubmit={() => capabilitiesHandleSubmit()}
         />
       </TabPanel>
     </Container>
@@ -349,6 +350,8 @@ export default connect(
     checkTemporaryUserData,
     setTemporaryUserData,
     deleteTemporaryUser,
+    pushPhoneNumber,
+    pushHobbie,
 
     addUserToList
   }

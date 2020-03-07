@@ -274,7 +274,7 @@ const UserView = ({
                 <ListRow name="Main language:" value={mainLanguage} />
               </ListHead>
 
-              <ListHead name="Capabilities:" tabIndex={CAPABILITIES_TAB_INDEX}>
+              <ListHead name="Capabilities" tabIndex={CAPABILITIES_TAB_INDEX}>
                 <ListRow
                   name="Skills:"
                   value={String(skills.map(skill => " " + skill))}

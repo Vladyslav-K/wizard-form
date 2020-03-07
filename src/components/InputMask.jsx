@@ -9,8 +9,36 @@ import { makeStyles } from "@material-ui/core/styles";
 import { FormControl, Grid, Button } from "@material-ui/core";
 
 export const InputMask = memo(
-  ({ placeholder, field, form, label, required, errors, index, onClick }) => {
+  ({
+    placeholder,
+    phonesInput,
+    required,
+    errors,
+    label,
+    field,
+    index,
+    form,
+    pushPhoneNumber,
+    handleBlur,
+    onClick
+  }) => {
     const classes = useStyles();
+
+    const completedPhoneNumber = phoneNumber => {
+      return phoneNumber && !phoneNumber.includes("X");
+    };
+
+    const handleChange = event => {
+      const phoneNumber = event.target.value;
+
+      form.setFieldValue(field.name, phoneNumber);
+
+      if (completedPhoneNumber(phoneNumber)) {
+        phonesInput
+          ? pushPhoneNumber(phoneNumber)
+          : handleBlur({ [field.name]: phoneNumber });
+      }
+    };
 
     return (
       <Grid container direction="column">
@@ -26,17 +54,15 @@ export const InputMask = memo(
 
           <Grid container direction="row">
             <ReactInputMask
-              id={field.name}
-              onChange={event =>
-                form.setFieldValue(field.name, event.target.value)
-              }
               className={classes.fieldStyles}
               mask="+7 (999) 999-99-99"
               placeholder={placeholder}
               alwaysShowMask={false}
               value={field.value}
+              id={field.name}
               maskChar="X"
               type="input"
+              onChange={handleChange}
             />
 
             {index > 1 && (

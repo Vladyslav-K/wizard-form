@@ -32,7 +32,7 @@ export const fields = {
     facebookLink: "",
     gitHubLink: "",
     company: "",
-    phones: [""],
+    phones: [],
     fax: ""
   },
 

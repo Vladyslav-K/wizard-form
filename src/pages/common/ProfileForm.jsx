@@ -11,12 +11,7 @@ import { StyledForm } from "../../components/StyledForm";
 
 import { Grid } from "@material-ui/core";
 
-const ProfileForm = ({
-  saveChangeToRedux,
-  handleSubmit,
-  getButtons,
-  initialData
-}) => {
+const ProfileForm = ({ initialData, handleSubmit, handleBlur, getButtons }) => {
   return (
     <div>
       <Formik
@@ -29,10 +24,8 @@ const ProfileForm = ({
           birthDate: initialData.birthDate || new Date()
         }}
         onSubmit={handleSubmit}>
-        {({ values, errors }) => (
+        {({ values, errors, handleChange }) => (
           <Grid container justify="space-around" style={{ marginTop: "2rem" }}>
-            {saveChangeToRedux(values, initialData)}
-
             <Grid item xs={4}>
               <StyledForm>
                 <Field
@@ -42,6 +35,8 @@ const ProfileForm = ({
                   label="First name"
                   name="firstName"
                   required
+                  handleChange={handleChange}
+                  handleBlur={handleBlur}
                 />
 
                 <Field
@@ -51,12 +46,15 @@ const ProfileForm = ({
                   label="Last name"
                   name="lastName"
                   required
+                  handleChange={handleChange}
+                  handleBlur={handleBlur}
                 />
 
                 <Field
                   errors={errors.birthDate}
                   component={DatePicker}
                   name="birthDate"
+                  handleBlur={handleBlur}
                 />
               </StyledForm>
             </Grid>
@@ -70,6 +68,8 @@ const ProfileForm = ({
                   label="Email"
                   name="email"
                   required
+                  handleChange={handleChange}
+                  handleBlur={handleBlur}
                 />
 
                 <Field
@@ -79,9 +79,14 @@ const ProfileForm = ({
                   label="Address"
                   name="address"
                   required
+                  handleBlur={handleBlur}
                 />
 
-                <Field component={GenderRadio} name="gender" />
+                <Field
+                  component={GenderRadio}
+                  name="gender"
+                  handleBlur={handleBlur}
+                />
 
                 {getButtons({ getBackButton: true, errors: { ...errors } })}
               </StyledForm>

@@ -13,10 +13,6 @@ const temporaryUserModule = createSlice({
       state.userList = action.payload || [];
     },
 
-    addUserToList: (state, action) => {
-      state.userList.push(action.payload);
-    },
-
     deleteUserFromList: (state, action) => {
       state.userList = state.userList.filter(
         user => user.id !== action.payload.id
@@ -28,6 +24,8 @@ const temporaryUserModule = createSlice({
     },
 
     searchUsersByName() {},
+
+    addUserToList() {},
 
     getTestUsers() {},
 

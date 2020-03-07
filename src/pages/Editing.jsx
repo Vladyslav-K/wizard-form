@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import isEqual from "lodash.isequal";
 import lodashPick from "lodash.pick";
-
-import { useDebouncedCallback } from "use-debounce";
 
 // helpers functions
 import {
@@ -97,11 +94,9 @@ const Editing = ({
     setQueryString({ queryName: "tab", queryValue: getTabKeyByValue(value) });
   };
 
-  const [saveChangeToRedux] = useDebouncedCallback((formikValues, userData) => {
-    if (!isEqual(formikValues, userData)) {
-      setCurrentUserData(formikValues);
-    }
-  }, 250);
+  const handleBlur = value => {
+    setCurrentUserData(value);
+  };
 
   const handleSubmit = () => {
     saveCurrentUser({ userData: userData, id: +match.params.id });
@@ -179,10 +174,10 @@ const Editing = ({
 
         <TabPanel value={tabIndex} index={0}>
           <AccountForm
-            saveChangeToRedux={saveChangeToRedux}
             toggleVisibility={toggleVisibility}
             handleSubmit={handleSubmit}
             initialData={accountData}
+            handleBlur={handleBlur}
             getButtons={getButtons}
             visible={visible}
           />
@@ -190,27 +185,27 @@ const Editing = ({
 
         <TabPanel value={tabIndex} index={1}>
           <ProfileForm
-            saveChangeToRedux={saveChangeToRedux}
             handleSubmit={handleSubmit}
             initialData={profileData}
+            handleBlur={handleBlur}
             getButtons={getButtons}
           />
         </TabPanel>
 
         <TabPanel value={tabIndex} index={2}>
           <ContactsForm
-            saveChangeToRedux={saveChangeToRedux}
             handleSubmit={handleSubmit}
             initialData={contactsData}
+            handleBlur={handleBlur}
             getButtons={getButtons}
           />
         </TabPanel>
 
         <TabPanel value={tabIndex} index={3}>
           <CapabilitiesForm
-            saveChangeToRedux={saveChangeToRedux}
             initialData={capabilitiesData}
             handleSubmit={handleSubmit}
+            handleBlur={handleBlur}
             getButtons={getButtons}
           />
         </TabPanel>

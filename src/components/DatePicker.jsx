@@ -16,7 +16,7 @@ import {
   Grid
 } from "@material-ui/core";
 
-export const DatePicker = memo(({ field, form, errors }) => {
+export const DatePicker = memo(({ field, form, errors, handleBlur }) => {
   const classes = useStyles();
 
   const handleButtonMouseDown = event => {
@@ -60,7 +60,11 @@ export const DatePicker = memo(({ field, form, errors }) => {
         dateFormat="dd/MM/y"
         selected={field.value}
         value={field.value}
-        onChange={value => form.setFieldValue(field.name, value)}
+        onChange={value => {
+          form.setFieldValue(field.name, value);
+
+          handleBlur({ [field.name]: value });
+        }}
         customInput={<CustomInputRef />}
       />
 

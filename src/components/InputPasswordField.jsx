@@ -22,7 +22,8 @@ export const InputPasswordField = memo(
     visible,
     errors,
     field,
-    form
+    handleChange,
+    handleBlur
   }) => {
     const classes = useStyles();
 
@@ -33,7 +34,8 @@ export const InputPasswordField = memo(
     return (
       <>
         <FormControl
-          onChange={event => form.setFieldValue(field.name, event.target.value)}
+          onBlur={event => handleBlur({ [field.name]: event.target.value })}
+          onChange={handleChange}
           variant="outlined"
           margin="normal"
           size="small">

@@ -36,6 +36,14 @@ const temporaryUserModule = createSlice({
       state.databaseHasUserData = action.payload;
     },
 
+    pushPhoneNumber: (state, action) => {
+      state.userData.phones.push(action.payload);
+    },
+
+    pushHobbie: (state, action) => {
+      state.userData.hobbies.push(action.payload);
+    },
+
     syncTemporaryUserDataWithDB() {},
 
     checkTemporaryUserData() {}
@@ -50,7 +58,9 @@ export const {
   checkTemporaryUserData,
   getTemporaryUserWithDB,
   setTemporaryUserData,
-  deleteTemporaryUser
+  deleteTemporaryUser,
+  pushPhoneNumber,
+  pushHobbie
 } = actions;
 
 export default reducer;

@@ -257,8 +257,8 @@ const ListOfUsers = ({
                   shiftedComponent={shiftedComponent}
                   onShiftComponent={onShiftComponent}
                   onLinkClick={onLinkClick}
+                  key={user.id && user.id}
                   deleteUser={deleteUser}
-                  key={user.id || index}
                   user={user}
                 />
               ))}

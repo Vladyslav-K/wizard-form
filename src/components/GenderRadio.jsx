@@ -8,7 +8,7 @@ import {
   Grid
 } from "@material-ui/core";
 
-export const GenderRadio = memo(({ field, form }) => {
+export const GenderRadio = memo(({ field, form, handleBlur }) => {
   return (
     <FormControl component="fieldset" style={{ marginTop: "22px" }}>
       <span>Gender</span>
@@ -16,7 +16,11 @@ export const GenderRadio = memo(({ field, form }) => {
         aria-label="position"
         value={field.value}
         row
-        onChange={event => form.setFieldValue(field.name, event.target.value)}>
+        onChange={event => {
+          form.setFieldValue(field.name, event.target.value);
+
+          handleBlur({ [field.name]: event.target.value });
+        }}>
         <Grid container justify="space-between" style={{ width: "70%" }}>
           <FormControlLabel
             labelPlacement="end"

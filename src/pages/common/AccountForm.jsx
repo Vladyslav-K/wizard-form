@@ -11,13 +11,13 @@ import { StyledForm } from "../../components/StyledForm";
 import { Grid } from "@material-ui/core";
 
 const AccountForm = ({
-  saveChangeToRedux,
-  toggleVisibility,
-  handleSubmit,
-  getButtons,
+  initialData,
   visible,
 
-  initialData
+  toggleVisibility,
+  handleSubmit,
+  handleBlur,
+  getButtons
 }) => {
   return (
     <Formik
@@ -27,10 +27,8 @@ const AccountForm = ({
       enableReinitialize
       initialValues={initialData}
       onSubmit={handleSubmit}>
-      {({ values, errors }) => (
+      {({ values, errors, handleChange }) => (
         <Grid container justify="space-around" style={{ marginTop: "2rem" }}>
-          {saveChangeToRedux(values, initialData)}
-
           <Grid item xs={3}>
             <Field
               component={InputAvatar}
@@ -48,6 +46,8 @@ const AccountForm = ({
                 label="User name"
                 name="username"
                 required
+                handleChange={handleChange}
+                handleBlur={handleBlur}
               />
 
               <Field
@@ -58,6 +58,8 @@ const AccountForm = ({
                 visible={visible}
                 name="password"
                 required
+                handleChange={handleChange}
+                handleBlur={handleBlur}
               />
 
               <Field
@@ -69,6 +71,8 @@ const AccountForm = ({
                 passwordConfirmation
                 visible={visible}
                 required
+                handleChange={handleChange}
+                handleBlur={handleBlur}
               />
 
               {getButtons({ errors: { ...errors } })}

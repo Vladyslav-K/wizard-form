@@ -6,7 +6,17 @@ import { makeStyles } from "@material-ui/core/styles";
 import { OutlinedInput, FormControl, Grid } from "@material-ui/core";
 
 export const InputField = memo(
-  ({ placeholder, multiline, required, errors, label, field, form, rows }) => {
+  ({
+    placeholder,
+    multiline,
+    required,
+    errors,
+    label,
+    field,
+    rows,
+    handleChange,
+    handleBlur
+  }) => {
     const classes = useStyles();
 
     return (
@@ -18,16 +28,15 @@ export const InputField = memo(
           </Grid>
 
           <OutlinedInput
-            id={field.name}
-            onChange={event =>
-              form.setFieldValue(field.name, event.target.value)
-            }
             className={classes.fieldStyles}
             placeholder={placeholder}
             multiline={multiline}
             value={field.value}
+            id={field.name}
             type="input"
             rows={rows}
+            onBlur={event => handleBlur({ [field.name]: event.target.value })}
+            onChange={handleChange}
           />
         </FormControl>
 

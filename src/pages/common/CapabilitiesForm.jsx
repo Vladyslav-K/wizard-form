@@ -13,11 +13,12 @@ import { InputField } from "../../components/InputField";
 import { CheckBox } from "../../components/CheckBox";
 
 const CapabilitiesForm = ({
-  saveChangeToRedux,
   initialData,
+
   handleSubmit,
-  getButtons,
-  userData
+  handleBlur,
+  pushHobbie,
+  getButtons
 }) => {
   return (
     <Formik
@@ -27,10 +28,8 @@ const CapabilitiesForm = ({
       enableReinitialize
       initialValues={initialData}
       onSubmit={handleSubmit}>
-      {({ values, errors }) => (
+      {({ values, errors, handleChange }) => (
         <Grid container justify="space-around" style={{ marginTop: "2rem" }}>
-          {saveChangeToRedux(values, initialData)}
-
           <Grid item xs={4}>
             <StyledForm>
               <Field
@@ -42,6 +41,7 @@ const CapabilitiesForm = ({
                 name="skills"
                 multiple
                 required
+                handleBlur={handleBlur}
               />
 
               <Field
@@ -51,6 +51,8 @@ const CapabilitiesForm = ({
                 component={InputField}
                 multiline
                 rows={5}
+                handleChange={handleChange}
+                handleBlur={handleBlur}
               />
             </StyledForm>
           </Grid>
@@ -64,8 +66,8 @@ const CapabilitiesForm = ({
                     options={hobbiesList}
                     component={CheckBox}
                     label={"My hobbies"}
-                    fieldName="hobbies"
                     name="hobbies"
+                    pushHobbie={pushHobbie}
                   />
                 )}
               />

@@ -17,12 +17,18 @@ import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 
 export const ContactsForm = ({
-  saveChangeToRedux,
+  initialData,
+
+  pushPhoneNumber,
   handleSubmit,
-  getButtons,
-  initialData
+  handleBlur,
+  getButtons
 }) => {
   const classes = useStyles();
+
+  const initialPhones = initialData => {
+    return initialData.phones.length === 0 ? [""] : initialData.phones;
+  };
 
   return (
     <Formik
@@ -30,12 +36,10 @@ export const ContactsForm = ({
       validateOnChange={false}
       validateOnBlur={false}
       enableReinitialize
-      initialValues={initialData}
+      initialValues={{ ...initialData, phones: initialPhones(initialData) }}
       onSubmit={handleSubmit}>
-      {({ values, errors }) => (
+      {({ values, errors, handleChange }) => (
         <Grid container justify="space-around" style={{ marginTop: "2rem" }}>
-          {saveChangeToRedux(values, initialData)}
-
           <Grid item xs={4}>
             <StyledForm>
               <Field
@@ -44,6 +48,8 @@ export const ContactsForm = ({
                 component={InputField}
                 label="Company"
                 name="company"
+                handleChange={handleChange}
+                handleBlur={handleBlur}
               />
 
               <Field
@@ -53,6 +59,8 @@ export const ContactsForm = ({
                 label="GitHub link"
                 name="gitHubLink"
                 required
+                handleChange={handleChange}
+                handleBlur={handleBlur}
               />
 
               <Field
@@ -62,6 +70,8 @@ export const ContactsForm = ({
                 label="Facebook link"
                 name="facebookLink"
                 required
+                handleChange={handleChange}
+                handleBlur={handleBlur}
               />
 
               <Field
@@ -72,6 +82,7 @@ export const ContactsForm = ({
                 name="mainLanguage"
                 options={language}
                 required
+                handleBlur={handleBlur}
               />
             </StyledForm>
           </Grid>
@@ -85,6 +96,7 @@ export const ContactsForm = ({
                 label="Fax"
                 name="fax"
                 required
+                handleBlur={handleBlur}
               />
 
               <FieldArray
@@ -93,14 +105,17 @@ export const ContactsForm = ({
                   <>
                     {values.phones.map((phone, index) => (
                       <Field
-                        key={index}
+                        errors={errors.phones && errors.phones[index]}
                         label={`Phone #${index + 1}`}
+                        index={values.phones.length}
                         placeholder="Enter phone"
                         name={`phones.${index}`}
                         component={InputMask}
-                        index={values.phones.length}
+                        key={index}
+                        phonesInput
                         onClick={() => arrayHelpers.remove(index)}
-                        errors={errors.phones && errors.phones[index]}
+                        pushPhoneNumber={pushPhoneNumber}
+                        handleBlur={handleBlur}
                       />
                     ))}
 
