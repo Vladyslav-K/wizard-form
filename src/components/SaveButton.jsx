@@ -1,5 +1,6 @@
 import React, { memo } from "react";
 
+// styles
 import { makeStyles } from "@material-ui/core/styles";
 import MuiAlert from "@material-ui/lab/Alert";
 import { Snackbar } from "@material-ui/core";
@@ -29,7 +30,8 @@ export const SaveButton = memo(({ handleMessageClose, open, errors }) => {
           }}
           onClose={handleMessageClose}
           autoHideDuration={1500}
-          open={open}>
+          open={open}
+        >
           <Alert onClose={handleMessageClose} severity="success">
             Data saved!
           </Alert>
@@ -55,11 +57,11 @@ const useStyles = makeStyles(theme => ({
     fontWeight: "500",
     fontSize: "14px",
 
-    color: "white",
     background: "#4E86E4",
+    color: "white",
 
-    minWidth: "104px",
     padding: "12px 24px",
+    minWidth: "104px",
 
     border: "none",
 

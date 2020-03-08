@@ -4,11 +4,13 @@ import { Link } from "react-router-dom";
 import OutsideClickHandler from "react-outside-click-handler";
 import { DateTime } from "luxon";
 
+// icons for buttons and default avatar image
 import { ReactComponent as ConfirmDeleteIcon } from "../images/icons/Close_confirm.svg";
 import { ReactComponent as DeleteIcon } from "../images/icons/Close.svg";
 import { ReactComponent as EditIcon } from "../images/icons/Edit.svg";
 import DefaultAvatarImage from "../images/icons/avatar.svg";
 
+// styles
 import { makeStyles } from "@material-ui/core/styles";
 import { IconButton, Avatar, Grid } from "@material-ui/core";
 
@@ -34,7 +36,8 @@ export const ListItem = memo(
           className={`${classes.tableBodyRow} ${id === shiftedComponent &&
             classes.transformContainer}`}
           direction="row"
-          container>
+          container
+        >
           <Grid container justify="center" item xs={1}>
             {avatar ? (
               <Avatar
@@ -57,7 +60,8 @@ export const ListItem = memo(
             container
             item
             xs={3}
-            onClick={() => onLinkClick(id)}>
+            onClick={() => onLinkClick(id)}
+          >
             <span> {`${firstName} ${lastName}`} </span>
 
             <span className={classes.usernameStyles}>{username}</span>
@@ -81,13 +85,15 @@ export const ListItem = memo(
             <IconButton
               component={Link}
               to={`/users/edit/${id}`}
-              className={classes.iconButton}>
+              className={classes.iconButton}
+            >
               <EditIcon />
             </IconButton>
 
             <IconButton
               onClick={() => onShiftComponent(id)}
-              className={classes.iconButton}>
+              className={classes.iconButton}
+            >
               <DeleteIcon />
             </IconButton>
           </Grid>
@@ -97,7 +103,8 @@ export const ListItem = memo(
             xs={1}
             className={
               id === shiftedComponent ? classes.confirmButton : classes.hidden
-            }>
+            }
+          >
             <IconButton onClick={() => deleteUser({ id })}>
               <ConfirmDeleteIcon />
               <span> delete </span>
@@ -149,36 +156,23 @@ const useStyles = makeStyles(theme => ({
   },
 
   tableBodyRow: {
-    overflow: "hidden",
-    flexWrap: "nowrap",
     transitionDuration: ".3s",
     alignItems: "center",
+    overflow: "hidden",
+    flexWrap: "nowrap",
 
-    color: "#475666",
     height: "93px",
-    fontSize: "14px",
-    fontStyle: "normal",
+
     fontFamily: "Roboto",
-    fontWeight: "500",
+    fontStyle: "normal",
     lineHeight: "16px",
+    fontWeight: "500",
+    fontSize: "14px",
+    color: "#475666",
 
     "&:nth-of-type(odd)": {
       backgroundColor: "#E7F0FF"
     }
-  },
-
-  tableHeadRow: {
-    backgroundColor: "#4E86E4",
-    color: "#FFFFFF",
-    fontFamily: "Roboto",
-
-    fontStyle: "normal",
-    lineHeight: "16px",
-    fontWeight: "500",
-    fontSize: "14px",
-
-    padding: "15px 0",
-    marginBottom: "29px"
   },
 
   usernameStyles: {
@@ -186,23 +180,17 @@ const useStyles = makeStyles(theme => ({
     fontSize: "9px"
   },
 
-  buttonContainer: {
-    display: "flex",
-    justifyContent: "center",
-
-    marginTop: "10vh"
-  },
-
   button: {
     fontFamily: "Roboto",
     fontStyle: "normal",
+    lineHeight: "16px",
     fontWeight: "500",
     fontSize: "14px",
-    lineHeight: "16px",
+
     textTransform: "none",
 
-    color: "white",
     background: "#4E86E4",
+    color: "white",
 
     width: "200px",
     height: "50px",
@@ -225,11 +213,11 @@ const useStyles = makeStyles(theme => ({
     height: "40px",
 
     textAlign: "center",
+
     border: "2px solid #5E97F3",
 
     "& img": {
       width: "auto",
-
       transform: "translateY(5px)"
     }
   },

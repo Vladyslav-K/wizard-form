@@ -1,19 +1,24 @@
 import React, { memo, useState } from "react";
 
+// react-modal components
 import ReactModal from "react-modal";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 
+// constant image size for validation (1000000)
 import { MAX_AVATAR_IMAGE_SIZE } from "../utils/constants.js";
 
+// plus icon and default image for avatar
 import { ReactComponent as Plus } from "../images/icons/add.svg";
 import DefaultAvatarImage from "../images/icons/avatar.svg";
+
 import { InputError } from "./InputError";
 
+// styles
 import { makeStyles } from "@material-ui/core/styles";
 import { Avatar, Button } from "@material-ui/core";
 
-export const InputAvatar = memo(({ field, form, errors }) => {
+export const InputAvatar = memo(({ field, form, errors, handleBlur }) => {
   const classes = useStyles();
 
   const [imageError, setImageError] = useState(false);
@@ -70,7 +75,7 @@ export const InputAvatar = memo(({ field, form, errors }) => {
     setModalIsOpen(false);
   };
 
-  const onCropChange = (crop, percentCrop) => {
+  const onCropChange = crop => {
     setCrop(crop);
   };
 
@@ -81,11 +86,12 @@ export const InputAvatar = memo(({ field, form, errors }) => {
         crop,
         "newFile.jpeg"
       );
-      form.setFieldValue(field.name, croppedImageUrl);
+
+      handleBlur({ [field.name]: croppedImageUrl });
     }
   };
 
-  const getCroppedImg = (image, crop, fileName) => {
+  const getCroppedImg = (image, crop) => {
     const canvas = document.createElement("canvas");
     const scaleX = image.naturalWidth / image.width;
     const scaleY = image.naturalHeight / image.height;
@@ -130,6 +136,7 @@ export const InputAvatar = memo(({ field, form, errors }) => {
 
   return (
     <div className={classes.container}>
+      {console.log(imageError)}
       {field.value ? (
         <label htmlFor="text-button-file">
           <Avatar
@@ -156,6 +163,7 @@ export const InputAvatar = memo(({ field, form, errors }) => {
         multiple
         onChange={onSelectFile}
       />
+
       <label htmlFor="text-button-file">
         <Button
           className={classes.button}
@@ -196,8 +204,8 @@ export const InputAvatar = memo(({ field, form, errors }) => {
 
             WebkitOverflowScrolling: "touch",
             border: "1px solid #ccc",
-            borderRadius: "4px",
             background: "#5E97F3",
+            borderRadius: "4px",
             outline: "none",
 
             padding: "20px"
@@ -205,9 +213,9 @@ export const InputAvatar = memo(({ field, form, errors }) => {
         }}>
         <>
           <ReactCrop
+            imageStyle={{ maxHeight: "500px", maxWidth: "1000px" }}
             onImageLoaded={onImageLoaded}
             onChange={onCropChange}
-            imageStyle={{ maxHeight: "500px", maxWidth: "1000px" }}
             ruleOfThirds
             circularCrop
             crop={crop}
@@ -283,8 +291,8 @@ const useStyles = makeStyles(theme => ({
     textTransform: "none",
     fontFamily: "Roboto",
     fontStyle: "normal",
-    fontSize: "14px",
     lineHeight: "16px",
+    fontSize: "14px",
     color: "#4E86E4",
 
     "&:hover": {

@@ -3,10 +3,12 @@ import ReactDatePicker from "react-datepicker";
 import InputMask from "react-text-mask";
 import "react-datepicker/dist/react-datepicker.css";
 
+// calendar icon
 import { ReactComponent as CalendarIcon } from "../images/icons/calendar.svg";
 
 import { InputError } from "./InputError";
 
+// styles
 import { makeStyles } from "@material-ui/core/styles";
 import {
   InputAdornment,
@@ -102,10 +104,10 @@ const useStyles = makeStyles(theme => ({
   container: {
     "& span": {
       fontFamily: "Roboto",
-      fontStyle: "normal",
       fontWeight: "normal",
-      fontSize: "14px",
+      fontStyle: "normal",
       lineHeight: "16px",
+      fontSize: "14px",
       color: "#657C9A"
     }
   }

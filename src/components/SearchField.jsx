@@ -1,5 +1,6 @@
 import React, { memo } from "react";
 
+// styles
 import { makeStyles } from "@material-ui/core/styles";
 import { OutlinedInput, FormControl } from "@material-ui/core";
 
@@ -9,10 +10,10 @@ export const SearchField = memo(({ handleChange, value }) => {
   return (
     <FormControl variant="outlined" margin="normal" size="small">
       <OutlinedInput
-        value={value}
-        onChange={handleChange}
-        className={classes.fieldStyles}
         placeholder="Search by first or last name..."
+        className={classes.fieldStyles}
+        onChange={handleChange}
+        value={value}
         type="input"
       />
     </FormControl>

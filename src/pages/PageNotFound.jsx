@@ -1,6 +1,7 @@
 import React, { memo } from "react";
 import { Link } from "react-router-dom";
 
+// styles
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Container } from "@material-ui/core";
 
@@ -56,13 +57,14 @@ const useStyles = makeStyles(theme => ({
   button: {
     fontFamily: "Roboto",
     fontStyle: "normal",
+    lineHeight: "16px",
     fontWeight: "500",
     fontSize: "14px",
-    lineHeight: "16px",
+
     textTransform: "none",
 
-    color: "white",
     background: "#4E86E4",
+    color: "white",
 
     width: "200px",
     height: "50px",

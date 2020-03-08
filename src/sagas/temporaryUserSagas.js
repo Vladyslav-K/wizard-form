@@ -1,15 +1,18 @@
 import { takeLatest, select, call, all, put } from "redux-saga/effects";
 
+// helper funtion for check object is not empty
 import { checkObjectPropsIsNotEmpty } from "../utils/helpers.js";
 
 import isEqual from "lodash.isequal";
 
+// database methods
 import {
   deleteTemporaryUserFromDB,
   getTemporaryUserFromDB,
   putTemporaryUserToDB
 } from "../utils/database.js";
 
+// temporary user actions
 import {
   syncTemporaryUserDataWithDB,
   databaseHasTemporaryUser,
@@ -21,6 +24,7 @@ import {
   pushHobbie
 } from "../store/temporaryUserModule.js";
 
+// UI actions
 import { setLoading, setError } from "../store/UIModule.js";
 
 function* checkTemporaryUserDataInDB() {

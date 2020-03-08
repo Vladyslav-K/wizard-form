@@ -1,4 +1,5 @@
 import React, { memo } from "react";
+
 import { makeStyles } from "@material-ui/core/styles";
 
 export const SubmitButton = memo(({ finish, save }) => {
@@ -24,16 +25,18 @@ const useStyles = makeStyles(theme => ({
   button: {
     fontFamily: "Roboto",
     fontStyle: "normal",
+    lineHeight: "16px",
     fontWeight: "500",
     fontSize: "14px",
-    lineHeight: "16px",
+
     textTransform: "none",
 
     color: "white",
+
     background: props => (props.finish ? "#4EE4A5" : "#4E86E4"),
 
-    minWidth: "104px",
     padding: "12px 24px",
+    minWidth: "104px",
 
     border: "none",
 

@@ -24,9 +24,9 @@ import {
 import { SearchField } from "../components/SearchField.jsx";
 import { ListItem } from "../components/ListItem.jsx";
 
+// styles
 import { makeStyles } from "@material-ui/core/styles";
 import { CircularProgress, Container, Grid } from "@material-ui/core";
-
 import { Pagination } from "@material-ui/lab";
 
 const ListOfUsers = ({
@@ -209,7 +209,8 @@ const ListOfUsers = ({
           className={classes.tableHeadRow}
           justify="center"
           direction="row"
-          container>
+          container
+        >
           <Grid item xs />
 
           <Grid item xs={3}>
@@ -267,8 +268,8 @@ const ListOfUsers = ({
             {calculatePaginationCount(total) > 1 && (
               <Grid container justify="center" style={{ margin: "2rem 0" }}>
                 <Pagination
-                  className={classes.pagination}
                   count={calculatePaginationCount(total)}
+                  className={classes.pagination}
                   onChange={handleChange}
                   page={page}
                 />
@@ -298,27 +299,26 @@ const useStyles = makeStyles(theme => ({
 
   tableHeadRow: {
     backgroundColor: "#4E86E4",
-    color: "#FFFFFF",
     fontFamily: "Roboto",
-
     fontStyle: "normal",
     lineHeight: "16px",
     fontWeight: "500",
+    color: "#FFFFFF",
     fontSize: "14px",
 
-    padding: "15px 0",
-    marginBottom: "29px"
+    marginBottom: "29px",
+    padding: "15px 0"
   },
 
   heading: {
-    paddingTop: "3rem",
     paddingBottom: "2rem",
+    paddingTop: "3rem",
 
-    color: "#475666",
     fontFamily: "Roboto",
     fontStyle: "normal",
     fontWeight: "bold",
     lineHeight: "41px",
+    color: "#475666",
     fontSize: "35px"
   },
 
@@ -332,13 +332,14 @@ const useStyles = makeStyles(theme => ({
   button: {
     fontFamily: "Roboto",
     fontStyle: "normal",
+    lineHeight: "16px",
     fontWeight: "500",
     fontSize: "14px",
-    lineHeight: "16px",
+
     textTransform: "none",
 
-    color: "white",
     background: "#4E86E4",
+    color: "white",
 
     width: "200px",
     height: "50px",

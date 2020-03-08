@@ -8,6 +8,7 @@ import {
   put
 } from "redux-saga/effects";
 
+// database methods
 import {
   deleteUserFromUserListInDB,
   addUserToUserListFromDB,
@@ -17,6 +18,7 @@ import {
   addTestUserToDB
 } from "../utils/database.js";
 
+// user list actions
 import {
   deleteUserFromList,
   searchUsersByName,
@@ -27,8 +29,10 @@ import {
   setTotal
 } from "../store/userListModule.js";
 
+// UI actions
 import { setLoading, setError } from "../store/UIModule.js";
 
+// temporary user actions
 import { removeTemporaryUser } from "./temporaryUserSagas.js";
 
 function* getUserListWithDB(action) {

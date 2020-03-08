@@ -10,6 +10,7 @@ import {
   getTabValueByKey
 } from "../utils/helpers.js";
 
+// fields constant
 import { fields } from "../utils/constants.js";
 
 // store current user actions
@@ -30,9 +31,10 @@ import { SaveButton } from "../components/SaveButton.jsx";
 import { StyledTab } from "../components/StyledTab.jsx";
 import { TabPanel } from "../components/TabPanel.jsx";
 
-// icon
+// arrow icon for link
 import { ReactComponent as ArrowIcon } from "../images/icons/Rectangle.svg";
 
+// styles
 import { makeStyles } from "@material-ui/core/styles";
 import {
   CircularProgress,
@@ -162,7 +164,8 @@ const Editing = ({
           aria-label="Registration"
           onChange={handleChange}
           variant="fullWidth"
-          value={tabIndex}>
+          value={tabIndex}
+        >
           <StyledTab label="1. Account" {...a11yProps(0)} />
 
           <StyledTab label="2. Profile" {...a11yProps(1)} />
@@ -229,11 +232,11 @@ const useStyles = makeStyles(theme => ({
   heading: {
     margin: "3rem 0",
 
-    color: "#475666",
     fontFamily: "Roboto",
     fontStyle: "normal",
     fontWeight: "bold",
     lineHeight: "41px",
+    color: "#475666",
     fontSize: "35px"
   },
 
@@ -242,11 +245,11 @@ const useStyles = makeStyles(theme => ({
 
     margin: "3rem 0",
 
-    color: "#9BB0CB",
     fontFamily: "Roboto",
     fontStyle: "normal",
     fontWeight: "bold",
     lineHeight: "28px",
+    color: "#9BB0CB",
     fontSize: "24px",
 
     textTransform: "none"
@@ -265,8 +268,8 @@ const useStyles = makeStyles(theme => ({
       textTransform: "none",
       fontFamily: "Roboto",
       fontStyle: "normal",
-      fontSize: "14px",
       lineHeight: "16px",
+      fontSize: "14px",
       color: "white"
     }
   },

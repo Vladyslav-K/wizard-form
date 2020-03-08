@@ -1,10 +1,12 @@
 import React, { memo } from "react";
 import { Link } from "react-router-dom";
 
+// icons for links
 import { ReactComponent as ListOfUsersIcon } from "../../images/icons/list-of-users.svg";
 import { ReactComponent as AddNewUserIcon } from "../../images/icons/add-new-user.svg";
 import { ReactComponent as LogoIcon } from "../../images/icons/Logo.svg";
 
+// styles
 import { makeStyles } from "@material-ui/core/styles";
 import { Toolbar, AppBar, Button, Container } from "@material-ui/core";
 
@@ -15,7 +17,12 @@ const Header = () => {
     <AppBar position="static" className={classes.appBarContainer}>
       <Container maxWidth="md">
         <Toolbar>
-          <LogoIcon />
+          <Button
+            component={Link}
+            to="/registration?tab=account"
+            color="inherit">
+            <LogoIcon />
+          </Button>
 
           <div className={classes.grow} />
 
@@ -58,8 +65,8 @@ const useStyles = makeStyles(theme => ({
   },
 
   button: {
-    padding: "0 30px",
-    textTransform: "none"
+    textTransform: "none",
+    padding: "0 30px"
   }
 }));
 

@@ -1,14 +1,17 @@
 import React, { memo } from "react";
 import { Formik, Field } from "formik";
 
+// form validations
 import { profileFormValidationSchema } from "../../utils/validations";
 
+// components
 import { InputGooglePlacesAutocomplete } from "../../components/InputGooglePlacesAutocomplete";
 import { GenderRadio } from "../../components/GenderRadio.jsx";
 import { DatePicker } from "../../components/DatePicker";
 import { InputField } from "../../components/InputField";
 import { StyledForm } from "../../components/StyledForm";
 
+// styles
 import { Grid } from "@material-ui/core";
 
 const ProfileForm = ({ initialData, handleSubmit, handleBlur, getButtons }) => {

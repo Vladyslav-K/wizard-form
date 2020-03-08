@@ -1,4 +1,6 @@
 import React, { memo } from "react";
+
+// styles
 import { makeStyles } from "@material-ui/core/styles";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { TextField, Grid } from "@material-ui/core";
@@ -15,6 +17,7 @@ export const InputAutocomplete = memo(
     field,
     label,
     form,
+
     handleBlur
   }) => {
     const classes = useStyles();
@@ -35,6 +38,7 @@ export const InputAutocomplete = memo(
           <Grid container className={classes.fieldContainer}>
             <Grid container justify="space-between">
               <label htmlFor={field.name}> {label} </label>
+              
               {required && <label> * </label>}
             </Grid>
 

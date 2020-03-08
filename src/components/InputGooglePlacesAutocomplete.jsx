@@ -1,14 +1,16 @@
 import React, { memo, useMemo, useEffect, useState, useRef } from "react";
 
+// parse and throttle functions
 import parse from "autosuggest-highlight/parse";
 import throttle from "lodash.throttle";
 
 import { InputError } from "./InputError";
 
+// styles
 import { makeStyles } from "@material-ui/core/styles";
 import { TextField, Grid, Typography } from "@material-ui/core";
-import Autocomplete from "@material-ui/lab/Autocomplete";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 
 function loadScript(src, position, id) {
   if (!position) {
@@ -27,6 +29,7 @@ const autocompleteService = { current: null };
 export const InputGooglePlacesAutocomplete = memo(
   ({ placeholder, required, errors, field, label, form, handleBlur }) => {
     const classes = useStyles();
+
     const [inputValue, setInputValue] = useState("");
     const [options, setOptions] = useState([]);
     const loaded = useRef(false);
@@ -104,6 +107,7 @@ export const InputGooglePlacesAutocomplete = memo(
           <Grid container className={classes.fieldContainer}>
             <Grid container justify="space-between">
               <label htmlFor={field.name}> {label} </label>
+
               {required && <label> * </label>}
             </Grid>
 
@@ -125,6 +129,7 @@ export const InputGooglePlacesAutocomplete = memo(
         renderOption={option => {
           const matches =
             option.structured_formatting.main_text_matched_substrings;
+
           const parts = parse(
             option.structured_formatting.main_text,
             matches.map(match => [match.offset, match.offset + match.length])
@@ -135,6 +140,7 @@ export const InputGooglePlacesAutocomplete = memo(
               <Grid item>
                 <LocationOnIcon className={classes.icon} />
               </Grid>
+
               <Grid item xs>
                 {parts.map((part, index) => (
                   <span key={index}>{part.text}</span>
@@ -159,8 +165,8 @@ const useStyles = makeStyles(theme => ({
   },
 
   fieldContainer: {
-    marginTop: "16px",
-    marginBottom: "3rem"
+    marginBottom: "3rem",
+    marginTop: "16px"
   },
 
   fieldStyles: {
@@ -168,16 +174,16 @@ const useStyles = makeStyles(theme => ({
 
     fontFamily: "Roboto",
     fontStyle: "normal",
+    lineHeight: "16px",
     fontWeight: "500",
-    fontSize: "14px",
-    lineHeight: "16px"
+    fontSize: "14px"
   },
 
   optionsList: {
     fontFamily: "Roboto",
     fontStyle: "normal",
+    lineHeight: "16px",
     fontWeight: "500",
-    fontSize: "14px",
-    lineHeight: "16px"
+    fontSize: "14px"
   }
 }));

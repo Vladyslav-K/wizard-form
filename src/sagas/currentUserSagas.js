@@ -1,5 +1,6 @@
 import { takeLatest, call, all, put } from "redux-saga/effects";
 
+// database methods
 import {
   getCurrentUserFromDB,
   updateUserListInDB,
@@ -7,14 +8,17 @@ import {
   getUserListCount
 } from "../utils/database.js";
 
+// current user actions
 import {
   setCurrentUserData,
   getUserFromList,
   saveCurrentUser
 } from "../store/currentUserModule.js";
 
+// UI actions
 import { setLoading, setError } from "../store/UIModule.js";
 
+// user list actions
 import { getUsersWithDB, setTotal } from "../store/userListModule.js";
 
 function* getCurrentUser(action) {

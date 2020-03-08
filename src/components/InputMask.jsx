@@ -1,10 +1,12 @@
 import React, { memo } from "react";
 import ReactInputMask from "react-input-mask";
 
+// minus icon
 import { ReactComponent as MinusIcon } from "../images/icons/minus.svg";
 
 import { InputError } from "./InputError";
 
+// styles
 import { makeStyles } from "@material-ui/core/styles";
 import { FormControl, Grid, Button } from "@material-ui/core";
 
@@ -46,7 +48,8 @@ export const InputMask = memo(
           <Grid
             container
             justify="space-between"
-            className={classes.labelContainer}>
+            className={classes.labelContainer}
+          >
             <label htmlFor={field.name}> {label} </label>
 
             {required && <label> * </label>}
@@ -82,19 +85,19 @@ const useStyles = makeStyles(theme => ({
   fieldStyles: {
     fontFamily: "Roboto",
     fontStyle: "normal",
+    lineHeight: "16px",
     fontWeight: "500",
     fontSize: "14px",
-    lineHeight: "16px",
 
-    cursor: "text",
     height: "1.1875em",
+    cursor: "text",
 
     width: "80%",
 
-    margin: 0,
-    padding: "9px 6px",
+    border: "1px solid lightgrey",
     borderRadius: "4px",
-    border: "1px solid lightgrey"
+    padding: "9px 6px",
+    margin: 0
   },
 
   labelContainer: {

@@ -6,9 +6,11 @@ import {
   Route
 } from "react-router-dom";
 
+// header and 404 page
 import PageNotFound from "./PageNotFound.jsx";
 import Header from "./common/Header.jsx";
 
+// components
 import ListOfUsers from "./ListOfUsers.jsx";
 import AddNewUser from "./AddNewUser.jsx";
 import UserView from "./UserView.jsx";

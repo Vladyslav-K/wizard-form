@@ -1,5 +1,6 @@
 import React, { memo } from "react";
 
+// styles
 import {
   FormControlLabel,
   FormControl,
@@ -12,6 +13,7 @@ export const GenderRadio = memo(({ field, form, handleBlur }) => {
   return (
     <FormControl component="fieldset" style={{ marginTop: "22px" }}>
       <span>Gender</span>
+
       <RadioGroup
         aria-label="position"
         value={field.value}
@@ -21,6 +23,7 @@ export const GenderRadio = memo(({ field, form, handleBlur }) => {
 
           handleBlur({ [field.name]: event.target.value });
         }}>
+          
         <Grid container justify="space-between" style={{ width: "70%" }}>
           <FormControlLabel
             labelPlacement="end"

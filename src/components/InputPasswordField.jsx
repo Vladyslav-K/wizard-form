@@ -1,9 +1,12 @@
 import React, { memo } from "react";
 
+// eye icons to view/hide password
 import { ReactComponent as VisibilityOff } from "../images/icons/icon-visibility-off.svg";
 import { ReactComponent as Visibility } from "../images/icons/icon-visibility.svg";
+
 import { InputError } from "./InputError";
 
+// styles
 import { makeStyles } from "@material-ui/core/styles";
 import {
   InputAdornment,
@@ -38,7 +41,8 @@ export const InputPasswordField = memo(
           onChange={handleChange}
           variant="outlined"
           margin="normal"
-          size="small">
+          size="small"
+        >
           <Grid container justify="space-between">
             <label htmlFor={field.name}>
               {passwordConfirmation ? "Repeat Password" : "Password"}
@@ -58,7 +62,8 @@ export const InputPasswordField = memo(
                 <IconButton
                   aria-label="toggle password visibility"
                   onMouseDown={handleButtonMouseDown}
-                  onClick={toggleVisibility}>
+                  onClick={toggleVisibility}
+                >
                   {visible ? <Visibility /> : <VisibilityOff />}
                 </IconButton>
               </InputAdornment>
@@ -76,8 +81,8 @@ const useStyles = makeStyles(theme => ({
   fieldStyles: {
     fontFamily: "Roboto",
     fontStyle: "normal",
+    lineHeight: "16px",
     fontWeight: "500",
-    fontSize: "14px",
-    lineHeight: "16px"
+    fontSize: "14px"
   }
 }));

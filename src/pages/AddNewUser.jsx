@@ -33,13 +33,14 @@ import ContactsForm from "./common/ContactsForm";
 import AccountForm from "./common/AccountForm";
 import ProfileForm from "./common/ProfileForm";
 
-// separate components
+// components
 import { SubmitButton } from "../components/SubmitButton.jsx";
 import { FormMessage } from "../components/FormMessage.jsx";
 import { BackButton } from "../components/BackButton.jsx";
 import { StyledTab } from "../components/StyledTab.jsx";
 import { TabPanel } from "../components/TabPanel.jsx";
 
+// styles
 import { makeStyles } from "@material-ui/core/styles";
 import { Container, Tabs, Grid, CircularProgress } from "@material-ui/core";
 
@@ -169,12 +170,14 @@ const AddNewUser = ({
       <Grid className={classes.heading} container justify="center">
         Adding new user
       </Grid>
+
       <Tabs
         classes={{ indicator: classes.tabIncticator }}
         aria-label="Registration"
         onChange={handleChange}
         variant="fullWidth"
-        value={tabIndex}>
+        value={tabIndex}
+      >
         <StyledTab label="1. Account" {...a11yProps(0)} />
 
         <StyledTab
@@ -212,15 +215,16 @@ const AddNewUser = ({
       <TabPanel value={tabIndex} index={0}>
         <AccountForm
           initialData={accountData}
-          handleBlur={handleBlur}
-          getButtons={getButtons}
           visible={visible}
           toggleVisibility={toggleVisibility}
+          handleBlur={handleBlur}
+          getButtons={getButtons}
           handleSubmit={() => {
             setDisabledTabs(prevState => ({
               ...prevState,
               profileTab: false
             }));
+
             setQueryString({ queryName: "tab", queryValue: "profile" });
           }}
         />
@@ -236,6 +240,7 @@ const AddNewUser = ({
               ...prevState,
               contactsTab: false
             }));
+
             setQueryString({ queryName: "tab", queryValue: "contacts" });
           }}
         />
@@ -286,11 +291,11 @@ const useStyles = makeStyles(theme => ({
   heading: {
     padding: "3rem 0",
 
-    color: "#475666",
     fontFamily: "Roboto",
     fontStyle: "normal",
     fontWeight: "bold",
     lineHeight: "41px",
+    color: "#475666",
     fontSize: "35px"
   },
 
@@ -307,8 +312,8 @@ const useStyles = makeStyles(theme => ({
       textTransform: "none",
       fontFamily: "Roboto",
       fontStyle: "normal",
-      fontSize: "14px",
       lineHeight: "16px",
+      fontSize: "14px",
       color: "white"
     }
   },

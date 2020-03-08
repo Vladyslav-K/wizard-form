@@ -1,5 +1,6 @@
 import React from "react";
 
+// styles
 import { withStyles } from "@material-ui/core/styles";
 import { Tab } from "@material-ui/core";
 
@@ -22,9 +23,10 @@ export const StyledTab = withStyles(theme => ({
     },
 
     "&$selected": {
-      color: "white",
-      background: "#4E86E4"
+      background: "#4E86E4",
+      color: "white"
     }
   },
+  
   selected: {}
 }))(props => <Tab {...props} />);

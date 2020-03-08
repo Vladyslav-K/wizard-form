@@ -1,20 +1,24 @@
 import React, { memo } from "react";
 import { Formik, Field, FieldArray } from "formik";
 
+// form validations
 import { contactsFormValidationSchema } from "../../utils/validations";
 
+// dictionary
 import { language } from "../../utils/dictionaries.js";
 
-import { Grid } from "@material-ui/core";
-
+// plus icon
 import { ReactComponent as PlusIcon } from "../../images/icons/add.svg";
+
+// components
 import { InputAutocomplete } from "../../components/InputAutocomplete";
 import { StyledForm } from "../../components/StyledForm";
 import { InputField } from "../../components/InputField";
 import { InputMask } from "../../components/InputMask";
 
+// styles
 import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
+import { Grid, Button } from "@material-ui/core";
 
 export const ContactsForm = ({
   initialData,
@@ -27,6 +31,7 @@ export const ContactsForm = ({
   const classes = useStyles();
 
   const initialPhones = initialData => {
+    // if the user doesn't have a phone yet, create an empty form
     return initialData.phones.length === 0 ? [""] : initialData.phones;
   };
 
@@ -37,7 +42,8 @@ export const ContactsForm = ({
       validateOnBlur={false}
       enableReinitialize
       initialValues={{ ...initialData, phones: initialPhones(initialData) }}
-      onSubmit={handleSubmit}>
+      onSubmit={handleSubmit}
+    >
       {({ values, errors, handleChange }) => (
         <Grid container justify="space-around" style={{ marginTop: "2rem" }}>
           <Grid item xs={4}>
@@ -76,8 +82,8 @@ export const ContactsForm = ({
 
               <Field
                 placeholder="Choose your main language"
-                errors={errors.mainLanguage}
                 component={InputAutocomplete}
+                errors={errors.mainLanguage}
                 label="Main language"
                 name="mainLanguage"
                 options={language}
@@ -123,7 +129,8 @@ export const ContactsForm = ({
                       <Button
                         className={classes.plusButtonStyles}
                         startIcon={<PlusIcon />}
-                        onClick={() => arrayHelpers.push("")}>
+                        onClick={() => arrayHelpers.push("")}
+                      >
                         add phone number
                       </Button>
                     )}

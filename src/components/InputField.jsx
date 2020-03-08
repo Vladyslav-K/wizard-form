@@ -2,6 +2,7 @@ import React, { memo } from "react";
 
 import { InputError } from "./InputError";
 
+// styles
 import { makeStyles } from "@material-ui/core/styles";
 import { OutlinedInput, FormControl, Grid } from "@material-ui/core";
 
@@ -24,6 +25,7 @@ export const InputField = memo(
         <FormControl variant="outlined" margin="normal" size="small">
           <Grid container justify="space-between">
             <label htmlFor={field.name}> {label} </label>
+
             {required && <label> * </label>}
           </Grid>
 
@@ -50,8 +52,8 @@ const useStyles = makeStyles(theme => ({
   fieldStyles: {
     fontFamily: "Roboto",
     fontStyle: "normal",
+    lineHeight: "16px",
     fontWeight: "500",
-    fontSize: "14px",
-    lineHeight: "16px"
+    fontSize: "14px"
   }
 }));

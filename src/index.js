@@ -2,11 +2,14 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 
+//service worker
 import * as serviceWorker from "./serviceWorker";
 
+// redux-saga and redux-toolkit methods
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import createSagaMiddleware from "redux-saga";
 
+// normalize styles
 import "./normalize.css";
 
 // store reducers

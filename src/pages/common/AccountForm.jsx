@@ -1,13 +1,16 @@
 import React, { memo } from "react";
 import { Formik, Field } from "formik";
 
+// form validations
 import { accountFormValidationSchema } from "../../utils/validations";
+
+// components
 import { InputPasswordField } from "../../components/InputPasswordField";
 import { InputAvatar } from "../../components/InputAvatar";
-
 import { InputField } from "../../components/InputField";
 import { StyledForm } from "../../components/StyledForm";
 
+// styles
 import { Grid } from "@material-ui/core";
 
 const AccountForm = ({
@@ -22,16 +25,18 @@ const AccountForm = ({
   return (
     <Formik
       validationSchema={accountFormValidationSchema}
+      initialValues={initialData}
       validateOnChange={false}
       validateOnBlur={false}
       enableReinitialize
-      initialValues={initialData}
-      onSubmit={handleSubmit}>
-      {({ values, errors, handleChange }) => (
+      onSubmit={handleSubmit}
+    >
+      {({ errors, handleChange }) => (
         <Grid container justify="space-around" style={{ marginTop: "2rem" }}>
           <Grid item xs={3}>
             <Field
               component={InputAvatar}
+              handleBlur={handleBlur}
               errors={errors.avatar}
               name="avatar"
             />
@@ -40,8 +45,8 @@ const AccountForm = ({
           <Grid item xs={5}>
             <StyledForm>
               <Field
-                errors={errors.username}
                 placeholder="Enter user name"
+                errors={errors.username}
                 component={InputField}
                 label="User name"
                 name="username"
@@ -52,9 +57,9 @@ const AccountForm = ({
 
               <Field
                 toggleVisibility={toggleVisibility}
+                placeholder="Enter your password"
                 component={InputPasswordField}
                 errors={errors.password}
-                placeholder="Enter your password"
                 visible={visible}
                 name="password"
                 required

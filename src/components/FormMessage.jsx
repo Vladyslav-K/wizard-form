@@ -1,7 +1,9 @@
 import React, { memo } from "react";
 
+// close icon
 import { ReactComponent as CloseIcon } from "../images/icons/Close.svg";
 
+// styles
 import { makeStyles } from "@material-ui/core/styles";
 import { IconButton, Button } from "@material-ui/core";
 
@@ -17,7 +19,8 @@ export const FormMessage = memo(
           </span>
           <Button
             className={classes.queryButton}
-            onClick={syncTemporaryUserDataWithDB}>
+            onClick={syncTemporaryUserDataWithDB}
+          >
             Continue
           </Button>
         </div>
@@ -33,6 +36,7 @@ export const FormMessage = memo(
 const useStyles = makeStyles(theme => ({
   queryContainer: {
     display: "flex",
+    
     justifyContent: "space-between",
     alignItems: "center",
 
@@ -44,8 +48,8 @@ const useStyles = makeStyles(theme => ({
       textTransform: "none",
       fontFamily: "Roboto",
       fontStyle: "normal",
-      fontSize: "14px",
       lineHeight: "16px",
+      fontSize: "14px",
       color: "white"
     }
   },
@@ -55,8 +59,7 @@ const useStyles = makeStyles(theme => ({
   },
 
   queryButton: {
-    fontWeight: 900,
-
-    padding: "0 10px"
+    padding: "0 10px",
+    fontWeight: 900
   }
 }));
