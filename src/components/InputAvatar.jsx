@@ -18,7 +18,7 @@ import { InputError } from "./InputError";
 import { makeStyles } from "@material-ui/core/styles";
 import { Avatar, Button } from "@material-ui/core";
 
-export const InputAvatar = memo(({ field, form, errors, handleBlur }) => {
+export const InputAvatar = memo(({ field, form, errors, saveUserData }) => {
   const classes = useStyles();
 
   const [imageError, setImageError] = useState(false);
@@ -87,7 +87,7 @@ export const InputAvatar = memo(({ field, form, errors, handleBlur }) => {
         "newFile.jpeg"
       );
 
-      handleBlur({ [field.name]: croppedImageUrl });
+      saveUserData({ [field.name]: croppedImageUrl });
     }
   };
 
@@ -136,7 +136,6 @@ export const InputAvatar = memo(({ field, form, errors, handleBlur }) => {
 
   return (
     <div className={classes.container}>
-      {console.log(imageError)}
       {field.value ? (
         <label htmlFor="text-button-file">
           <Avatar

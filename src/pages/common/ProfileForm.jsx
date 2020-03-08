@@ -14,7 +14,12 @@ import { StyledForm } from "../../components/StyledForm";
 // styles
 import { Grid } from "@material-ui/core";
 
-const ProfileForm = ({ initialData, handleSubmit, handleBlur, getButtons }) => {
+const ProfileForm = ({
+  initialData,
+  handleSubmit,
+  saveUserData,
+  getButtons
+}) => {
   return (
     <div>
       <Formik
@@ -39,7 +44,7 @@ const ProfileForm = ({ initialData, handleSubmit, handleBlur, getButtons }) => {
                   name="firstName"
                   required
                   handleChange={handleChange}
-                  handleBlur={handleBlur}
+                  saveUserData={saveUserData}
                 />
 
                 <Field
@@ -50,14 +55,14 @@ const ProfileForm = ({ initialData, handleSubmit, handleBlur, getButtons }) => {
                   name="lastName"
                   required
                   handleChange={handleChange}
-                  handleBlur={handleBlur}
+                  saveUserData={saveUserData}
                 />
 
                 <Field
                   errors={errors.birthDate}
                   component={DatePicker}
                   name="birthDate"
-                  handleBlur={handleBlur}
+                  saveUserData={saveUserData}
                 />
               </StyledForm>
             </Grid>
@@ -72,7 +77,7 @@ const ProfileForm = ({ initialData, handleSubmit, handleBlur, getButtons }) => {
                   name="email"
                   required
                   handleChange={handleChange}
-                  handleBlur={handleBlur}
+                  saveUserData={saveUserData}
                 />
 
                 <Field
@@ -82,13 +87,13 @@ const ProfileForm = ({ initialData, handleSubmit, handleBlur, getButtons }) => {
                   label="Address"
                   name="address"
                   required
-                  handleBlur={handleBlur}
+                  saveUserData={saveUserData}
                 />
 
                 <Field
                   component={GenderRadio}
                   name="gender"
-                  handleBlur={handleBlur}
+                  saveUserData={saveUserData}
                 />
 
                 {getButtons({ getBackButton: true, errors: { ...errors } })}

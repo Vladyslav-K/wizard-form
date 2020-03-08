@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import { Formik, Field, FieldArray } from "formik";
 
 // form validations
-import { contactsFormValidationSchema } from "../../utils/validations";
+import { contactsFormValidationSchema } from "../../utils/validations.js";
 
 // dictionary
 import { language } from "../../utils/dictionaries.js";
@@ -25,7 +25,7 @@ export const ContactsForm = ({
 
   pushPhoneNumber,
   handleSubmit,
-  handleBlur,
+  saveUserData,
   getButtons
 }) => {
   const classes = useStyles();
@@ -42,8 +42,7 @@ export const ContactsForm = ({
       validateOnBlur={false}
       enableReinitialize
       initialValues={{ ...initialData, phones: initialPhones(initialData) }}
-      onSubmit={handleSubmit}
-    >
+      onSubmit={handleSubmit}>
       {({ values, errors, handleChange }) => (
         <Grid container justify="space-around" style={{ marginTop: "2rem" }}>
           <Grid item xs={4}>
@@ -55,7 +54,7 @@ export const ContactsForm = ({
                 label="Company"
                 name="company"
                 handleChange={handleChange}
-                handleBlur={handleBlur}
+                saveUserData={saveUserData}
               />
 
               <Field
@@ -66,7 +65,7 @@ export const ContactsForm = ({
                 name="gitHubLink"
                 required
                 handleChange={handleChange}
-                handleBlur={handleBlur}
+                saveUserData={saveUserData}
               />
 
               <Field
@@ -77,7 +76,7 @@ export const ContactsForm = ({
                 name="facebookLink"
                 required
                 handleChange={handleChange}
-                handleBlur={handleBlur}
+                saveUserData={saveUserData}
               />
 
               <Field
@@ -88,7 +87,7 @@ export const ContactsForm = ({
                 name="mainLanguage"
                 options={language}
                 required
-                handleBlur={handleBlur}
+                saveUserData={saveUserData}
               />
             </StyledForm>
           </Grid>
@@ -102,7 +101,8 @@ export const ContactsForm = ({
                 label="Fax"
                 name="fax"
                 required
-                handleBlur={handleBlur}
+                handleChange={handleChange}
+                saveUserData={saveUserData}
               />
 
               <FieldArray
@@ -119,9 +119,18 @@ export const ContactsForm = ({
                         component={InputMask}
                         key={index}
                         phonesInput
-                        onClick={() => arrayHelpers.remove(index)}
-                        pushPhoneNumber={pushPhoneNumber}
-                        handleBlur={handleBlur}
+                        handleChange={handleChange}
+                        saveUserData={saveUserData}
+                        onClick={() => {
+                          arrayHelpers.remove(index);
+
+                          saveUserData({
+                            phones: [
+                              ...values.phones.slice(0, index),
+                              ...values.phones.slice(index + 1)
+                            ]
+                          });
+                        }}
                       />
                     ))}
 
@@ -129,8 +138,7 @@ export const ContactsForm = ({
                       <Button
                         className={classes.plusButtonStyles}
                         startIcon={<PlusIcon />}
-                        onClick={() => arrayHelpers.push("")}
-                      >
+                        onClick={() => arrayHelpers.push("")}>
                         add phone number
                       </Button>
                     )}

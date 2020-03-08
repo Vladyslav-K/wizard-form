@@ -20,25 +20,23 @@ export const InputMask = memo(
     field,
     index,
     form,
-    pushPhoneNumber,
-    handleBlur,
+    saveUserData,
+    handleChange,
     onClick
   }) => {
     const classes = useStyles();
 
-    const completedPhoneNumber = phoneNumber => {
-      return phoneNumber && !phoneNumber.includes("X");
+    const completedPhoneNumber = number => {
+      return number && !number.includes("X");
     };
 
-    const handleChange = event => {
-      const phoneNumber = event.target.value;
+    const onBlur = event => {
+      const number = event.target.value;
 
-      form.setFieldValue(field.name, phoneNumber);
-
-      if (completedPhoneNumber(phoneNumber)) {
+      if (completedPhoneNumber(number)) {
         phonesInput
-          ? pushPhoneNumber(phoneNumber)
-          : handleBlur({ [field.name]: phoneNumber });
+          ? saveUserData({ phones: form.values.phones })
+          : saveUserData({ [field.name]: number });
       }
     };
 
@@ -48,8 +46,7 @@ export const InputMask = memo(
           <Grid
             container
             justify="space-between"
-            className={classes.labelContainer}
-          >
+            className={classes.labelContainer}>
             <label htmlFor={field.name}> {label} </label>
 
             {required && <label> * </label>}
@@ -65,6 +62,7 @@ export const InputMask = memo(
               id={field.name}
               maskChar="X"
               type="input"
+              onBlur={onBlur}
               onChange={handleChange}
             />
 

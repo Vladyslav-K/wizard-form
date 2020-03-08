@@ -27,7 +27,7 @@ function loadScript(src, position, id) {
 const autocompleteService = { current: null };
 
 export const InputGooglePlacesAutocomplete = memo(
-  ({ placeholder, required, errors, field, label, form, handleBlur }) => {
+  ({ placeholder, required, errors, field, label, form, saveUserData }) => {
     const classes = useStyles();
 
     const [inputValue, setInputValue] = useState("");
@@ -92,7 +92,7 @@ export const InputGooglePlacesAutocomplete = memo(
         onChange={(event, value) => {
           form.setFieldValue(field.name, value && value.description);
 
-          handleBlur({ [field.name]: value && value.description });
+          saveUserData({ [field.name]: value && value.description });
         }}
         filterOptions={x => x}
         id="google-map-places"

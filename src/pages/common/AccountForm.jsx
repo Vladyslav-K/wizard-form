@@ -19,7 +19,7 @@ const AccountForm = ({
 
   toggleVisibility,
   handleSubmit,
-  handleBlur,
+  saveUserData,
   getButtons
 }) => {
   return (
@@ -29,14 +29,13 @@ const AccountForm = ({
       validateOnChange={false}
       validateOnBlur={false}
       enableReinitialize
-      onSubmit={handleSubmit}
-    >
+      onSubmit={handleSubmit}>
       {({ errors, handleChange }) => (
         <Grid container justify="space-around" style={{ marginTop: "2rem" }}>
           <Grid item xs={3}>
             <Field
               component={InputAvatar}
-              handleBlur={handleBlur}
+              saveUserData={saveUserData}
               errors={errors.avatar}
               name="avatar"
             />
@@ -52,7 +51,7 @@ const AccountForm = ({
                 name="username"
                 required
                 handleChange={handleChange}
-                handleBlur={handleBlur}
+                saveUserData={saveUserData}
               />
 
               <Field
@@ -64,7 +63,7 @@ const AccountForm = ({
                 name="password"
                 required
                 handleChange={handleChange}
-                handleBlur={handleBlur}
+                saveUserData={saveUserData}
               />
 
               <Field
@@ -77,7 +76,7 @@ const AccountForm = ({
                 visible={visible}
                 required
                 handleChange={handleChange}
-                handleBlur={handleBlur}
+                saveUserData={saveUserData}
               />
 
               {getButtons({ errors: { ...errors } })}

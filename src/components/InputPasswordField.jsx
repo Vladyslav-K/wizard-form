@@ -26,7 +26,7 @@ export const InputPasswordField = memo(
     errors,
     field,
     handleChange,
-    handleBlur
+    saveUserData
   }) => {
     const classes = useStyles();
 
@@ -37,12 +37,11 @@ export const InputPasswordField = memo(
     return (
       <>
         <FormControl
-          onBlur={event => handleBlur({ [field.name]: event.target.value })}
+          onBlur={event => saveUserData({ [field.name]: event.target.value })}
           onChange={handleChange}
           variant="outlined"
           margin="normal"
-          size="small"
-        >
+          size="small">
           <Grid container justify="space-between">
             <label htmlFor={field.name}>
               {passwordConfirmation ? "Repeat Password" : "Password"}
@@ -62,8 +61,7 @@ export const InputPasswordField = memo(
                 <IconButton
                   aria-label="toggle password visibility"
                   onMouseDown={handleButtonMouseDown}
-                  onClick={toggleVisibility}
-                >
+                  onClick={toggleVisibility}>
                   {visible ? <Visibility /> : <VisibilityOff />}
                 </IconButton>
               </InputAdornment>

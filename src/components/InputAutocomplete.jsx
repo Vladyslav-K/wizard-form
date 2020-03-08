@@ -18,7 +18,7 @@ export const InputAutocomplete = memo(
     label,
     form,
 
-    handleBlur
+    saveUserData
   }) => {
     const classes = useStyles();
 
@@ -32,13 +32,13 @@ export const InputAutocomplete = memo(
         onChange={(event, value) => {
           form.setFieldValue(field.name, value);
 
-          handleBlur({ [field.name]: value });
+          saveUserData({ [field.name]: value });
         }}
         renderInput={params => (
           <Grid container className={classes.fieldContainer}>
             <Grid container justify="space-between">
               <label htmlFor={field.name}> {label} </label>
-              
+
               {required && <label> * </label>}
             </Grid>
 

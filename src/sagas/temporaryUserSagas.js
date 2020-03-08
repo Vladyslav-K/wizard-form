@@ -19,9 +19,7 @@ import {
   checkTemporaryUserData,
   getTemporaryUserWithDB,
   setTemporaryUserData,
-  deleteTemporaryUser,
-  pushPhoneNumber,
-  pushHobbie
+  deleteTemporaryUser
 } from "../store/temporaryUserModule.js";
 
 // UI actions
@@ -86,10 +84,7 @@ export default function* temporaryUserSagas() {
   yield all([
     takeLatest(checkTemporaryUserData.type, checkTemporaryUserDataInDB),
 
-    takeLatest(
-      [setTemporaryUserData.type, pushPhoneNumber.type, pushHobbie.type],
-      syncTemporaryUserWithDB
-    ),
+    takeLatest(setTemporaryUserData.type, syncTemporaryUserWithDB),
 
     takeLatest(syncTemporaryUserDataWithDB.type, getTemporaryUser),
 

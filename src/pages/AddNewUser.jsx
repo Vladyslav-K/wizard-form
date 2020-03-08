@@ -19,9 +19,7 @@ import {
   syncTemporaryUserDataWithDB,
   checkTemporaryUserData,
   setTemporaryUserData,
-  deleteTemporaryUser,
-  pushPhoneNumber,
-  pushHobbie
+  deleteTemporaryUser
 } from "../store/temporaryUserModule.js";
 
 // store user list actions
@@ -50,8 +48,6 @@ const AddNewUser = ({
   setTemporaryUserData,
   deleteTemporaryUser,
   databaseHasUserData,
-  pushPhoneNumber,
-  pushHobbie,
 
   addUserToList,
 
@@ -124,7 +120,7 @@ const AddNewUser = ({
     setQueryString({ queryName: "tab", queryValue: getTabKeyByValue(value) });
   };
 
-  const handleBlur = value => {
+  const saveUserData = value => {
     setTemporaryUserData(value);
   };
 
@@ -176,8 +172,7 @@ const AddNewUser = ({
         aria-label="Registration"
         onChange={handleChange}
         variant="fullWidth"
-        value={tabIndex}
-      >
+        value={tabIndex}>
         <StyledTab label="1. Account" {...a11yProps(0)} />
 
         <StyledTab
@@ -217,7 +212,7 @@ const AddNewUser = ({
           initialData={accountData}
           visible={visible}
           toggleVisibility={toggleVisibility}
-          handleBlur={handleBlur}
+          saveUserData={saveUserData}
           getButtons={getButtons}
           handleSubmit={() => {
             setDisabledTabs(prevState => ({
@@ -233,7 +228,7 @@ const AddNewUser = ({
       <TabPanel value={tabIndex} index={1}>
         <ProfileForm
           initialData={profileData}
-          handleBlur={handleBlur}
+          saveUserData={saveUserData}
           getButtons={getButtons}
           handleSubmit={() => {
             setDisabledTabs(prevState => ({
@@ -248,9 +243,8 @@ const AddNewUser = ({
 
       <TabPanel value={tabIndex} index={2}>
         <ContactsForm
-          pushPhoneNumber={pushPhoneNumber}
           initialData={contactsData}
-          handleBlur={handleBlur}
+          saveUserData={saveUserData}
           getButtons={getButtons}
           handleSubmit={() => {
             setDisabledTabs(prevState => ({
@@ -267,8 +261,7 @@ const AddNewUser = ({
           initialData={capabilitiesData}
           userData={userData}
           handleSubmit={capabilitiesHandleSubmit}
-          handleBlur={handleBlur}
-          pushHobbie={pushHobbie}
+          saveUserData={saveUserData}
           getButtons={getButtons}
         />
       </TabPanel>
@@ -355,8 +348,6 @@ export default connect(
     checkTemporaryUserData,
     setTemporaryUserData,
     deleteTemporaryUser,
-    pushPhoneNumber,
-    pushHobbie,
 
     addUserToList
   }

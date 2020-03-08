@@ -20,8 +20,7 @@ const CapabilitiesForm = ({
   initialData,
 
   handleSubmit,
-  handleBlur,
-  pushHobbie,
+  saveUserData,
   getButtons
 }) => {
   return (
@@ -31,8 +30,7 @@ const CapabilitiesForm = ({
       validateOnChange={false}
       validateOnBlur={false}
       enableReinitialize
-      onSubmit={handleSubmit}
-    >
+      onSubmit={handleSubmit}>
       {({ errors, handleChange }) => (
         <Grid container justify="space-around" style={{ marginTop: "2rem" }}>
           <Grid item xs={4}>
@@ -46,7 +44,7 @@ const CapabilitiesForm = ({
                 name="skills"
                 multiple
                 required
-                handleBlur={handleBlur}
+                saveUserData={saveUserData}
               />
 
               <Field
@@ -57,7 +55,7 @@ const CapabilitiesForm = ({
                 multiline
                 rows={5}
                 handleChange={handleChange}
-                handleBlur={handleBlur}
+                saveUserData={saveUserData}
               />
             </StyledForm>
           </Grid>
@@ -72,7 +70,7 @@ const CapabilitiesForm = ({
                     component={CheckBox}
                     label={"My hobbies"}
                     name="hobbies"
-                    pushHobbie={pushHobbie}
+                    saveUserData={saveUserData}
                   />
                 )}
               />

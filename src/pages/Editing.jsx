@@ -96,7 +96,7 @@ const Editing = ({
     setQueryString({ queryName: "tab", queryValue: getTabKeyByValue(value) });
   };
 
-  const handleBlur = value => {
+  const saveUserData = value => {
     setCurrentUserData(value);
   };
 
@@ -164,8 +164,7 @@ const Editing = ({
           aria-label="Registration"
           onChange={handleChange}
           variant="fullWidth"
-          value={tabIndex}
-        >
+          value={tabIndex}>
           <StyledTab label="1. Account" {...a11yProps(0)} />
 
           <StyledTab label="2. Profile" {...a11yProps(1)} />
@@ -180,7 +179,7 @@ const Editing = ({
             toggleVisibility={toggleVisibility}
             handleSubmit={handleSubmit}
             initialData={accountData}
-            handleBlur={handleBlur}
+            saveUserData={saveUserData}
             getButtons={getButtons}
             visible={visible}
           />
@@ -190,7 +189,7 @@ const Editing = ({
           <ProfileForm
             handleSubmit={handleSubmit}
             initialData={profileData}
-            handleBlur={handleBlur}
+            saveUserData={saveUserData}
             getButtons={getButtons}
           />
         </TabPanel>
@@ -199,7 +198,7 @@ const Editing = ({
           <ContactsForm
             handleSubmit={handleSubmit}
             initialData={contactsData}
-            handleBlur={handleBlur}
+            saveUserData={saveUserData}
             getButtons={getButtons}
           />
         </TabPanel>
@@ -208,7 +207,7 @@ const Editing = ({
           <CapabilitiesForm
             initialData={capabilitiesData}
             handleSubmit={handleSubmit}
-            handleBlur={handleBlur}
+            saveUserData={saveUserData}
             getButtons={getButtons}
           />
         </TabPanel>

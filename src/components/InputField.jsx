@@ -16,7 +16,7 @@ export const InputField = memo(
     field,
     rows,
     handleChange,
-    handleBlur
+    saveUserData
   }) => {
     const classes = useStyles();
 
@@ -37,7 +37,7 @@ export const InputField = memo(
             id={field.name}
             type="input"
             rows={rows}
-            onBlur={event => handleBlur({ [field.name]: event.target.value })}
+            onBlur={event => saveUserData({ [field.name]: event.target.value })}
             onChange={handleChange}
           />
         </FormControl>
