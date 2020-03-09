@@ -102,6 +102,8 @@ function* deleteUserFromDB(action) {
     const userListCount = yield call(() => getUserListCount());
 
     yield put(setTotal(userListCount));
+
+    yield put(setLoading(false));
   } catch {
     yield put(setError(true));
   }
