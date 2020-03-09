@@ -19,8 +19,7 @@ export const FormMessage = memo(
           </span>
           <Button
             className={classes.queryButton}
-            onClick={syncTemporaryUserDataWithDB}
-          >
+            onClick={syncTemporaryUserDataWithDB}>
             Continue
           </Button>
         </div>
@@ -36,7 +35,7 @@ export const FormMessage = memo(
 const useStyles = makeStyles(theme => ({
   queryContainer: {
     display: "flex",
-    
+
     justifyContent: "space-between",
     alignItems: "center",
 

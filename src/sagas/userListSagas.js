@@ -30,7 +30,7 @@ import {
 } from "../store/userListModule.js";
 
 // UI actions
-import { setLoading, setError } from "../store/UIModule.js";
+import { setLoading, setError, setDisabledTabs } from "../store/UIModule.js";
 
 // temporary user actions
 import { removeTemporaryUser } from "./temporaryUserSagas.js";
@@ -74,6 +74,14 @@ function* addUserToDatabaseList() {
     yield put(setTotal(userListCount));
 
     yield call(() => removeTemporaryUser());
+
+    yield call(() =>
+      setDisabledTabs({
+        capabilitiesTab: true,
+        contactsTab: true,
+        profileTab: true
+      })
+    );
   } catch {
     yield put(setError(true));
   }

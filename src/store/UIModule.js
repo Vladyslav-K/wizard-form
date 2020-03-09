@@ -1,11 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const UIModule = createSlice({
-  name: "loading",
+  name: "UI",
 
   initialState: {
     isLoading: false,
-    isError: false
+    isError: false,
+
+    disabledTabs: {
+      capabilitiesTab: true,
+      contactsTab: true,
+      profileTab: true
+    }
   },
 
   reducers: {
@@ -17,12 +23,16 @@ const UIModule = createSlice({
     setError: (state, action) => {
       state.isLoading = false;
       state.isError = action.payload;
+    },
+
+    setDisabledTabs: (state, action) => {
+      state.disabledTabs = { ...state.disabledTabs, ...action.payload };
     }
   }
 });
 
 const { actions, reducer } = UIModule;
 
-export const { setLoading, setError } = actions;
+export const { setLoading, setError, setDisabledTabs } = actions;
 
 export default reducer;

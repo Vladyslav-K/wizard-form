@@ -1,7 +1,8 @@
 import { createHashHistory } from "history";
+import lodashPick from "lodash.pick";
 import { DateTime } from "luxon";
 
-import { ACCOUNT_TAB_INDEX, tabs } from "./constants.js";
+import { ACCOUNT_TAB_INDEX, tabs, fields } from "./constants.js";
 
 export const setQueryString = ({
   queryName,
@@ -49,11 +50,13 @@ export const getTabValueByKey = key => {
   return tabs[key] || ACCOUNT_TAB_INDEX;
 };
 
-export const checkDataInTabsAfterReload = ({
-  capabilitiesData,
-  contactsData,
-  profileData
-}) => {
+export const checkValueInTabs = userData => {
+  const {
+    profileData,
+    contactsData,
+    capabilitiesData
+  } = separationOfFormValues(userData);
+
   let tabName = "account";
 
   let capabilitiesTab = true;
@@ -76,6 +79,18 @@ export const checkDataInTabsAfterReload = ({
   }
 
   return { capabilitiesTab, contactsTab, profileTab, tabName };
+};
+
+export const separationOfFormValues = userData => {
+  const accountData = lodashPick(userData, Object.keys(fields.account));
+  const profileData = lodashPick(userData, Object.keys(fields.profile));
+  const contactsData = lodashPick(userData, Object.keys(fields.contacts));
+  const capabilitiesData = lodashPick(
+    userData,
+    Object.keys(fields.capabilities)
+  );
+
+  return { accountData, profileData, contactsData, capabilitiesData };
 };
 
 export const calculatePaginationCount = total => {

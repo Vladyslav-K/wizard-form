@@ -1,9 +1,12 @@
 import { takeLatest, select, call, all, put } from "redux-saga/effects";
+import isEqual from "lodash.isequal";
 
 // helper funtion for check object is not empty
-import { checkObjectPropsIsNotEmpty } from "../utils/helpers.js";
-
-import isEqual from "lodash.isequal";
+import {
+  checkObjectPropsIsNotEmpty,
+  checkValueInTabs,
+  setQueryString
+} from "../utils/helpers.js";
 
 // database methods
 import {
@@ -23,7 +26,7 @@ import {
 } from "../store/temporaryUserModule.js";
 
 // UI actions
-import { setLoading, setError } from "../store/UIModule.js";
+import { setLoading, setError, setDisabledTabs } from "../store/UIModule.js";
 
 function* checkTemporaryUserDataInDB() {
   yield put(setLoading(true));
@@ -59,6 +62,19 @@ function* getTemporaryUser() {
     const temporaryUser = yield call(() => getTemporaryUserFromDB());
 
     yield put(getTemporaryUserWithDB(temporaryUser));
+
+    const { tabName, ...tabs } = yield call(() =>
+      checkValueInTabs(temporaryUser)
+    );
+
+    yield put(setDisabledTabs(tabs));
+
+    yield call(() =>
+      setQueryString({
+        queryName: "tab",
+        queryValue: tabName
+      })
+    );
 
     yield put(setLoading(false));
   } catch {

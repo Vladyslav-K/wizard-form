@@ -9,37 +9,38 @@ const Alert = props => {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 };
 
-export const SaveButton = memo(({ handleMessageClose, open, errors }) => {
-  const classes = useStyles();
+export const SaveButton = memo(
+  ({ handleMessageClose, openSnackbar, errors }) => {
+    const classes = useStyles();
 
-  const noErrors = () => Object.keys(errors).length === 0;
+    const noErrors = () => Object.keys(errors).length === 0;
 
-  return (
-    <>
-      <div className={classes.buttonContainer}>
-        <button className={classes.button} type="submit">
-          Save
-        </button>
-      </div>
+    return (
+      <>
+        <div className={classes.buttonContainer}>
+          <button className={classes.button} type="submit">
+            Save
+          </button>
+        </div>
 
-      {noErrors && (
-        <Snackbar
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "left"
-          }}
-          onClose={handleMessageClose}
-          autoHideDuration={1500}
-          open={open}
-        >
-          <Alert onClose={handleMessageClose} severity="success">
-            Data saved!
-          </Alert>
-        </Snackbar>
-      )}
-    </>
-  );
-});
+        {noErrors && (
+          <Snackbar
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "left"
+            }}
+            onClose={handleMessageClose}
+            autoHideDuration={1500}
+            open={openSnackbar}>
+            <Alert onClose={handleMessageClose} severity="success">
+              Data saved!
+            </Alert>
+          </Snackbar>
+        )}
+      </>
+    );
+  }
+);
 
 const useStyles = makeStyles(theme => ({
   buttonContainer: {

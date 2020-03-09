@@ -146,7 +146,9 @@ export const ContactsForm = ({
                 )}
               />
 
-              {getButtons({ backButton: true, errors: { ...errors } })}
+              <div className={classes.buttonsContainer}>
+                {getButtons({ backButton: true, errors: { ...errors } })}
+              </div>
             </StyledForm>
           </Grid>
         </Grid>
@@ -156,6 +158,10 @@ export const ContactsForm = ({
 };
 
 const useStyles = makeStyles(theme => ({
+  buttonsContainer: {
+    marginTop: "15vh"
+  },
+
   plusButtonStyles: {
     justifyContent: "flex-start",
     textTransform: "none"

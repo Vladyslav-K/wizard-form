@@ -41,7 +41,7 @@ export const InputMask = memo(
     };
 
     return (
-      <Grid container direction="column">
+      <Grid container direction="column" className={classes.mainContainer}>
         <FormControl variant="outlined" margin="normal" size="small">
           <Grid
             container
@@ -80,6 +80,10 @@ export const InputMask = memo(
 );
 
 const useStyles = makeStyles(theme => ({
+  mainContainer: {
+    width: "120%"
+  },
+
   fieldStyles: {
     fontFamily: "Roboto",
     fontStyle: "normal",

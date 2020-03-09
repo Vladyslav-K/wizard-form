@@ -1,18 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import lodashPick from "lodash.pick";
 
 // helpers functions
 import {
-  checkDataInTabsAfterReload,
+  separationOfFormValues,
   getQueryStringValue,
   getTabKeyByValue,
   getTabValueByKey,
   setQueryString
 } from "../utils/helpers.js";
-
-// constants
-import { fields } from "../utils/constants.js";
 
 // store temporary user actions
 import {
@@ -24,6 +20,9 @@ import {
 
 // store user list actions
 import { addUserToList } from "../store/userListModule.js";
+
+// store UI actions
+import { setDisabledTabs } from "../store/UIModule.js";
 
 // tab forms
 import CapabilitiesForm from "./common/CapabilitiesForm";
@@ -48,9 +47,10 @@ const AddNewUser = ({
   setTemporaryUserData,
   deleteTemporaryUser,
   databaseHasUserData,
-
+  setDisabledTabs,
   addUserToList,
 
+  disabledTabs,
   userData,
   isLoading,
 
@@ -62,12 +62,6 @@ const AddNewUser = ({
   const [tabIndex, setTabIndex] = useState(0);
 
   const [visible, setVisible] = useState(false);
-
-  const [disabledTabs, setDisabledTabs] = useState({
-    capabilitiesTab: true,
-    contactsTab: true,
-    profileTab: true
-  });
 
   useEffect(() => {
     const queryTab = getQueryStringValue({
@@ -85,38 +79,7 @@ const AddNewUser = ({
     // eslint-disable-next-line
   }, []);
 
-  useEffect(() => {
-    const {
-      capabilitiesTab,
-      contactsTab,
-      profileTab,
-      tabName
-    } = checkDataInTabsAfterReload({
-      capabilitiesData,
-      contactsData,
-      profileData
-    });
-
-    setDisabledTabs(prevState => ({
-      ...prevState,
-      capabilitiesTab,
-      contactsTab,
-      profileTab
-    }));
-
-    setQueryString({
-      queryName: "tab",
-      queryValue: tabName
-    });
-
-    // eslint-disable-next-line
-  }, [userData]);
-
-  const toggleVisibility = () => {
-    setVisible(!visible);
-  };
-
-  const handleChange = (event, value) => {
+  const tabsHandleChange = (event, value) => {
     setQueryString({ queryName: "tab", queryValue: getTabKeyByValue(value) });
   };
 
@@ -144,22 +107,15 @@ const AddNewUser = ({
 
     setQueryString({ queryName: "page", queryValue: "1", pathname: "/users" });
 
-    setDisabledTabs({
-      capabilitiesTab: true,
-      contactsTab: true,
-      profileTab: true
-    });
-
     deleteTemporaryUser();
   };
 
-  const accountData = lodashPick(userData, Object.keys(fields.account));
-  const profileData = lodashPick(userData, Object.keys(fields.profile));
-  const contactsData = lodashPick(userData, Object.keys(fields.contacts));
-  const capabilitiesData = lodashPick(
-    userData,
-    Object.keys(fields.capabilities)
-  );
+  const {
+    accountData,
+    profileData,
+    contactsData,
+    capabilitiesData
+  } = separationOfFormValues(userData);
 
   return (
     <Container maxWidth="md" className={classes.mainContainer}>
@@ -169,8 +125,8 @@ const AddNewUser = ({
 
       <Tabs
         classes={{ indicator: classes.tabIncticator }}
+        onChange={tabsHandleChange}
         aria-label="Registration"
-        onChange={handleChange}
         variant="fullWidth"
         value={tabIndex}>
         <StyledTab label="1. Account" {...a11yProps(0)} />
@@ -211,14 +167,11 @@ const AddNewUser = ({
         <AccountForm
           initialData={accountData}
           visible={visible}
-          toggleVisibility={toggleVisibility}
+          toggleVisibility={() => setVisible(!visible)}
           saveUserData={saveUserData}
           getButtons={getButtons}
           handleSubmit={() => {
-            setDisabledTabs(prevState => ({
-              ...prevState,
-              profileTab: false
-            }));
+            setDisabledTabs({ profileTab: false });
 
             setQueryString({ queryName: "tab", queryValue: "profile" });
           }}
@@ -231,10 +184,7 @@ const AddNewUser = ({
           saveUserData={saveUserData}
           getButtons={getButtons}
           handleSubmit={() => {
-            setDisabledTabs(prevState => ({
-              ...prevState,
-              contactsTab: false
-            }));
+            setDisabledTabs({ contactsTab: false });
 
             setQueryString({ queryName: "tab", queryValue: "contacts" });
           }}
@@ -247,10 +197,8 @@ const AddNewUser = ({
           saveUserData={saveUserData}
           getButtons={getButtons}
           handleSubmit={() => {
-            setDisabledTabs(prevState => ({
-              ...prevState,
-              capabilitiesTab: false
-            }));
+            setDisabledTabs({ capabilitiesTab: false });
+
             setQueryString({ queryName: "tab", queryValue: "capabilities" });
           }}
         />
@@ -341,6 +289,7 @@ export default connect(
   state => ({
     databaseHasUserData: state.temporaryUserData.databaseHasUserData,
     userData: state.temporaryUserData.userData,
+    disabledTabs: state.UIModule.disabledTabs,
     isLoading: state.UIModule.isLoading
   }),
   {
@@ -348,7 +297,7 @@ export default connect(
     checkTemporaryUserData,
     setTemporaryUserData,
     deleteTemporaryUser,
-
+    setDisabledTabs,
     addUserToList
   }
 )(AddNewUser);

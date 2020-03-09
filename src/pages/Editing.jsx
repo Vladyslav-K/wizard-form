@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import lodashPick from "lodash.pick";
 
 // helpers functions
 import {
+  separationOfFormValues,
   getQueryStringValue,
   setQueryString,
   getTabKeyByValue,
   getTabValueByKey
 } from "../utils/helpers.js";
-
-// fields constant
-import { fields } from "../utils/constants.js";
 
 // store current user actions
 import {
@@ -63,11 +60,7 @@ const Editing = ({
 
   const [visible, setVisible] = useState(false);
 
-  const [open, setOpen] = React.useState(false);
-
-  const toggleVisibility = () => {
-    setVisible(!visible);
-  };
+  const [openSnackbar, setOpenSnackbar] = React.useState(false);
 
   useEffect(() => {
     const queryTab = getQueryStringValue({
@@ -92,7 +85,7 @@ const Editing = ({
     // eslint-disable-next-line
   }, []);
 
-  const handleChange = (event, value) => {
+  const tabsHandleChange = (event, value) => {
     setQueryString({ queryName: "tab", queryValue: getTabKeyByValue(value) });
   };
 
@@ -102,7 +95,7 @@ const Editing = ({
 
   const handleSubmit = () => {
     saveCurrentUser({ userData: userData, id: +match.params.id });
-    setOpen(true);
+    setOpenSnackbar(true);
   };
 
   const handleMessageClose = (event, reason) => {
@@ -110,15 +103,15 @@ const Editing = ({
       return;
     }
 
-    setOpen(false);
+    setOpenSnackbar(false);
   };
 
   const getButtons = ({ errors, ...other }) => {
     return (
       <SaveButton
         handleMessageClose={handleMessageClose}
+        openSnackbar={openSnackbar}
         errors={errors}
-        open={open}
       />
     );
   };
@@ -127,13 +120,12 @@ const Editing = ({
     history.push({ pathname: `/users/view/${+match.params.id}` });
   };
 
-  const accountData = lodashPick(userData, Object.keys(fields.account));
-  const profileData = lodashPick(userData, Object.keys(fields.profile));
-  const contactsData = lodashPick(userData, Object.keys(fields.contacts));
-  const capabilitiesData = lodashPick(
-    userData,
-    Object.keys(fields.capabilities)
-  );
+  const {
+    accountData,
+    profileData,
+    contactsData,
+    capabilitiesData
+  } = separationOfFormValues(userData);
 
   return (
     <>
@@ -161,8 +153,8 @@ const Editing = ({
 
         <Tabs
           classes={{ indicator: classes.tabIncticator }}
+          onChange={tabsHandleChange}
           aria-label="Registration"
-          onChange={handleChange}
           variant="fullWidth"
           value={tabIndex}>
           <StyledTab label="1. Account" {...a11yProps(0)} />
@@ -176,7 +168,7 @@ const Editing = ({
 
         <TabPanel value={tabIndex} index={0}>
           <AccountForm
-            toggleVisibility={toggleVisibility}
+            toggleVisibility={() => setVisible(!visible)}
             handleSubmit={handleSubmit}
             initialData={accountData}
             saveUserData={saveUserData}
