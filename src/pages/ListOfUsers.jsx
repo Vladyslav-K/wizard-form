@@ -170,7 +170,7 @@ const ListOfUsers = ({
 
   const deleteUser = ({ id }) => {
     if (userList.length === 1 && page > 1) {
-      setLoading();
+      setLoading(true);
 
       deleteUserFromList({ pageNumber: page - 1, pageSize: 10, id });
 
@@ -209,8 +209,7 @@ const ListOfUsers = ({
           className={classes.tableHeadRow}
           justify="center"
           direction="row"
-          container
-        >
+          container>
           <Grid item xs />
 
           <Grid item xs={3}>
