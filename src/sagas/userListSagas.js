@@ -88,24 +88,40 @@ function* addUserToDatabaseList() {
 }
 
 function* deleteUserFromDB(action) {
-  const { pageNumber, pageSize, id } = action.payload;
+  const { pageNumber, pageSize, searchValue, id } = action.payload;
 
-  try {
-    yield call(() => deleteUserFromUserListInDB(id));
+  yield call(() => deleteUserFromUserListInDB(id));
 
-    const userList = yield call(() =>
-      getUserListFromDB({ pageNumber, pageSize })
-    );
+  if (searchValue) {
+    try {
+      const { userList, userListCount } = yield call(() =>
+        filterUserList({ keywords: searchValue, pageNumber, pageSize })
+      );
 
-    yield put(getUsersWithDB(userList));
+      yield put(setTotal(userListCount));
 
-    const userListCount = yield call(() => getUserListCount());
+      yield put(getUsersWithDB(userList));
 
-    yield put(setTotal(userListCount));
+      yield put(setLoading(false));
+    } catch {
+      yield put(setError(true));
+    }
+  } else {
+    try {
+      const userList = yield call(() =>
+        getUserListFromDB({ pageNumber, pageSize })
+      );
 
-    yield put(setLoading(false));
-  } catch {
-    yield put(setError(true));
+      yield put(getUsersWithDB(userList));
+
+      const userListCount = yield call(() => getUserListCount());
+
+      yield put(setTotal(userListCount));
+
+      yield put(setLoading(false));
+    } catch {
+      yield put(setError(true));
+    }
   }
 }
 

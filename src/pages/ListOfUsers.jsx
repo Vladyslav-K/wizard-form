@@ -172,7 +172,12 @@ const ListOfUsers = ({
     if (userList.length === 1 && page > 1) {
       setLoading(true);
 
-      deleteUserFromList({ pageNumber: page - 1, pageSize: 10, id });
+      deleteUserFromList({
+        pageNumber: page - 1,
+        pageSize: 10,
+        searchValue,
+        id
+      });
 
       setQueryString({
         queryName: "page",
@@ -184,7 +189,7 @@ const ListOfUsers = ({
 
       setPage(page - 1);
     } else {
-      deleteUserFromList({ pageNumber: page, pageSize: 10, id });
+      deleteUserFromList({ pageNumber: page, pageSize: 10, searchValue, id });
     }
   };
 
