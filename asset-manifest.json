@@ -1,19 +1,19 @@
 {
   "files": {
     "main.css": "/wizard-form/static/css/main.cf96ccdd.chunk.css",
-    "main.js": "/wizard-form/static/js/main.d6ca4c42.chunk.js",
-    "main.js.map": "/wizard-form/static/js/main.d6ca4c42.chunk.js.map",
+    "main.js": "/wizard-form/static/js/main.8385d412.chunk.js",
+    "main.js.map": "/wizard-form/static/js/main.8385d412.chunk.js.map",
     "runtime-main.js": "/wizard-form/static/js/runtime-main.a8d095fe.js",
     "runtime-main.js.map": "/wizard-form/static/js/runtime-main.a8d095fe.js.map",
     "static/css/2.2fcdc29a.chunk.css": "/wizard-form/static/css/2.2fcdc29a.chunk.css",
-    "static/js/2.d765ca88.chunk.js": "/wizard-form/static/js/2.d765ca88.chunk.js",
-    "static/js/2.d765ca88.chunk.js.map": "/wizard-form/static/js/2.d765ca88.chunk.js.map",
+    "static/js/2.7515f6c9.chunk.js": "/wizard-form/static/js/2.7515f6c9.chunk.js",
+    "static/js/2.7515f6c9.chunk.js.map": "/wizard-form/static/js/2.7515f6c9.chunk.js.map",
     "index.html": "/wizard-form/index.html",
-    "precache-manifest.626da5c5a4c2398984fde1bf5af658cf.js": "/wizard-form/precache-manifest.626da5c5a4c2398984fde1bf5af658cf.js",
+    "precache-manifest.594ee1fb603dfda0fde8d55f1f627225.js": "/wizard-form/precache-manifest.594ee1fb603dfda0fde8d55f1f627225.js",
     "service-worker.js": "/wizard-form/service-worker.js",
     "static/css/2.2fcdc29a.chunk.css.map": "/wizard-form/static/css/2.2fcdc29a.chunk.css.map",
     "static/css/main.cf96ccdd.chunk.css.map": "/wizard-form/static/css/main.cf96ccdd.chunk.css.map",
-    "static/js/2.d765ca88.chunk.js.LICENSE.txt": "/wizard-form/static/js/2.d765ca88.chunk.js.LICENSE.txt",
+    "static/js/2.7515f6c9.chunk.js.LICENSE.txt": "/wizard-form/static/js/2.7515f6c9.chunk.js.LICENSE.txt",
     "static/media/Close.b27cb606.svg": "/wizard-form/static/media/Close.b27cb606.svg",
     "static/media/Close_confirm.42a2e233.svg": "/wizard-form/static/media/Close_confirm.42a2e233.svg",
     "static/media/Edit.c3054950.svg": "/wizard-form/static/media/Edit.c3054950.svg",
@@ -33,8 +33,8 @@
   "entrypoints": [
     "static/js/runtime-main.a8d095fe.js",
     "static/css/2.2fcdc29a.chunk.css",
-    "static/js/2.d765ca88.chunk.js",
+    "static/js/2.7515f6c9.chunk.js",
     "static/css/main.cf96ccdd.chunk.css",
-    "static/js/main.d6ca4c42.chunk.js"
+    "static/js/main.8385d412.chunk.js"
   ]
 }
