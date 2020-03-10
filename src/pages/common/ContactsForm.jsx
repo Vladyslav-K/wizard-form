@@ -12,6 +12,7 @@ import { ReactComponent as PlusIcon } from "../../images/icons/add.svg";
 
 // components
 import { InputAutocomplete } from "../../components/InputAutocomplete";
+import { PhonesInput } from "../../components/PhonesInput.jsx";
 import { StyledForm } from "../../components/StyledForm";
 import { InputField } from "../../components/InputField";
 import { InputMask } from "../../components/InputMask";
@@ -116,7 +117,7 @@ export const ContactsForm = ({
                         index={values.phones.length}
                         placeholder="Enter phone"
                         name={`phones.${index}`}
-                        component={InputMask}
+                        component={PhonesInput}
                         key={index}
                         phonesInput
                         handleChange={handleChange}

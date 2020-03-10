@@ -1,13 +1,16 @@
 import React, { memo } from "react";
 import ReactInputMask from "react-input-mask";
 
+// minus icon
+import { ReactComponent as MinusIcon } from "../images/icons/minus.svg";
+
 import { InputError } from "./InputError";
 
 // styles
 import { makeStyles } from "@material-ui/core/styles";
-import { FormControl, Grid } from "@material-ui/core";
+import { FormControl, Grid, Button } from "@material-ui/core";
 
-export const InputMask = memo(
+export const PhonesInput = memo(
   ({
     placeholder,
     phonesInput,
@@ -35,18 +38,26 @@ export const InputMask = memo(
             {required && <label> * </label>}
           </Grid>
 
-          <ReactInputMask
-            className={classes.fieldStyles}
-            mask="+7 (999) 999-99-99"
-            placeholder={placeholder}
-            alwaysShowMask={false}
-            value={field.value}
-            id={field.name}
-            maskChar="X"
-            type="input"
-            onBlur={event => saveUserData({ [field.name]: event.target.value })}
-            onChange={handleChange}
-          />
+          <Grid container direction="row">
+            <ReactInputMask
+              className={classes.fieldStyles}
+              mask="+7 (999) 999-99-99"
+              placeholder={placeholder}
+              alwaysShowMask={false}
+              value={field.value}
+              id={field.name}
+              maskChar="X"
+              type="input"
+              onBlur={() => saveUserData({ phones: form.values.phones })}
+              onChange={handleChange}
+            />
+
+            {index > 1 && (
+              <Button className={classes.minusButtonStyles} onClick={onClick}>
+                <MinusIcon />
+              </Button>
+            )}
+          </Grid>
         </FormControl>
 
         {errors && <InputError value={errors} />}
