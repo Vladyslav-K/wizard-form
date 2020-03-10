@@ -13,7 +13,6 @@ import { FormControl, Grid, Button } from "@material-ui/core";
 export const PhonesInput = memo(
   ({
     placeholder,
-    phonesInput,
     required,
     errors,
     label,
@@ -25,6 +24,10 @@ export const PhonesInput = memo(
     onClick
   }) => {
     const classes = useStyles();
+
+    const validPhones = phones => {
+      return phones.filter(phone => phone !== "" && !phone.includes("X"));
+    };
 
     return (
       <Grid container direction="column" className={classes.mainContainer}>
@@ -48,7 +51,11 @@ export const PhonesInput = memo(
               id={field.name}
               maskChar="X"
               type="input"
-              onBlur={() => saveUserData({ phones: form.values.phones })}
+              onBlur={() =>
+                saveUserData({
+                  phones: validPhones(form.values.phones)
+                })
+              }
               onChange={handleChange}
             />
 

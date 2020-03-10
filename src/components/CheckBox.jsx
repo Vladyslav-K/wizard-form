@@ -8,8 +8,6 @@ import { FormControlLabel, Checkbox as MuiCheckbox } from "@material-ui/core";
 export const CheckBox = memo(
   ({ field, form, label, options, saveUserData }) => {
     const handleChange = (checked, hobbie) => {
-      form.setFieldValue(field.name, hobbie);
-
       saveUserData({
         hobbies: checked
           ? [...form.values.hobbies, hobbie]

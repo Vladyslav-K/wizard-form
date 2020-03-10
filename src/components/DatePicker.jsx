@@ -21,10 +21,6 @@ import {
 export const DatePicker = memo(({ field, form, errors, saveUserData }) => {
   const classes = useStyles();
 
-  const handleButtonMouseDown = event => {
-    event.preventDefault();
-  };
-
   const CustomInput = ({ onClick, onChange, value }) => (
     <FormControl
       className={classes.container}
@@ -42,7 +38,9 @@ export const DatePicker = memo(({ field, form, errors, saveUserData }) => {
         onChange={onChange}
         endAdornment={
           <InputAdornment position="end">
-            <IconButton onMouseDown={handleButtonMouseDown} onClick={onClick}>
+            <IconButton
+              onMouseDown={event => event.preventDefault()}
+              onClick={onClick}>
               <CalendarIcon />
             </IconButton>
           </InputAdornment>
@@ -63,8 +61,6 @@ export const DatePicker = memo(({ field, form, errors, saveUserData }) => {
         selected={field.value}
         value={field.value}
         onChange={value => {
-          form.setFieldValue(field.name, value);
-
           saveUserData({ [field.name]: value });
         }}
         customInput={<CustomInputRef />}

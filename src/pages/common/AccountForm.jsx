@@ -35,9 +35,9 @@ const AccountForm = ({
           <Grid item xs={3}>
             <Field
               component={InputAvatar}
-              saveUserData={saveUserData}
               errors={errors.avatar}
               name="avatar"
+              saveUserData={saveUserData}
             />
           </Grid>
 

@@ -49,6 +49,7 @@ const CapabilitiesForm = ({
 
               <Field
                 placeholder="You can write additional information here (maximum 300 characters)"
+                errors={errors.additionalInformation}
                 label="Additional information"
                 name="additionalInformation"
                 component={InputField}

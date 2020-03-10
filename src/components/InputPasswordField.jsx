@@ -36,12 +36,7 @@ export const InputPasswordField = memo(
 
     return (
       <>
-        <FormControl
-          onBlur={event => saveUserData({ [field.name]: event.target.value })}
-          onChange={handleChange}
-          variant="outlined"
-          margin="normal"
-          size="small">
+        <FormControl variant="outlined" margin="normal" size="small">
           <Grid container justify="space-between">
             <label htmlFor={field.name}>
               {passwordConfirmation ? "Repeat Password" : "Password"}
@@ -56,6 +51,8 @@ export const InputPasswordField = memo(
             className={classes.fieldStyles}
             placeholder={placeholder}
             value={field.value}
+            onBlur={event => saveUserData({ [field.name]: event.target.value })}
+            onChange={handleChange}
             endAdornment={
               <InputAdornment position="end">
                 <IconButton

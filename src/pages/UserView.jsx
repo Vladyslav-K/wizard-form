@@ -20,8 +20,8 @@ import {
 } from "../utils/constants.js";
 
 // icons and default avatar image
-import { ReactComponent as EditIcon } from "../images/icons/Edit2.svg";
 import { ReactComponent as ArrowIcon } from "../images/icons/Rectangle.svg";
+import { ReactComponent as EditIcon } from "../images/icons/Edit2.svg";
 import DefaultAvatarImage from "../images/icons/avatar.svg";
 
 // styles
@@ -96,15 +96,13 @@ const UserView = ({
         direction="row"
         container
         xs={12}
-        item
-      >
+        item>
         <Grid item xs={3}>
           <Grid container direction="row">
             <span> {name} </span>
             <IconButton
               className={classes.editIcon}
-              onClick={() => linkHandleClick(tabIndex)}
-            >
+              onClick={() => linkHandleClick(tabIndex)}>
               <EditIcon />
             </IconButton>
           </Grid>
@@ -125,8 +123,7 @@ const UserView = ({
         direction="row"
         container
         xs={12}
-        item
-      >
+        item>
         <Grid item xs={6}>
           <span> {name} </span>
         </Grid>
@@ -146,18 +143,16 @@ const UserView = ({
         direction="row"
         container
         xs={12}
-        item
-      >
+        item>
         <Grid item xs={6}>
-          <span> {name}: </span>
+          <span> {name} </span>
         </Grid>
 
         <Grid className={classes.content} item xs={6}>
           <Link
             href={link}
             color="inherit"
-            onClick={event => event.preventDefault()}
-          >
+            onClick={event => event.preventDefault()}>
             {link}
           </Link>
         </Grid>
@@ -173,8 +168,7 @@ const UserView = ({
         direction="row"
         container
         xs={12}
-        item
-      >
+        item>
         <Grid item xs={6}>
           <span> {name} </span>
         </Grid>
@@ -233,8 +227,7 @@ const UserView = ({
               justify="space-around"
               container
               xs={8}
-              item
-            >
+              item>
               <ListHead name="Account" tabIndex={ACCOUNT_TAB_INDEX}>
                 <ListRow name="User name:" value={username} />
 
@@ -295,16 +288,14 @@ const UserView = ({
                     direction="row"
                     container
                     xs={12}
-                    item
-                  >
+                    item>
                     <Grid item xs={6}>
                       <span> Additional information: </span>
                     </Grid>
 
                     <Grid item xs={6}>
                       <pre
-                        className={`${classes.headers} ${classes.additionalInfo}`}
-                      >
+                        className={`${classes.headers} ${classes.additionalInfo}`}>
                         {additionalInformation}
                       </pre>
                     </Grid>

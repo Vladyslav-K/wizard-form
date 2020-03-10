@@ -124,7 +124,7 @@ const AddNewUser = ({
       </Grid>
 
       <Tabs
-        classes={{ indicator: classes.tabIncticator }}
+        classes={{ indicator: classes.tabIndicator }}
         onChange={tabsHandleChange}
         aria-label="Registration"
         variant="fullWidth"
@@ -269,7 +269,7 @@ const useStyles = makeStyles(theme => ({
     padding: "0 10px"
   },
 
-  tabIncticator: {
+  tabIndicator: {
     display: "none"
   },
 

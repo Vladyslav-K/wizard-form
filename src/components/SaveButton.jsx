@@ -2,12 +2,8 @@ import React, { memo } from "react";
 
 // styles
 import { makeStyles } from "@material-ui/core/styles";
-import MuiAlert from "@material-ui/lab/Alert";
+import Alert from "@material-ui/lab/Alert";
 import { Snackbar } from "@material-ui/core";
-
-const Alert = props => {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-};
 
 export const SaveButton = memo(
   ({ handleMessageClose, openSnackbar, errors }) => {
@@ -32,7 +28,11 @@ export const SaveButton = memo(
             onClose={handleMessageClose}
             autoHideDuration={1500}
             open={openSnackbar}>
-            <Alert onClose={handleMessageClose} severity="success">
+            <Alert
+              onClose={handleMessageClose}
+              severity="success"
+              variant="filled"
+              elevation={6}>
               Data saved!
             </Alert>
           </Snackbar>

@@ -32,7 +32,7 @@ const ProfileForm = ({
           birthDate: initialData.birthDate || new Date()
         }}
         onSubmit={handleSubmit}>
-        {({ values, errors, handleChange }) => (
+        {({ errors, handleChange }) => (
           <Grid container justify="space-around" style={{ marginTop: "2rem" }}>
             <Grid item xs={4}>
               <StyledForm>

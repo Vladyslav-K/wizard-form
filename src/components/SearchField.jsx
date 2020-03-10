@@ -29,7 +29,11 @@ const useStyles = makeStyles(theme => ({
     fontSize: "14px",
 
     "& input": {
-      border: "2px solid rgba(78, 134, 228, .4)"
+      border: "2px solid rgba(78, 134, 228, .3)"
+    },
+
+    "& input:hover": {
+      border: "2px solid rgba(78, 134, 228, .5)"
     },
 
     "& input:focus": {

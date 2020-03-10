@@ -30,8 +30,6 @@ export const InputAutocomplete = memo(
         options={options}
         size="small"
         onChange={(event, value) => {
-          form.setFieldValue(field.name, value);
-
           saveUserData({ [field.name]: value });
         }}
         renderInput={params => (

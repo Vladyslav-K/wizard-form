@@ -119,7 +119,6 @@ export const ContactsForm = ({
                         name={`phones.${index}`}
                         component={PhonesInput}
                         key={index}
-                        phonesInput
                         handleChange={handleChange}
                         saveUserData={saveUserData}
                         onClick={() => {
@@ -166,10 +165,6 @@ const useStyles = makeStyles(theme => ({
   plusButtonStyles: {
     justifyContent: "flex-start",
     textTransform: "none"
-  },
-
-  minusButtonStyles: {
-    minWidth: 0
   }
 }));
 

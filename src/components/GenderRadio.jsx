@@ -19,8 +19,6 @@ export const GenderRadio = memo(({ field, form, saveUserData }) => {
         value={field.value}
         row
         onChange={event => {
-          form.setFieldValue(field.name, event.target.value);
-
           saveUserData({ [field.name]: event.target.value });
         }}>
         <Grid container justify="space-between" style={{ width: "70%" }}>

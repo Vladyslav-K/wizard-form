@@ -12,8 +12,8 @@ import {
 
 // store current user actions
 import {
-  saveCurrentUser,
   setCurrentUserData,
+  saveCurrentUser,
   getUserFromList
 } from "../store/currentUserModule.js";
 
@@ -43,8 +43,8 @@ import {
 } from "@material-ui/core";
 
 const Editing = ({
-  saveCurrentUser,
   setCurrentUserData,
+  saveCurrentUser,
   getUserFromList,
   isLoading,
   userData,
@@ -152,7 +152,7 @@ const Editing = ({
         </Grid>
 
         <Tabs
-          classes={{ indicator: classes.tabIncticator }}
+          classes={{ indicator: classes.tabIndicator }}
           onChange={tabsHandleChange}
           aria-label="Registration"
           variant="fullWidth"
@@ -275,7 +275,7 @@ const useStyles = makeStyles(theme => ({
     padding: "0 10px"
   },
 
-  tabIncticator: {
+  tabIndicator: {
     display: "none"
   },
 

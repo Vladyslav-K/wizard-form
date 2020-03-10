@@ -90,8 +90,6 @@ export const InputGooglePlacesAutocomplete = memo(
           typeof option === "string" ? option : option.description
         }
         onChange={(event, value) => {
-          form.setFieldValue(field.name, value && value.description);
-
           saveUserData({ [field.name]: value && value.description });
         }}
         filterOptions={x => x}
