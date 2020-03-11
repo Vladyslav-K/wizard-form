@@ -8,7 +8,9 @@ const currentUserModule = createSlice({
   name: "currentUser",
 
   initialState: {
-    userData: {
+    isLoading: false,
+    isError: false,
+    user: {
       ...account,
       ...profile,
       ...contacts,
@@ -17,8 +19,18 @@ const currentUserModule = createSlice({
   },
 
   reducers: {
-    setCurrentUserData: (state, action) => {
-      state.userData = { ...state.userData, ...action.payload };
+    setCurrentUser: (state, action) => {
+      state.user = { ...state.user, ...action.payload };
+    },
+
+    setLoading: (state, action) => {
+      state.isLoading = action.payload;
+      state.isError = false;
+    },
+
+    setError: (state, action) => {
+      state.isLoading = false;
+      state.isError = action.payload;
     },
 
     getUserFromList() {},
@@ -29,6 +41,12 @@ const currentUserModule = createSlice({
 
 const { actions, reducer } = currentUserModule;
 
-export const { setCurrentUserData, getUserFromList, saveCurrentUser } = actions;
+export const {
+  getUserFromList,
+  saveCurrentUser,
+  setCurrentUser,
+  setLoading,
+  setError
+} = actions;
 
 export default reducer;

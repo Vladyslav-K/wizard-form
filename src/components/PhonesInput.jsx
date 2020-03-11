@@ -19,8 +19,8 @@ export const PhonesInput = memo(
     field,
     index,
     form,
-    saveUserData,
     handleChange,
+    saveUser,
     onClick
   }) => {
     const classes = useStyles();
@@ -52,7 +52,7 @@ export const PhonesInput = memo(
               maskChar="X"
               type="input"
               onBlur={() =>
-                saveUserData({
+                saveUser({
                   phones: validPhones(form.values.phones)
                 })
               }

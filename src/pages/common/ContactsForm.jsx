@@ -26,7 +26,7 @@ export const ContactsForm = ({
 
   pushPhoneNumber,
   handleSubmit,
-  saveUserData,
+  saveUser,
   getButtons
 }) => {
   const classes = useStyles();
@@ -55,7 +55,7 @@ export const ContactsForm = ({
                 label="Company"
                 name="company"
                 handleChange={handleChange}
-                saveUserData={saveUserData}
+                saveUser={saveUser}
               />
 
               <Field
@@ -66,7 +66,7 @@ export const ContactsForm = ({
                 name="gitHubLink"
                 required
                 handleChange={handleChange}
-                saveUserData={saveUserData}
+                saveUser={saveUser}
               />
 
               <Field
@@ -77,7 +77,7 @@ export const ContactsForm = ({
                 name="facebookLink"
                 required
                 handleChange={handleChange}
-                saveUserData={saveUserData}
+                saveUser={saveUser}
               />
 
               <Field
@@ -88,7 +88,7 @@ export const ContactsForm = ({
                 name="mainLanguage"
                 options={language}
                 required
-                saveUserData={saveUserData}
+                saveUser={saveUser}
               />
             </StyledForm>
           </Grid>
@@ -103,7 +103,7 @@ export const ContactsForm = ({
                 name="fax"
                 required
                 handleChange={handleChange}
-                saveUserData={saveUserData}
+                saveUser={saveUser}
               />
 
               <FieldArray
@@ -120,11 +120,11 @@ export const ContactsForm = ({
                         component={PhonesInput}
                         key={index}
                         handleChange={handleChange}
-                        saveUserData={saveUserData}
+                        saveUser={saveUser}
                         onClick={() => {
                           arrayHelpers.remove(index);
 
-                          saveUserData({
+                          saveUser({
                             phones: [
                               ...values.phones.slice(0, index),
                               ...values.phones.slice(index + 1)

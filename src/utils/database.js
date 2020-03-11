@@ -5,12 +5,12 @@ import { TEMPORARY_USER_ID } from "./constants.js";
 const database = new Dexie("UsersData");
 
 database.version(1).stores({
-  temporaryUserData: "++id",
+  temporaryUser: "++id",
   userList: "++id, &username, &email, firstName, lastName, createdAt"
 });
 
 export const getTemporaryUserFromDB = () => {
-  const temporaryUser = database.temporaryUserData.get(TEMPORARY_USER_ID);
+  const temporaryUser = database.temporaryUser.get(TEMPORARY_USER_ID);
 
   delete temporaryUser.id;
 
@@ -18,13 +18,13 @@ export const getTemporaryUserFromDB = () => {
 };
 
 export const deleteTemporaryUserFromDB = () => {
-  return database.temporaryUserData.delete(TEMPORARY_USER_ID);
+  return database.temporaryUser.delete(TEMPORARY_USER_ID);
 };
 
-export const putTemporaryUserToDB = (prevDBData, currentData) => {
-  return database.temporaryUserData.put({
+export const putTemporaryUserToDB = (prevDBData, currentUser) => {
+  return database.temporaryUser.put({
     ...prevDBData,
-    ...currentData,
+    ...currentUser,
     id: TEMPORARY_USER_ID
   });
 };
@@ -38,16 +38,16 @@ export const getUserListFromDB = ({ pageNumber, pageSize }) => {
     .toArray();
 };
 
-export const addUserToUserListFromDB = userData => {
+export const addUserToUserListFromDB = user => {
   return database.userList.add({
-    ...userData,
+    ...user,
     createdAt: new Date().getTime(),
     updatedAt: new Date().getTime()
   });
 };
 
-export const updateUserListInDB = (userId, userData) => {
-  return database.userList.update(userId, userData);
+export const updateUserListInDB = (userId, user) => {
+  return database.userList.update(userId, user);
 };
 
 export const deleteUserFromUserListInDB = userId => {
@@ -63,7 +63,7 @@ export const getCurrentUserFromDB = userId => {
 };
 
 export const validateEditedUser = async (keyPath, value = "") => {
-  const currentUser = store.getState().currentUserData.userData;
+  const currentUser = store.getState().currentUser.user;
 
   const editeduser = await database.userList
     .where({ [keyPath]: value })

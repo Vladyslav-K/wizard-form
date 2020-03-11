@@ -26,11 +26,13 @@ import {
   addUserToList,
   getTestUsers,
   updateUser,
+  setLoading,
+  setError,
   setTotal
 } from "../store/userListModule.js";
 
-// UI actions
-import { setLoading, setError, setDisabledTabs } from "../store/UIModule.js";
+// temporary user actions
+import { setDisabledTabs } from "../store/temporaryUserModule.js";
 
 // temporary user actions
 import { removeTemporaryUser } from "./temporaryUserSagas.js";
@@ -58,7 +60,7 @@ function* getUserListWithDB(action) {
 }
 
 function* addUserToDatabaseList() {
-  const temporaryUser = yield select(state => state.temporaryUserData.userData);
+  const temporaryUser = yield select(state => state.temporaryUser.user);
 
   try {
     yield call(() => addUserToUserListFromDB(temporaryUser));

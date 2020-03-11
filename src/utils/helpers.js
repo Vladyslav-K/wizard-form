@@ -50,12 +50,12 @@ export const getTabValueByKey = key => {
   return tabs[key] || ACCOUNT_TAB_INDEX;
 };
 
-export const checkValueInTabs = userData => {
+export const checkValueInTabs = user => {
   const {
     profileData,
     contactsData,
     capabilitiesData
-  } = separationOfFormValues(userData);
+  } = separationOfFormValues(user);
 
   let tabName = "account";
 
@@ -81,14 +81,11 @@ export const checkValueInTabs = userData => {
   return { capabilitiesTab, contactsTab, profileTab, tabName };
 };
 
-export const separationOfFormValues = userData => {
-  const accountData = lodashPick(userData, Object.keys(fields.account));
-  const profileData = lodashPick(userData, Object.keys(fields.profile));
-  const contactsData = lodashPick(userData, Object.keys(fields.contacts));
-  const capabilitiesData = lodashPick(
-    userData,
-    Object.keys(fields.capabilities)
-  );
+export const separationOfFormValues = user => {
+  const accountData = lodashPick(user, Object.keys(fields.account));
+  const profileData = lodashPick(user, Object.keys(fields.profile));
+  const contactsData = lodashPick(user, Object.keys(fields.contacts));
+  const capabilitiesData = lodashPick(user, Object.keys(fields.capabilities));
 
   return { accountData, profileData, contactsData, capabilitiesData };
 };

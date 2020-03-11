@@ -26,7 +26,7 @@ export const InputPasswordField = memo(
     errors,
     field,
     handleChange,
-    saveUserData
+    saveUser
   }) => {
     const classes = useStyles();
 
@@ -51,7 +51,7 @@ export const InputPasswordField = memo(
             className={classes.fieldStyles}
             placeholder={placeholder}
             value={field.value}
-            onBlur={event => saveUserData({ [field.name]: event.target.value })}
+            onBlur={event => saveUser({ [field.name]: event.target.value })}
             onChange={handleChange}
             endAdornment={
               <InputAdornment position="end">

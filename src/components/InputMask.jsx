@@ -17,8 +17,8 @@ export const InputMask = memo(
     field,
     index,
     form,
-    saveUserData,
     handleChange,
+    saveUser,
     onClick
   }) => {
     const classes = useStyles();
@@ -44,7 +44,7 @@ export const InputMask = memo(
             id={field.name}
             maskChar="X"
             type="input"
-            onBlur={event => saveUserData({ [field.name]: event.target.value })}
+            onBlur={event => saveUser({ [field.name]: event.target.value })}
             onChange={handleChange}
           />
         </FormControl>

@@ -16,17 +16,15 @@ import "./normalize.css";
 import temporaryUserReducer from "./store/temporaryUserModule.js";
 import currentUserReducer from "./store/currentUserModule.js";
 import userListReducer from "./store/userListModule.js";
-import UIModule from "./store/UIModule.js";
 
 import rootSaga from "./sagas/rootSaga.js";
 
-import App from "./pages/App";
+import App from "./App";
 
 const reducer = {
-  temporaryUserData: temporaryUserReducer,
-  currentUserData: currentUserReducer,
-  listOfUsers: userListReducer,
-  UIModule
+  temporaryUser: temporaryUserReducer,
+  currentUser: currentUserReducer,
+  listOfUsers: userListReducer
 };
 
 const sagaMiddleware = createSagaMiddleware();

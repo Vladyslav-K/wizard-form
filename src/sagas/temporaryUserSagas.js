@@ -19,23 +19,21 @@ import {
 import {
   syncTemporaryUserDataWithDB,
   databaseHasTemporaryUser,
-  checkTemporaryUserData,
   getTemporaryUserWithDB,
-  setTemporaryUserData,
-  deleteTemporaryUser
+  deleteTemporaryUser,
+  checkTemporaryUser,
+  setTemporaryUser,
+  setDisabledTabs,
+  setLoading,
+  setError
 } from "../store/temporaryUserModule.js";
 
-// UI actions
-import { setLoading, setError, setDisabledTabs } from "../store/UIModule.js";
-
-function* checkTemporaryUserDataInDB() {
+function* checkTemporaryUserInDB() {
   yield put(setLoading(true));
 
   const temporaryUser = yield call(() => getTemporaryUserFromDB());
 
-  const localTemporaryUser = yield select(
-    state => state.temporaryUserData.userData
-  );
+  const localTemporaryUser = yield select(state => state.temporaryUser.user);
 
   if (
     temporaryUser &&
@@ -83,10 +81,10 @@ function* getTemporaryUser() {
 }
 
 function* syncTemporaryUserWithDB(action) {
-  const temporaryUser = yield select(state => state.temporaryUserData.userData);
+  const temporaryUser = yield select(state => state.temporaryUser.user);
 
   const databaseHasUserData = yield select(
-    state => state.temporaryUserData.databaseHasUserData
+    state => state.temporaryUser.databaseHasUserData
   );
 
   if (databaseHasUserData) {
@@ -98,9 +96,9 @@ function* syncTemporaryUserWithDB(action) {
 
 export default function* temporaryUserSagas() {
   yield all([
-    takeLatest(checkTemporaryUserData.type, checkTemporaryUserDataInDB),
+    takeLatest(checkTemporaryUser.type, checkTemporaryUserInDB),
 
-    takeLatest(setTemporaryUserData.type, syncTemporaryUserWithDB),
+    takeLatest(setTemporaryUser.type, syncTemporaryUserWithDB),
 
     takeLatest(syncTemporaryUserDataWithDB.type, getTemporaryUser),
 

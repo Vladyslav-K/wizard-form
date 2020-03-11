@@ -18,7 +18,7 @@ import { InputError } from "./InputError";
 import { makeStyles } from "@material-ui/core/styles";
 import { Avatar, Button } from "@material-ui/core";
 
-export const InputAvatar = memo(({ field, form, errors, saveUserData }) => {
+export const InputAvatar = memo(({ field, form, errors, saveUser }) => {
   const classes = useStyles();
 
   const [imageError, setImageError] = useState(false);
@@ -87,7 +87,7 @@ export const InputAvatar = memo(({ field, form, errors, saveUserData }) => {
         "newFile.jpeg"
       );
 
-      saveUserData({ [field.name]: croppedImageUrl });
+      saveUser({ [field.name]: croppedImageUrl });
     }
   };
 

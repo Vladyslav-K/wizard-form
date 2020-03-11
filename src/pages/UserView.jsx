@@ -40,8 +40,9 @@ const UserView = ({
   getUserFromList,
   updateUser,
   isLoading,
-  userData,
   userList,
+  user,
+
   history,
   match
 }) => {
@@ -69,7 +70,7 @@ const UserView = ({
     additionalInformation,
     hobbies,
     skills
-  } = userData;
+  } = user;
 
   useEffect(() => {
     getUserFromList({ id: +match.params.id });
@@ -423,9 +424,9 @@ const useStyles = makeStyles(theme => ({
 
 export default connect(
   state => ({
-    userData: state.currentUserData.userData,
+    isLoading: state.currentUser.isLoading,
     userList: state.listOfUsers.userList,
-    isLoading: state.UIModule.isLoading
+    user: state.currentUser.user
   }),
   { updateUser, getUserFromList }
 )(UserView);

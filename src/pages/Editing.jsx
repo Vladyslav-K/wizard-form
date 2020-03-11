@@ -12,9 +12,9 @@ import {
 
 // store current user actions
 import {
-  setCurrentUserData,
   saveCurrentUser,
-  getUserFromList
+  getUserFromList,
+  setCurrentUser
 } from "../store/currentUserModule.js";
 
 // tab forms
@@ -24,8 +24,9 @@ import ProfileForm from "./common/ProfileForm";
 import AccountForm from "./common/AccountForm";
 
 // separate components
-import { SaveButton } from "../components/SaveButton.jsx";
+import { SubmitButton } from "../components/SubmitButton.jsx";
 import { StyledTab } from "../components/StyledTab.jsx";
+import { Snackbar } from "../components/Snackbar.jsx";
 import { TabPanel } from "../components/TabPanel.jsx";
 
 // arrow icon for link
@@ -43,12 +44,12 @@ import {
 } from "@material-ui/core";
 
 const Editing = ({
-  setCurrentUserData,
+  setCurrentUser,
   saveCurrentUser,
   getUserFromList,
   isLoading,
-  userData,
   userList,
+  user,
 
   location,
   history,
@@ -89,12 +90,12 @@ const Editing = ({
     setQueryString({ queryName: "tab", queryValue: getTabKeyByValue(value) });
   };
 
-  const saveUserData = value => {
-    setCurrentUserData(value);
+  const saveUser = value => {
+    setCurrentUser(value);
   };
 
   const handleSubmit = () => {
-    saveCurrentUser({ userData: userData, id: +match.params.id });
+    saveCurrentUser({ user: user, id: +match.params.id });
     setOpenSnackbar(true);
   };
 
@@ -108,11 +109,15 @@ const Editing = ({
 
   const getButtons = ({ errors, ...other }) => {
     return (
-      <SaveButton
-        handleMessageClose={handleMessageClose}
-        openSnackbar={openSnackbar}
-        errors={errors}
-      />
+      <>
+        <SubmitButton save />
+
+        <Snackbar
+          handleMessageClose={handleMessageClose}
+          openSnackbar={openSnackbar}
+          errors={errors}
+        />
+      </>
     );
   };
 
@@ -125,7 +130,7 @@ const Editing = ({
     profileData,
     contactsData,
     capabilitiesData
-  } = separationOfFormValues(userData);
+  } = separationOfFormValues(user);
 
   return (
     <>
@@ -171,8 +176,8 @@ const Editing = ({
             toggleVisibility={() => setVisible(!visible)}
             handleSubmit={handleSubmit}
             initialData={accountData}
-            saveUserData={saveUserData}
             getButtons={getButtons}
+            saveUser={saveUser}
             visible={visible}
           />
         </TabPanel>
@@ -181,8 +186,8 @@ const Editing = ({
           <ProfileForm
             handleSubmit={handleSubmit}
             initialData={profileData}
-            saveUserData={saveUserData}
             getButtons={getButtons}
+            saveUser={saveUser}
           />
         </TabPanel>
 
@@ -190,8 +195,8 @@ const Editing = ({
           <ContactsForm
             handleSubmit={handleSubmit}
             initialData={contactsData}
-            saveUserData={saveUserData}
             getButtons={getButtons}
+            saveUser={saveUser}
           />
         </TabPanel>
 
@@ -199,8 +204,8 @@ const Editing = ({
           <CapabilitiesForm
             initialData={capabilitiesData}
             handleSubmit={handleSubmit}
-            saveUserData={saveUserData}
             getButtons={getButtons}
+            saveUser={saveUser}
           />
         </TabPanel>
       </Container>
@@ -293,13 +298,13 @@ const useStyles = makeStyles(theme => ({
 
 export default connect(
   state => ({
-    userData: state.currentUserData.userData,
+    isLoading: state.currentUser.isLoading,
     userList: state.listOfUsers.userList,
-    isLoading: state.UIModule.isLoading
+    user: state.currentUser.user
   }),
   {
     saveCurrentUser,
-    setCurrentUserData,
-    getUserFromList
+    getUserFromList,
+    setCurrentUser
   }
 )(Editing);

@@ -14,7 +14,7 @@ import DefaultAvatarImage from "../images/icons/avatar.svg";
 import { makeStyles } from "@material-ui/core/styles";
 import { IconButton, Avatar, Grid } from "@material-ui/core";
 
-export const ListItem = memo(
+export const UserListItem = memo(
   ({ shiftedComponent, onShiftComponent, onLinkClick, deleteUser, user }) => {
     const classes = useStyles();
 
@@ -36,8 +36,7 @@ export const ListItem = memo(
           className={`${classes.tableBodyRow} ${id === shiftedComponent &&
             classes.transformContainer}`}
           direction="row"
-          container
-        >
+          container>
           <Grid container justify="center" item xs={1}>
             {avatar ? (
               <Avatar
@@ -60,8 +59,7 @@ export const ListItem = memo(
             container
             item
             xs={3}
-            onClick={() => onLinkClick(id)}
-          >
+            onClick={() => onLinkClick(id)}>
             <span> {`${firstName} ${lastName}`} </span>
 
             <span className={classes.usernameStyles}>{username}</span>
@@ -85,15 +83,13 @@ export const ListItem = memo(
             <IconButton
               component={Link}
               to={`/users/edit/${id}`}
-              className={classes.iconButton}
-            >
+              className={classes.iconButton}>
               <EditIcon />
             </IconButton>
 
             <IconButton
               onClick={() => onShiftComponent(id)}
-              className={classes.iconButton}
-            >
+              className={classes.iconButton}>
               <DeleteIcon />
             </IconButton>
           </Grid>
@@ -103,8 +99,7 @@ export const ListItem = memo(
             xs={1}
             className={
               id === shiftedComponent ? classes.confirmButton : classes.hidden
-            }
-          >
+            }>
             <IconButton onClick={() => deleteUser({ id })}>
               <ConfirmDeleteIcon />
               <span> delete </span>

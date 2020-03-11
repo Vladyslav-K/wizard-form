@@ -6,7 +6,7 @@ import { profileFormValidationSchema } from "../../utils/validations";
 
 // components
 import { InputGooglePlacesAutocomplete } from "../../components/InputGooglePlacesAutocomplete";
-import { GenderRadio } from "../../components/GenderRadio.jsx";
+import { RadioGroup } from "../../components/RadioGroup.jsx";
 import { DatePicker } from "../../components/DatePicker";
 import { InputField } from "../../components/InputField";
 import { StyledForm } from "../../components/StyledForm";
@@ -14,12 +14,7 @@ import { StyledForm } from "../../components/StyledForm";
 // styles
 import { Grid } from "@material-ui/core";
 
-const ProfileForm = ({
-  initialData,
-  handleSubmit,
-  saveUserData,
-  getButtons
-}) => {
+const ProfileForm = ({ initialData, handleSubmit, saveUser, getButtons }) => {
   return (
     <div>
       <Formik
@@ -44,7 +39,7 @@ const ProfileForm = ({
                   name="firstName"
                   required
                   handleChange={handleChange}
-                  saveUserData={saveUserData}
+                  saveUser={saveUser}
                 />
 
                 <Field
@@ -55,14 +50,14 @@ const ProfileForm = ({
                   name="lastName"
                   required
                   handleChange={handleChange}
-                  saveUserData={saveUserData}
+                  saveUser={saveUser}
                 />
 
                 <Field
                   errors={errors.birthDate}
                   component={DatePicker}
                   name="birthDate"
-                  saveUserData={saveUserData}
+                  saveUser={saveUser}
                 />
               </StyledForm>
             </Grid>
@@ -77,7 +72,7 @@ const ProfileForm = ({
                   name="email"
                   required
                   handleChange={handleChange}
-                  saveUserData={saveUserData}
+                  saveUser={saveUser}
                 />
 
                 <Field
@@ -87,13 +82,15 @@ const ProfileForm = ({
                   label="Address"
                   name="address"
                   required
-                  saveUserData={saveUserData}
+                  saveUser={saveUser}
                 />
 
                 <Field
-                  component={GenderRadio}
+                  value={["Male", "Female"]}
+                  component={RadioGroup}
+                  label="Gender"
                   name="gender"
-                  saveUserData={saveUserData}
+                  saveUser={saveUser}
                 />
 
                 {getButtons({ getBackButton: true, errors: { ...errors } })}

@@ -18,7 +18,7 @@ import {
   Grid
 } from "@material-ui/core";
 
-export const DatePicker = memo(({ field, form, errors, saveUserData }) => {
+export const DatePicker = memo(({ field, form, errors, saveUser }) => {
   const classes = useStyles();
 
   const CustomInput = ({ onClick, onChange, value }) => (
@@ -61,7 +61,7 @@ export const DatePicker = memo(({ field, form, errors, saveUserData }) => {
         selected={field.value}
         value={field.value}
         onChange={value => {
-          saveUserData({ [field.name]: value });
+          saveUser({ [field.name]: value });
         }}
         customInput={<CustomInputRef />}
       />

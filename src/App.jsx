@@ -7,14 +7,14 @@ import {
 } from "react-router-dom";
 
 // header and 404 page
-import PageNotFound from "./PageNotFound.jsx";
-import Header from "./common/Header.jsx";
+import PageNotFound from "./pages/PageNotFound";
+import Header from "./pages/common/Header.jsx";
 
 // components
-import ListOfUsers from "./ListOfUsers.jsx";
-import AddNewUser from "./AddNewUser.jsx";
-import UserView from "./UserView.jsx";
-import Editing from "./Editing.jsx";
+import ListOfUsers from "./pages/ListOfUsers.jsx";
+import AddNewUser from "./pages/AddNewUser.jsx";
+import UserView from "./pages/UserView.jsx";
+import Editing from "./pages/Editing.jsx";
 
 const App = () => {
   return (

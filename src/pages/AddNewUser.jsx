@@ -13,16 +13,14 @@ import {
 // store temporary user actions
 import {
   syncTemporaryUserDataWithDB,
-  checkTemporaryUserData,
-  setTemporaryUserData,
-  deleteTemporaryUser
+  deleteTemporaryUser,
+  checkTemporaryUser,
+  setTemporaryUser,
+  setDisabledTabs
 } from "../store/temporaryUserModule.js";
 
 // store user list actions
 import { addUserToList } from "../store/userListModule.js";
-
-// store UI actions
-import { setDisabledTabs } from "../store/UIModule.js";
 
 // tab forms
 import CapabilitiesForm from "./common/CapabilitiesForm";
@@ -43,16 +41,16 @@ import { Container, Tabs, Grid, CircularProgress } from "@material-ui/core";
 
 const AddNewUser = ({
   syncTemporaryUserDataWithDB,
-  checkTemporaryUserData,
-  setTemporaryUserData,
+  checkTemporaryUser,
+  setTemporaryUser,
   deleteTemporaryUser,
   databaseHasUserData,
   setDisabledTabs,
   addUserToList,
 
   disabledTabs,
-  userData,
   isLoading,
+  user,
 
   location,
   history
@@ -73,7 +71,7 @@ const AddNewUser = ({
   }, [location.search]);
 
   useEffect(() => {
-    checkTemporaryUserData();
+    checkTemporaryUser();
 
     setQueryString({ queryName: "tab", queryValue: "account" });
     // eslint-disable-next-line
@@ -83,8 +81,8 @@ const AddNewUser = ({
     setQueryString({ queryName: "tab", queryValue: getTabKeyByValue(value) });
   };
 
-  const saveUserData = value => {
-    setTemporaryUserData(value);
+  const saveUser = value => {
+    setTemporaryUser(value);
   };
 
   const getButtons = ({ backButton, finishButton }) => {
@@ -103,7 +101,7 @@ const AddNewUser = ({
   };
 
   const capabilitiesHandleSubmit = () => {
-    addUserToList(userData);
+    addUserToList(user);
 
     setQueryString({ queryName: "page", queryValue: "1", pathname: "/users" });
 
@@ -115,7 +113,7 @@ const AddNewUser = ({
     profileData,
     contactsData,
     capabilitiesData
-  } = separationOfFormValues(userData);
+  } = separationOfFormValues(user);
 
   return (
     <Container maxWidth="md" className={classes.mainContainer}>
@@ -168,8 +166,8 @@ const AddNewUser = ({
           initialData={accountData}
           visible={visible}
           toggleVisibility={() => setVisible(!visible)}
-          saveUserData={saveUserData}
           getButtons={getButtons}
+          saveUser={saveUser}
           handleSubmit={() => {
             setDisabledTabs({ profileTab: false });
 
@@ -181,8 +179,8 @@ const AddNewUser = ({
       <TabPanel value={tabIndex} index={1}>
         <ProfileForm
           initialData={profileData}
-          saveUserData={saveUserData}
           getButtons={getButtons}
+          saveUser={saveUser}
           handleSubmit={() => {
             setDisabledTabs({ contactsTab: false });
 
@@ -194,8 +192,8 @@ const AddNewUser = ({
       <TabPanel value={tabIndex} index={2}>
         <ContactsForm
           initialData={contactsData}
-          saveUserData={saveUserData}
           getButtons={getButtons}
+          saveUser={saveUser}
           handleSubmit={() => {
             setDisabledTabs({ capabilitiesTab: false });
 
@@ -207,10 +205,10 @@ const AddNewUser = ({
       <TabPanel value={tabIndex} index={3}>
         <CapabilitiesForm
           initialData={capabilitiesData}
-          userData={userData}
+          user={user}
           handleSubmit={capabilitiesHandleSubmit}
-          saveUserData={saveUserData}
           getButtons={getButtons}
+          saveUser={saveUser}
         />
       </TabPanel>
     </Container>
@@ -287,16 +285,16 @@ const useStyles = makeStyles(theme => ({
 
 export default connect(
   state => ({
-    databaseHasUserData: state.temporaryUserData.databaseHasUserData,
-    userData: state.temporaryUserData.userData,
-    disabledTabs: state.UIModule.disabledTabs,
-    isLoading: state.UIModule.isLoading
+    databaseHasUserData: state.temporaryUser.databaseHasUserData,
+    disabledTabs: state.temporaryUser.disabledTabs,
+    isLoading: state.temporaryUser.isLoading,
+    user: state.temporaryUser.user
   }),
   {
     syncTemporaryUserDataWithDB,
-    checkTemporaryUserData,
-    setTemporaryUserData,
     deleteTemporaryUser,
+    checkTemporaryUser,
+    setTemporaryUser,
     setDisabledTabs,
     addUserToList
   }

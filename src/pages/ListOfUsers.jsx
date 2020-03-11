@@ -7,10 +7,9 @@ import {
   deleteUserFromList,
   searchUsersByName,
   getTestUsers,
+  setLoading,
   updateUser
 } from "../store/userListModule.js";
-
-import { setLoading } from "../store/UIModule.js";
 
 // helpers functions
 import {
@@ -21,8 +20,8 @@ import {
 } from "../utils/helpers.js";
 
 // separate components
+import { UserListItem } from "../components/UserListItem.jsx";
 import { SearchField } from "../components/SearchField.jsx";
-import { ListItem } from "../components/ListItem.jsx";
 
 // styles
 import { makeStyles } from "@material-ui/core/styles";
@@ -258,7 +257,7 @@ const ListOfUsers = ({
           <>
             <Grid container direction="column">
               {userList.map((user, index) => (
-                <ListItem
+                <UserListItem
                   shiftedComponent={shiftedComponent}
                   onShiftComponent={onShiftComponent}
                   onLinkClick={onLinkClick}
@@ -387,8 +386,8 @@ const useStyles = makeStyles(theme => ({
 
 export default connect(
   state => ({
+    isLoading: state.listOfUsers.isLoading,
     userList: state.listOfUsers.userList,
-    isLoading: state.UIModule.isLoading,
     total: state.listOfUsers.total
   }),
   {

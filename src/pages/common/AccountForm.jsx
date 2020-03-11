@@ -19,7 +19,7 @@ const AccountForm = ({
 
   toggleVisibility,
   handleSubmit,
-  saveUserData,
+  saveUser,
   getButtons
 }) => {
   return (
@@ -37,7 +37,7 @@ const AccountForm = ({
               component={InputAvatar}
               errors={errors.avatar}
               name="avatar"
-              saveUserData={saveUserData}
+              saveUser={saveUser}
             />
           </Grid>
 
@@ -51,7 +51,7 @@ const AccountForm = ({
                 name="username"
                 required
                 handleChange={handleChange}
-                saveUserData={saveUserData}
+                saveUser={saveUser}
               />
 
               <Field
@@ -63,7 +63,7 @@ const AccountForm = ({
                 name="password"
                 required
                 handleChange={handleChange}
-                saveUserData={saveUserData}
+                saveUser={saveUser}
               />
 
               <Field
@@ -76,7 +76,7 @@ const AccountForm = ({
                 visible={visible}
                 required
                 handleChange={handleChange}
-                saveUserData={saveUserData}
+                saveUser={saveUser}
               />
 
               {getButtons({ errors: { ...errors } })}

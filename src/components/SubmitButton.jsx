@@ -3,7 +3,7 @@ import React, { memo } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 export const SubmitButton = memo(({ finish, save }) => {
-  const classes = useStyles({ finish });
+  const classes = useStyles({ finish, save });
 
   return (
     <div className={classes.buttonContainer}>

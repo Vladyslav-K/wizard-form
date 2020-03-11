@@ -4,6 +4,8 @@ const temporaryUserModule = createSlice({
   name: "userList",
 
   initialState: {
+    isLoading: false,
+    isError: false,
     userList: [],
     total: 0
   },
@@ -21,6 +23,16 @@ const temporaryUserModule = createSlice({
 
     setTotal: (state, action) => {
       state.total = action.payload;
+    },
+
+    setLoading: (state, action) => {
+      state.isLoading = action.payload;
+      state.isError = false;
+    },
+
+    setError: (state, action) => {
+      state.isLoading = false;
+      state.isError = action.payload;
     },
 
     searchUsersByName() {},
@@ -42,6 +54,8 @@ export const {
   addUserToList,
   getTestUsers,
   updateUser,
+  setLoading,
+  setError,
   setTotal
 } = actions;
 

@@ -18,7 +18,7 @@ export const InputAutocomplete = memo(
     label,
     form,
 
-    saveUserData
+    saveUser
   }) => {
     const classes = useStyles();
 
@@ -30,7 +30,7 @@ export const InputAutocomplete = memo(
         options={options}
         size="small"
         onChange={(event, value) => {
-          saveUserData({ [field.name]: value });
+          saveUser({ [field.name]: value });
         }}
         renderInput={params => (
           <Grid container className={classes.fieldContainer}>

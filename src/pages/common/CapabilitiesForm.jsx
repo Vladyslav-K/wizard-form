@@ -20,7 +20,7 @@ const CapabilitiesForm = ({
   initialData,
 
   handleSubmit,
-  saveUserData,
+  saveUser,
   getButtons
 }) => {
   return (
@@ -44,7 +44,7 @@ const CapabilitiesForm = ({
                 name="skills"
                 multiple
                 required
-                saveUserData={saveUserData}
+                saveUser={saveUser}
               />
 
               <Field
@@ -56,7 +56,7 @@ const CapabilitiesForm = ({
                 multiline
                 rows={5}
                 handleChange={handleChange}
-                saveUserData={saveUserData}
+                saveUser={saveUser}
               />
             </StyledForm>
           </Grid>
@@ -71,7 +71,7 @@ const CapabilitiesForm = ({
                     component={CheckBox}
                     label={"My hobbies"}
                     name="hobbies"
-                    saveUserData={saveUserData}
+                    saveUser={saveUser}
                   />
                 )}
               />
